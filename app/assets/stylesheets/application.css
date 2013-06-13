@@ -1,0 +1,188 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F0F8FF;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.user-form {
+    width: 300px;
+    vertical-align: text-top;
+    margin: 0 auto;
+    padding: 10px 0 30px 0;
+    border: 3px solid #ddd;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    background: #fff;
+}
+
+.divider {
+    border-left: 2px solid #fff;
+    opacity: 0.8;
+    height: 30px;
+    margin: 10px 0 0 0;
+}
+
+nav {
+    height: 50px;
+    width: 100%;
+    min-width: 500px;
+    background-color: #4169E1;
+    margin: 0 0 50px 0;
+    padding: 0 0 0 10px;
+    min-width: 600px;
+}
+
+nav li {
+    float: left;
+    margin: 0 10px 0 0;
+    padding: 0;
+}
+
+#contact-button {
+    float: right;
+}
+
+nav button::after {
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    padding: 0 0 2px 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+}
+
+nav a, nav a:visited, nav button {
+    display: block;
+    text-align: center;
+    height: 50px;
+    width: 80px;
+    color: #fff;
+    opacity: 0.8;
+    text-decoration: none;
+    padding: 15px 0 0 0;
+    font-family: "Play", sans-serif;
+    font-weight: 700;
+    background: none;
+    border: none;
+    letter-spacing: normal;
+}
+
+nav button {
+    padding: 0;
+}
+
+nav a:hover, nav button:hover {
+    opacity: 1;
+}
+
+#logo {
+    float: none;
+    width: 150px;
+    margin: 0 auto;
+}
+
+#logo a, #logo a:visited {
+    width: auto;
+    padding: 6px 0 0 0;
+    font-family: "Sansita One", sans-serif;
+    font-size: 2em;
+    font-weight: 200;
+    letter-spacing: normal;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list {
+    width: 160px;
+    margin: 0 auto;
+}
+
+.list div {
+    display: block;
+    margin: 10px 0 0 0;
+    font-weight: 300;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+.list input, .list select {
+    display: block;
+    width: 160px;
+    margin: 0 auto;
+}
+
+.list .submit_btn {
+    margin: 20px 0 0 0;
+}
+
+.submit_btn {
+    font-family: sans-serif;
+}
+
+#contact {
+    display: block;
+    margin: 0 auto;
+    width: 300px;
+}
+
+#contact h3 {
+    margin: 1em 0 0 0;
+}
+
+#contact img {
+    height: 60px;
+    width: auto;
+    float: left;
+    margin: 1.2em 10px 0 0;
+}
+
+.info {
+    display: block;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 30px;
+    width: 100%;
+    background: #bbb;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0 0 0;
+    font-size: 0.8em;
+}
+
+.login-content {
+    position: absolute;
+    top: 20;
+    right: 0;
+}

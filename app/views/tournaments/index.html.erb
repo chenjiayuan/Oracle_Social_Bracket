@@ -1,0 +1,13 @@
+<h1>Hello!</h1>
+
+<body>
+<% if Tournament.any? %>
+    <%= pluralize(Tournament.count, 'tournament') %> have been created so far<br />
+    <% Tournament.all.each do |t| %>
+        Name: <%= t.name %><br />
+        Player Count: <%= t.player_count %>
+    <% end %>
+<% end %>
+
+<div class='create-tour'><%= button_tag "Create tournament" %></div>
+</body>
