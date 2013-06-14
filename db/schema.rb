@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20130614174244) do
 
   create_table "tournaments", :force => true do |t|
     t.string   "name"
-    t.integer  "player_count"
+    t.integer  "player_count", :default => 0
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.boolean  "active",       :default => false
