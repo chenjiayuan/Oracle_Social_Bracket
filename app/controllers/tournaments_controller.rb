@@ -51,4 +51,12 @@ class TournamentsController < ApplicationController
 
 =end
 
+  def destroy
+    
+    Tournament.find(params[:id]).destroy
+    flash[:success] = "Tournament deleted!"
+    redirect_to tournaments_path
+
+  end
+
 end

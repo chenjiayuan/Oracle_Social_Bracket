@@ -5,7 +5,8 @@
     <%= pluralize(Tournament.count, 'tournament') %> have been created so far<br />
     <% Tournament.all.each do |t| %>
             <ul>
-                <li>Name: <%= t.name %></li>
+                <% temp = t.name %>
+                <li><%= link_to "#{temp}", t %></li>
                 <li>Player Count: <%= t.player_count %></li>
                 <li><%= t.active ? "Active" : "Inactive"  %></li>
                 <% temp_id = t.winner_id %>
@@ -13,7 +14,8 @@
                     <% p = Player.find(temp_id) %>
                     <li>Winner: <%= p.first_name %> <%= p.last_name %></li>
                 <% end %>
-                <li><%= link_to "Show", t %></li>
+                <li><%= link_to "Delete Tournament", t, confirm: "Are you sure?", method: :delete %></li>
+                <br />
             </ul>
 
     <% end %>

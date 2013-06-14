@@ -6,12 +6,18 @@ Brakkit::Application.routes.draw do
   end
 
   resources :static_pages
+  resources :players
 
   root to: 'tournaments#index'
 
   match '/home',    to: 'tournaments#index'
   match '/contact', to: 'static_pages#contact'
   match '/players', to: 'players#index'
+  match '/players/:id', to: 'players#show'
+  match '/tournaments/:id', to: 'tournaments#show'
+  match '/tournaments/:id/player', to: 'players#show'
+  match '/tournaments/:id/player/new', to: 'players#new'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

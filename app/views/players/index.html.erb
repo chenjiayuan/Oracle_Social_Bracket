@@ -1,3 +1,12 @@
 <% Player.all.each do |p| %>
-    <%= p.first_name %>
+    <ul>
+        <% temp = "#{p.first_name} #{p.last_name}" %>
+        <li><%= link_to "#{temp}", player_path(p) %></li>
+        <li>Email: <%= p.email %></li>
+        <li>Skill: <%= p.skill %></li>
+        <li>Matches Won: <%= p.matches_won %></li>
+        <li><%= button_to "Delete player", p, method: :delete %></li>
+        <br />
+    </ul>
 <% end %>
+<div class="add-players"> <%= link_to "Add Players", new_player_path %></div>
