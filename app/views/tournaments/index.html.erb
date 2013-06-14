@@ -1,6 +1,6 @@
-<h1>Hello!</h1>
-
 <body>
+	<h3>Tournaments</h3>
+	<div id="bound"></div>
 <% if Tournament.any? %>
     <%= pluralize(Tournament.count, 'tournament') %> have been created so far<br />
     <% Tournament.all.each do |t| %>
