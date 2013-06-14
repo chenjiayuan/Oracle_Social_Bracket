@@ -1,0 +1,15 @@
+<header>
+    Player info
+</header>
+
+<br />
+
+<article>
+    <ul>
+        <li>Name: <%= "#{@player.first_name} #{@player.last_name}" %></li>
+        <li>Email: <%= @player.email %></li>
+        <li>Skill: <%= @player.skill %></li>
+        <li>Matches Won: <%= @player.matches_won %></li>
+        <li><%= button_to "Delete player", @player, method: :delete %></li>
+    </ul>
+</article>

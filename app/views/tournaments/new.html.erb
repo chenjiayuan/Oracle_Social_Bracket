@@ -1,5 +1,5 @@
 <%= form_for @tournament, html: { id: 'dialog-form' } do |f| %>
     <%= render 'shared/error_messages', object: f.object %>
     <%= f.text_field :name %>
-    <span id="submit_btn"><%= f.submit "Create Tournament" %></span>
+    <%= f.submit "Create Tournament" %>
 <% end %>

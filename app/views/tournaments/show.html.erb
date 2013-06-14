@@ -1,8 +1,9 @@
-<h1>Tournament: <%= @tournament.name %> <div class="add-players"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div></h1>
+<h1>Tournament: <%= @tournament.name %></h1>
 <h2><%= pluralize(@tournament.player_count, "player") %></h2>
 
 <article>
     <%= link_to "Start Tournament" %><br />
+    <%= link_to "Delete Tournament", @tournament, confirm: "Are you sure?", method: :delete %>
 </article>
 
 <article>
@@ -21,6 +22,7 @@
                 <li><%= p.skill %></li>
                 <li><%= link_to "Edit", edit_tournament_player_path(p) %></li>
                 <li><%= link_to "Delete", tournament_player_path(@tournament, p), method: :delete %></li>
+                <br />
             </ul>
 
         <% end %>
