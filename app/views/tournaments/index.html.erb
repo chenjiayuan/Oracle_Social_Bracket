@@ -1,28 +1,33 @@
 <body>
 	<h3>Tournaments</h3>
+	<div class='create-tour'><%=link_to "Create Tournament", new_tournament_url %></div>
 <div id="tournaments">
-<% if Tournament.any? %>
-    <%= pluralize(Tournament.count, 'tournament') %> have been created so far<br />
-    <% Tournament.all.each do |t| %>
-            <ul>
-                <% temp = t.name %>
-                <li><%= link_to "#{temp}", t %></li>
-                <li>Player Count: <%= t.player_count %></li>
-                <li><%= t.active ? "Active" : "Inactive"  %></li>
+
+	<% if Tournament.any? %>
+	    <%= pluralize(Tournament.count, 'tournament') %> have been created so far.
+	    <table>
+	    	<tr>
+	    		<th>Tournament Name</th>
+	    		<th># of Players</th>
+	    		<th>Status</th>
+	    		<th>Winner</th>
+	    	</tr>
+	    	<% Tournament.all.each do |t| %>
+            <tr>
+                <td><%= t.name %></td>
+                <td><%= t.player_count %></td>
+                <td><%= t.active ? "Active" : "Inactive"  %></td>
                 <% temp_id = t.winner_id %>
-                <% if temp_id != 0 %>
-                    <% p = Player.find(temp_id) %>
-                    <li>Winner: <%= p.first_name %> <%= p.last_name %></li>
-                <% end %>
-                <li><%= link_to "Delete Tournament", t, confirm: "Are you sure?", method: :delete %></li>
-                <br />
-            </ul>
-
-    <% end %>
-<% end %>
+                <td>
+	                <% if temp_id != 0 %>
+	                    <% p = Player.find(temp_id) %>
+	                    Winner: <%= p.first_name %> <%= p.last_name %>
+	                <% end %>
+            	</td>
+            </tr>
+		    <% end %>
+	    </table>
+	<% end %>
 </div>
-
-<div class='create-tour'><%= link_to "Create Tournament", new_tournament_url %></div>
-
 </body>
 
