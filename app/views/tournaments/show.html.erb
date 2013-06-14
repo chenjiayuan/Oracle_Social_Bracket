@@ -1,0 +1,28 @@
+<h1>Tournament: <%= @tournament.name %> <div class="add-players"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div></h1>
+<h2><%= pluralize(@tournament.player_count, "player") %></h2>
+
+<article>
+    <%= link_to "Start Tournament" %><br />
+</article>
+
+<article>
+    <header>
+        Players  <div class="add-players"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div>
+    </header>
+</article>
+
+<article>
+    <% if @tournament.players.any? %>
+        <% @tournament.players.each do |p| %>
+            <ul>
+                <li><%= p.first_name %> <%= p.last_name %></li>
+                <li><%= p.email %></li>
+                <li><%= p.matches_won %></li>
+                <li><%= p.skill %></li>
+                <li><%= link_to "Edit", edit_tournament_player_path(p) %></li>
+                <li><%= link_to "Delete", tournament_player_path(@tournament, p), method: :delete %></li>
+            </ul>
+
+        <% end %>
+    <% end %>
+</article>

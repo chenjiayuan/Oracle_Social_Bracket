@@ -7,6 +7,7 @@
     <% Tournament.all.each do |t| %>
         Name: <%= t.name %><br />
         Player Count: <%= t.player_count %><br />
+        <%= link_to "Show", t %><br />
     <% end %>
 <% end %>
 </div>

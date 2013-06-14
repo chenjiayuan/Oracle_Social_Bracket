@@ -186,3 +186,9 @@ footer {
     top: 20;
     right: 0;
 }
+
+.add-players {
+    float: right;
+    margin-top: 10px;
+
+}
