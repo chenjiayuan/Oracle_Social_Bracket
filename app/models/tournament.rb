@@ -1,5 +1,5 @@
 class Tournament < ActiveRecord::Base
-  attr_accessible :name, :player_count
+  attr_accessible :name, :player_count, :winner_id, :active
 
   before_save { |t| t.player_count = 0 }
 
