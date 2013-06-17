@@ -10,6 +10,12 @@
         <li>Email: <%= @player.email %></li>
         <li>Skill: <%= @player.skill %></li>
         <li>Matches Won: <%= @player.matches_won %></li>
+        <% if @player.tournaments.any? %>
+            <li><%= button_to "Tournaments" %><li>
+
+        <% end %>
+
+
         <li><%= button_to "Delete player", @player, method: :delete %></li>
     </ul>
 </article>

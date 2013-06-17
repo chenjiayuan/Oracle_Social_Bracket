@@ -16,11 +16,10 @@
     <% if @tournament.players.any? %>
         <% @tournament.players.each do |p| %>
             <ul>
-                <li><%= p.first_name %> <%= p.last_name %></li>
-                <li><%= p.email %></li>
-                <li><%= p.matches_won %></li>
-                <li><%= p.skill %></li>
-                <li><%= link_to "Edit", edit_tournament_player_path(p) %></li>
+                <li><%= link_to "#{p.first_name} #{p.last_name}", edit_tournament_player_path(@tournament, p) %></li>
+                <li>Email: <%= p.email %></li>
+                <li>Matches won: <%= p.matches_won %></li>
+                <li>Skill: <%= p.skill %></li>
                 <li><%= link_to "Delete", tournament_player_path(@tournament, p), method: :delete %></li>
                 <br />
             </ul>

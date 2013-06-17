@@ -2,6 +2,7 @@ class PlayersController < ApplicationController
 
   def index
 
+
   end
 
 =begin
@@ -55,4 +56,22 @@ end
   def show
     @player = Player.find(params[:id])
   end
+
+  def edit
+    @player = Player.find(params[:id])
+  end
+
+  def update
+    @player = Player.find(params[:id])
+    if @player.update_attributes(params[:player])
+      flash[:success] = "Player updated"
+      redirect_to @player
+    else
+      flash[:error] = "Didn't work..."
+      render 'edit'
+    end
+
+  end
+
+
 end
