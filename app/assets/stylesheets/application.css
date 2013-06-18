@@ -185,7 +185,7 @@ footer {
 
 table {
     clear: both;
-    margin: 0 auto;
+    margin: 0 auto 1em auto;
     border: 1px solid #e0e0e0;
     /*border: 2px solid rgba(0, 0, 0, 0.15);
     border-collapse: separate;
@@ -275,6 +275,25 @@ td {
     margin: 1em 0 0 0;
     padding: 0.6em;
     float: none;
+}
+
+.pagination a, .pagination em, .pagination span {
+    display: block;
+    float: left;
+    border: 1px solid #e0e0e0;
+    padding: 0.3em 0.5em;
+    margin: 0 0.3em 1em 0;
+    text-decoration: none;
+    color: #4169e1;
+}
+
+.pagination em, .pagination span {
+    color: #666;
+}
+
+.pagination em {
+    font-style: normal;
+    background-color: #e0e0e0;
 }
 
 .login-content {

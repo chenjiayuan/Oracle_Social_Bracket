@@ -5,7 +5,7 @@ class TournamentsController < ApplicationController
   end
 
   def index
-
+    @tournaments = Tournament.paginate(page: params[:page], per_page: 5)
   end
 
   def show
