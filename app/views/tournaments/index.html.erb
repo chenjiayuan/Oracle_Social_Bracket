@@ -17,10 +17,10 @@
         	</tr>
         </thead>
         <tbody>
-        	<% Tournament.order("create_at DESC").each do |t| %>
+        	<% Tournament.order("created_at DESC").each do |t| %>
             <tr>
                 <td><%= link_to t.name, tournament_path(t) %></td>
-                <td><%= t.player_count %></td>
+                <td><%= t.players.count %></td>
                 <td><%= t.active ? "Active" : "Inactive"  %></td>
                 <% temp_id = t.winner_id %>
                 <td>

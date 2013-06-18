@@ -13,21 +13,11 @@
 		    <li><%= f.email_field :email %></li>
 		    <li><span>Skill Level</span></li>
 		    <li><%= f.select :skill, 1..10 %></li>
+            <% if @tournament %>
+                <%= f.hidden_field :tournament_id, value: @tournament.id %>
+            <% end %>
 		    <li><%= f.submit "Create Player" %></li>
+
 		</ul>
 	<% end %>
 </div>
-
-<!--
-<%= form_for(@player) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-    <ul>
-        <li>First name: <%= f.text_field :first_name %></li>
-        <li>Second name: <%= f.text_field :last_name %></li>
-        <li>Email: <%= f.email_field :email %></li>
-        <li>Skill: <%= f.select :skill, 1..10 %></li>
-        <br />
-        <li><%= f.submit "Create Player" %></li>
-    </ul>
-<% end %>
--->
