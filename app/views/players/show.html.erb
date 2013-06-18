@@ -1,3 +1,16 @@
+<h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
+<div class="delete_btn"><%= link_to "Delete Player", @player, confirm: "Did you really mean to delete this player?", method: :delete %></div>
+<ul class="detail">
+	<li><%= @player.email %></li>
+	<li>Skill: <%= @player.skill %></li>
+	<li>Matches Won: <%= @player.matches_won %></li>
+</ul>
+<div class="divider"></div>
+
+<aside>A table will go here for tournaments that the player is attached to later.</aside>
+
+
+<!--
 <header>
     Player info
 </header>
@@ -13,3 +26,4 @@
         <li><%= button_to "Delete player", @player, method: :delete %></li>
     </ul>
 </article>
+-->
