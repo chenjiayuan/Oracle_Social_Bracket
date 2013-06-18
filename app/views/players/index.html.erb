@@ -1,4 +1,4 @@
-<% Player.all.each do |p| %>
+<% Player.order("created_at DESC").each do |p| %>
     <ul>
         <% temp = "#{p.first_name} #{p.last_name}" %>
         <li><%= link_to "#{temp}", player_path(p) %></li>

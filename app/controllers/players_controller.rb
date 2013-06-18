@@ -30,7 +30,7 @@ end
 
   def create
     @player = Player.new(params[:player])
-    if params.has_key?(:tournament_id)
+    if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
       if @player.save
         redirect_to tournament_player_path(@tournament, @player)
@@ -47,6 +47,7 @@ end
 
   end
 
+
   def destroy
     Player.find(params[:id]).destroy
     flash[:success] = "Player deleted!"
@@ -55,6 +56,7 @@ end
 
   def show
     @player = Player.find(params[:id])
+
   end
 
   def edit
@@ -72,6 +74,4 @@ end
     end
 
   end
-
-
 end

@@ -16,7 +16,7 @@
     <% if @tournament.players.any? %>
         <% @tournament.players.each do |p| %>
             <ul>
-                <li><%= link_to "#{p.first_name} #{p.last_name}", edit_tournament_player_path(@tournament, p) %></li>
+                <li><%= link_to "#{p.first_name} #{p.last_name}", tournament_player_path(@tournament, p) %></li>
                 <li>Email: <%= p.email %></li>
                 <li>Matches won: <%= p.matches_won %></li>
                 <li>Skill: <%= p.skill %></li>

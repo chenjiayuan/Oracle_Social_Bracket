@@ -16,7 +16,9 @@ Brakkit::Application.routes.draw do
   match '/players/:id', to: 'players#show'
   match '/tournaments/:id', to: 'tournaments#show'
   match '/tournaments/:id/player', to: 'players#show'
+  match '/tournaments/:id/players:id', to: 'players#show'
   match '/tournaments/:id/player/new', to: 'players#new'
+  match '/players/:id/edit', to: 'players#edit'
 
 
   # The priority is based upon order of creation:

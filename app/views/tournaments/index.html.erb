@@ -14,7 +14,7 @@
 	    		<th>Status</th>
 	    		<th>Winner</th>
 	    	</tr>
-	    	<% Tournament.all.each do |t| %>
+	    	<% Tournament.order("created_at DESC").each do |t| %>
             <tr>
                 <td><%=link_to "Delete", t, method: :delete %></td>
                 <td><%= link_to "#{t.name}", t %></td>
