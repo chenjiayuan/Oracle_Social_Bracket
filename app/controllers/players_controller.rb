@@ -2,6 +2,7 @@ class PlayersController < ApplicationController
 
   def index
 
+
   end
 
 =begin
@@ -29,7 +30,7 @@ end
 
   def create
     @player = Player.new(params[:player])
-    if params.has_key?(:tournament_id)
+    if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
       if @player.save
         redirect_to tournament_player_path(@tournament, @player)
@@ -46,6 +47,7 @@ end
 
   end
 
+
   def destroy
     Player.find(params[:id]).destroy
     flash[:success] = "Player deleted!"
@@ -54,5 +56,22 @@ end
 
   def show
     @player = Player.find(params[:id])
+
+  end
+
+  def edit
+    @player = Player.find(params[:id])
+  end
+
+  def update
+    @player = Player.find(params[:id])
+    if @player.update_attributes(params[:player])
+      flash[:success] = "Player updated"
+      redirect_to @player
+    else
+      flash[:error] = "Didn't work..."
+      render 'edit'
+    end
+
   end
 end
