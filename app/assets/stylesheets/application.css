@@ -41,7 +41,7 @@ body {
     height: 100%;
     margin: 0 auto -30px auto;
     background: #f3f3f3;
-    padding: 70px 4% 4% 40px;
+    padding: 70px 2% 40px;
     z-index: 1;
 }
 
@@ -145,49 +145,6 @@ ul {
     padding: 0;
 }
 
-/* Old form styling
-
-.user-form {
-    width: 300px;
-    vertical-align: text-top;
-    margin: 0 auto;
-    padding: 10px 0 30px 0;
-    border: 3px solid #ddd;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    background: #fff;
-}
-
-.list {
-    width: 160px;
-    margin: 0 auto;
-}
-
-.list div {
-    display: block;
-    margin: 10px 0 0 0;
-    font-weight: 300;
-    font-size: 0.9em;
-    letter-spacing: 1px;
-}
-
-.list input, .list select {
-    display: block;
-    width: 160px;
-    margin: 0 auto;
-}
-
-.list .submit_btn {
-    margin: 20px 0 0 0;
-}
-
-.submit_btn {
-    font-family: sans-serif;
-}
-
-*/
-
 #contact {
     display: block;
     margin: 0 auto;
@@ -216,39 +173,108 @@ ul {
 }
 
 footer {
-    /*position: relative;
-    left: 0;
-    bottom: 0;*/
     height: 30px;
     width: 100%;
-    background: #bbb;
-    color: #fff;
+    background: #e0e0e0;
+    color: #999;
     text-align: center;
     padding: 5px 0 0 0;
     font-size: 0.8em;
+    font-weight: 700;
 }
 
-#tournaments {
-    background: tan;
-}
-
-#tournaments table {
+table {
+    clear: both;
     margin: 0 auto;
-    border: 2px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid #e0e0e0;
+    /*border: 2px solid rgba(0, 0, 0, 0.15);
     border-collapse: separate;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;*/
 }
 
-#tournaments th {
-    width: 20%;
+thead tr {
+    background-color: #bfbfbf;
+}
+
+tr:nth-child(2n) {
+    background-color: #e0e0e0;
+}
+
+th {
+    width: 10%;
     padding: 10px;
     text-align: left;
+    color: #333;
 }
 
-#tournaments td {
+td {
     padding: 10px;
+}
+
+.title, .subtitle {
+    display: inline-block;
+    float: left;
+    margin: 0 0 10px 0;
+}
+
+.create_btn a, .create_form input[type="submit"], .start_btn a, .delete_btn a {
+    display: block;
+    height: auto;
+    width: auto;
+    padding: 0.8em;
+    margin: 0 0 10px 10px;
+    border-radius: 5px;
+    border: 1px solid #639423;
+    float: right;
+    background: #70ae21;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8em;
+    color: #fff;
+}
+
+.create_btn a:hover, .create_form input[type="submit"]:hover, .start_btn a:hover, .delete_btn:hover{
+    opacity: 0.70;
+}
+
+.create_btn {
+    clear: right;
+}
+
+.start_btn a {
+    background: #4169E1;
+    border: 1px solid #1C3A94;
+}
+
+.delete_btn a {
+    background-color: rgb(255, 70, 70);
+    border: 1px solid #CC2623;
+}
+
+.detail {
+    clear: left;
+}
+
+.divider {
+    margin: 20px 0 40px 0;
+    border: 1px solid #666;
+}
+
+.create_form span {
+    font-size: 0.95em;
+    font-weight: 700;
+}
+
+.create_form input[type="text"], .create_form input[type="email"], .create_form select {
+    margin: 0.5em 0 0.7em 0;
+}
+
+.create_form input[type="submit"] {
+    margin: 1em 0 0 0;
+    padding: 0.6em;
+    float: none;
 }
 
 .login-content {
