@@ -3,7 +3,7 @@
 <div class="delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
 <ul class="detail">
     <li><%= @tournament.active ? "Active" : "Inactive"  %></li>
-    <li><%= pluralize(@tournament.player_count, "player") %></li>
+    <li><%= pluralize(@tournament.players.count, "player") %></li>
     <li>
         <% temp_id = @tournament.winner_id %>
         <% if temp_id != 0 %>
@@ -14,9 +14,11 @@
 </ul>
 <div class="divider"></div>
 
-<% if @tournament.players.any? %>
+
+
     <h3 class="subtitle">Players</h3>
     <div class="create_btn"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div>
+
     <table>
         <thead>
             <tr>
@@ -27,15 +29,16 @@
             </tr>
         </thead>
         <tbody>
-            <% @tournament.players.each do |p| %>
-            <tr>
-                <% temp = "#{p.first_name} #{p.last_name}" %>
-                <td><%= link_to "#{temp}", player_path(p) %></td>
-                <td><%= p.email %></td>
-                <td><%= p.skill %></td>
-                <td><%= p.matches_won %></td>
-            </tr>
+            <% if @tournament.players.any? %>
+                <% @tournament.players.order("created_at DESC").each do |p| %>
+                <tr>
+                    <% temp = "#{p.first_name} #{p.last_name}" %>
+                    <td><%= link_to "#{temp}", player_path(p) %></td>
+                    <td><%= p.email %></td>
+                    <td><%= p.skill %></td>
+                    <td><%= p.matches_won %></td>
+                </tr>
+                <% end %>
             <% end %>
         </tbody>
     </table>
-<% end %>

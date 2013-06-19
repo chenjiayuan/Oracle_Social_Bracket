@@ -25,9 +25,15 @@ end
 
   def new
     @player = Player.new
+
+    if params[:tournament_id]
+      @tournament = Tournament.find(params[:tournament_id])
+    end
   end
 
+=begin
   def create
+
     @player = Player.new(params[:player])
     if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
@@ -43,6 +49,35 @@ end
         render 'new'
       end
     end
+
+  end
+=end
+
+  def create
+
+    if params[:player][:tournament_id].present?
+      tournament_id = params[:player].delete :tournament_id
+      tournament = Tournament.find(tournament_id)
+    end
+
+    @player = Player.new(params[:player])
+
+    if @player.save
+      if tournament
+        tournament.players << @player
+        tournament.save
+        redirect_to tournament
+      else
+        redirect_to player_path(@player)
+      end
+    else
+      if tournament
+        redirect_to new_tournament_player_path(tournament)
+      else
+        render 'new'
+      end
+    end
+
 
   end
 
@@ -71,6 +106,7 @@ end
       flash[:error] = "Didn't work..."
       render 'edit'
     end
-
   end
+
+
 end
