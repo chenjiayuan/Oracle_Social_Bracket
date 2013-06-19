@@ -18,12 +18,21 @@ class TournamentsController < ApplicationController
 
   def create
     @tournament = Tournament.new(params[:tournament])
-    if @tournament.save
-      flash[:success] = "Good job!"
-      redirect_to @tournament
-    else
-      flash[:error] = "Didn't work! :("
-      render 'new'
+
+    respond_to do |format|
+      if @tournament.save
+        format.html {
+          flash[:success] = "Tournament created!"
+          redirect_to @tournament
+        }
+        format.js
+      else
+        format.html {
+          flash[:error] = "That Didn't work! :("
+          render 'new'
+        }
+        format.js
+      end
     end
 
   end
