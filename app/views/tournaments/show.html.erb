@@ -1,0 +1,44 @@
+<h2 class="title"><%= @tournament.name %></h2>
+<div class="start_btn"><%= link_to "Start Tournament" %></div>
+<div class="delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
+<ul class="detail">
+    <li><%= @tournament.active ? "Active" : "Inactive"  %></li>
+    <li><%= pluralize(@tournament.players.count, "player") %></li>
+    <li>
+        <% temp_id = @tournament.winner_id %>
+        <% if temp_id != 0 %>
+            <% p = Player.find(temp_id) %>
+                Winner: <%= p.first_name %> <%= p.last_name %>
+        <% end %>
+    </li>
+</ul>
+<div class="divider"></div>
+
+
+
+    <h3 class="subtitle">Players</h3>
+    <div class="create_btn"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Skill Level</th>
+                <th>Matches Won</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if @tournament.players.any? %>
+                <% @tournament.players.order("created_at DESC").each do |p| %>
+                <tr>
+                    <% temp = "#{p.first_name} #{p.last_name}" %>
+                    <td><%= link_to "#{temp}", player_path(p) %></td>
+                    <td><%= p.email %></td>
+                    <td><%= p.skill %></td>
+                    <td><%= p.matches_won %></td>
+                </tr>
+                <% end %>
+            <% end %>
+        </tbody>
+    </table>

@@ -1,11 +1,10 @@
-<nav>
-    <ul>
-        <li><%= link_to "Home", root_path %></li>
-        <li><div class="divider"></div></li>
-        <li><%= link_to "Tournaments", tournaments_path %></li>
-        <li><div class="divider"></div></li>
-        <li><%= link_to "Players" %></li>
-        <li id="contact-button"><%= link_to "Contact", contact_path %></li>
-        <li id="logo"><%= link_to "Brakkit", root_path %></li>
-    </ul>
-</nav>
+<div id="nav-bar-back">	
+	<nav>
+	    <ul>
+	    	<li id="logo"><%= link_to "Brakkit", root_path %></li>
+	        <li id="contact-button"><%= link_to "Contact", contact_path %></li>
+	        <li><%= link_to "Players", players_path %></li>
+	        <li><%= link_to "Tournaments", tournaments_path %></li>
+	    </ul>
+	</nav>
+</div>

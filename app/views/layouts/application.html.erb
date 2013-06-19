@@ -9,9 +9,11 @@
 </head>
 <body>
 <%= render "layouts/header" %>
-
+<div id="container">
 <%= yield %>
-
+ <!--  <%= params.inspect %> -->
+<div id="footer-padding"></div>
+</div>
 <%= render "layouts/footer" %>
 
 </body>
