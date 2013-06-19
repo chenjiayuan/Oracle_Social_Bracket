@@ -33,7 +33,7 @@
                 <% @tournament.players.order("created_at DESC").each do |p| %>
                 <tr>
                     <% temp = "#{p.first_name} #{p.last_name}" %>
-                    <td><%= link_to "#{temp}", player_path(p) %></td>
+                    <td><%= link_to "#{temp}", tournament_player_path(@tournament, p) %></td>
                     <td><%= p.email %></td>
                     <td><%= p.skill %></td>
                     <td><%= p.matches_won %></td>

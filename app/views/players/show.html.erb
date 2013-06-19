@@ -4,6 +4,9 @@
 	<li><%= @player.email %></li>
 	<li>Skill: <%= @player.skill %></li>
 	<li>Matches Won: <%= @player.matches_won %></li>
+    <% if @tournament %>
+        <li><%= button_to "Remove player from tournament: #{@tournament.name}" %></li>
+    <% end %>
 </ul>
 <div class="divider"></div>
 

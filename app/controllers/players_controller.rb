@@ -77,8 +77,6 @@ end
         render 'new'
       end
     end
-
-
   end
 
 
@@ -89,6 +87,11 @@ end
   end
 
   def show
+
+    if params[:tournament_id]
+      @tournament = Tournament.find(params[:tournament_id])
+    end
+
     @player = Player.find(params[:id])
 
   end
@@ -107,6 +110,5 @@ end
       render 'edit'
     end
   end
-
 
 end
