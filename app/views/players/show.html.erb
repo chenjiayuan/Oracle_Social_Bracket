@@ -1,3 +1,5 @@
+<% provide(:title, "#{@player.first_name} #{@player.last_name}") %>
+
 <h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
 <div class="delete_btn"><%= link_to "Delete Player", @player, confirm: "Did you really mean to delete this player?", method: :delete %></div>
 <ul class="detail">

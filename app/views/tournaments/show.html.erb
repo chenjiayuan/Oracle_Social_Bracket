@@ -1,3 +1,5 @@
+<% provide(:title, "#{@tournament.name}") %>
+
 <h2 class="title"><%= @tournament.name %></h2>
 <div class="start_btn"><%= link_to "Start Tournament" %></div>
 <div class="delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
