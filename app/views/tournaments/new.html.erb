@@ -4,11 +4,11 @@
 <div class="detail">Please enter a name for the new tournament.</div>
 <div class="divider"></div>
 <div class="create_form">	
-	<%= form_for @tournament, html: { id: 'dialog-form' } do |f| %>
+	<%= form_for @tournament, remote: true, html: { id: 'dialog-form' } do |f| %>
 	    <%= render 'shared/error_messages', object: f.object %>
 	    <ul>
 		    <li><span>Tournament Name</span></li>
-		    <li><%= f.text_field :name, :autofocus => true %></li>
+		    <li><%= f.text_field :name, autofocus: true %></li>
 		    <li><%= f.submit "Create Tournament" %></li>
 		</ul>
 	<% end %>

@@ -15,8 +15,9 @@ Brakkit::Application.routes.draw do
   get '/players/:id', to: 'players#show'
   get '/tournaments/:id', to: 'tournaments#show'
   get '/tournaments/:id/player', to: 'players#show'
-  get '/tournaments/:id/players:id', to: 'players#show'
-  get '/players/:id/edit', to: 'players#edit'
+  get '/tournaments/:id/players/:id', to: 'players#show'
+  post '/players/:id/edit', to: 'players#edit'
+  post '/tournaments/:id/players/:id/edit', to: 'players#edit'
 
 
   # The priority is based upon order of creation:

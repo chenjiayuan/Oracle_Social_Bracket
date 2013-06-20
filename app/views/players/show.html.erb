@@ -6,6 +6,7 @@
 	<li><%= @player.email %></li>
 	<li>Skill: <%= @player.skill %></li>
 	<li>Matches Won: <%= @player.matches_won %></li>
+    <li><%= button_to "Edit Player", @tournament ? edit_tournament_player_path(@tournament, @player ) : edit_player_path(@player) %></li>
     <% if @tournament %>
         <li><%= button_to "Remove player from tournament: #{@tournament.name}" %></li>
     <% end %>
