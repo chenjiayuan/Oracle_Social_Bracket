@@ -1,3 +1,5 @@
+<% provide(:title, "New Player") %>
+
 <h2 class="title">New Player</h2>
 <div class="detail">Please enter details for the new player.</div>
 <div class="divider"></div>
@@ -6,7 +8,7 @@
 	    <%= render 'shared/error_messages', object: f.object %>
 	    <ul>
 		    <li><span>First Name</span></li>
-		    <li><%= f.text_field :first_name, :autofocus => true %></li>
+		    <li><%= f.text_field :first_name, autofocus: true %></li>
 		    <li><span>Last Name</span></li>
 		    <li><%= f.text_field :last_name %></li>
 		    <li><span>Email Address</span></li>
@@ -16,7 +18,7 @@
             <% if @tournament %>
                 <%= f.hidden_field :tournament_id, value: @tournament.id %>
             <% end %>
-		    <li><%= f.submit "Create Player" %></li>
+            <li><%= f.submit "Create Player" %></li>
 
 		</ul>
 	<% end %>

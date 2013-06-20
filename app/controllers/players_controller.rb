@@ -77,8 +77,6 @@ end
         render 'new'
       end
     end
-
-
   end
 
 
@@ -89,24 +87,48 @@ end
   end
 
   def show
+
+    if params[:tournament_id]
+      @tournament = Tournament.find(params[:tournament_id])
+    end
+
     @player = Player.find(params[:id])
 
   end
 
   def edit
+    if params[:tournament_id]
+      @tournament = Tournament.find(params[:tournament_id])
+    end
+
     @player = Player.find(params[:id])
   end
 
   def update
+
+    if params[:player][:tournament_id].present?
+      tournament_id = params[:player].delete :tournament_id
+      tournament = Tournament.find(tournament_id)
+    end
+
     @player = Player.find(params[:id])
+
     if @player.update_attributes(params[:player])
       flash[:success] = "Player updated"
-      redirect_to @player
+      if tournament
+        tournament.players.find(@player.id).save
+        redirect_to tournament_players_path(tournament)
+      else
+        redirect_to @player
+      end
     else
-      flash[:error] = "Didn't work..."
-      render 'edit'
+      flash[:error] = "That didn't work :("
+      if tournament
+        redirect_to tournament_players_path(tournament)
+      else
+        render 'new'
+      end
     end
   end
-
 
 end

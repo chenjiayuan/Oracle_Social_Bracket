@@ -1,3 +1,5 @@
+<% provide(:title, "Tournaments") %>
+
 <body>
 	<h2 class="title">Tournaments</h2>
 	<div class='create_btn'><%= link_to "New Tournament", new_tournament_url %></div>
@@ -20,7 +22,7 @@
         </thead>
         <% if Tournament.any? %>
         <tbody>
-        	<% Tournament.order("created_at DESC").each do |t| %>
+        	<% @tournaments.order("created_at DESC").each do |t| %>
             <tr>
                 <td><%= link_to t.name, tournament_path(t) %></td>
                 <td><%= t.players.count %></td>

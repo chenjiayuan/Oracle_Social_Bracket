@@ -1,9 +1,15 @@
+<% provide(:title, "#{@player.first_name} #{@player.last_name}") %>
+
 <h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
 <div class="delete_btn"><%= link_to "Delete Player", @player, confirm: "Did you really mean to delete this player?", method: :delete %></div>
 <ul class="detail">
 	<li><%= @player.email %></li>
 	<li>Skill: <%= @player.skill %></li>
 	<li>Matches Won: <%= @player.matches_won %></li>
+    <li><%= button_to "Edit Player", @tournament ? edit_tournament_player_path(@tournament, @player ) : edit_player_path(@player) %></li>
+    <% if @tournament %>
+        <li><%= button_to "Remove player from tournament: #{@tournament.name}" %></li>
+    <% end %>
 </ul>
 <div class="divider"></div>
 
