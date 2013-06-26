@@ -5,5 +5,6 @@ class Tournament < ActiveRecord::Base
 
   has_many :players, through: :tournament_players
   has_many :tournament_players, dependent: :destroy
+  has_many :matches
 
 end
