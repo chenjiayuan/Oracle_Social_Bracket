@@ -2,7 +2,7 @@
 <%= flash[:notice] %>
 
 <h2 class="title"><%= @tournament.name %></h2>
-<div class="start_btn"><%= link_to "Start Tournament" %></div>
+<div class="start_btn"><%= link_to "Start Tournament", start_tournament_path(@tournament) %></div>
 <div class="delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
 <ul class="detail">
     <li><%= @tournament.active ? "Active" : "Inactive"  %></li>

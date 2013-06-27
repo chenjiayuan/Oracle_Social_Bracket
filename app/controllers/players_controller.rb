@@ -24,11 +24,14 @@ end
 =end
 
   def new
+
     @player = Player.new
 
     if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
     end
+
+
   end
 
 =begin
@@ -72,6 +75,7 @@ end
       end
     else
       if tournament
+        session[:player_errors] = @player.errors
         redirect_to new_tournament_player_path(tournament)
       else
         render 'new'
