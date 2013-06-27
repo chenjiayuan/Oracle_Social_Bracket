@@ -38,6 +38,7 @@ class TournamentsController < ApplicationController
   end
 
   def start_tournament
+
     @tournament = Tournament.find(params[:id])
   end
 

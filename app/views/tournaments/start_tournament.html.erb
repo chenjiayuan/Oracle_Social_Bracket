@@ -1,1 +1,27 @@
 <% provide(:title, "#{@tournament.name}") %>
+
+<% @tournament.setup_matches %>
+
+<h1>Matches</h1>
+<% match_number = 1 %>
+<ul>
+    <% @tournament.matches.each do |m| %>
+        <lh>Match <%= match_number %></lh>
+        <% p1 = Player.find(m.player1_id) %>
+        <% p2 = Player.find(m.player2_id) %>
+        <li>Player 1 : <%= "#{p1.first_name} #{p1.last_name}"  %></li>
+        <li>Player 2 : <%= "#{p2.first_name} #{p2.last_name}"  %></li>
+        <li>Round <%= m.round %></li>
+        <% winner_id = m.winner_id %>
+        <% if winner_id != 0 %>
+            <% winner = Player.find(winner_id) %>
+        <% end %>
+        <li>Winner: <%= "#{winner.first_name} #{winner.last_name}" if winner %></li>
+
+        <li><% m %></li>
+        <br />
+        <% match_number = match_number + 1 %>
+    <% end %>
+</ul>
+
+
