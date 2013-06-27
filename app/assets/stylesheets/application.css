@@ -296,14 +296,21 @@ td {
     background-color: #e0e0e0;
 }
 
-.login-content {
-    position: absolute;
-    top: 20;
-    right: 0;
+.alert {
+    display: block;
+    float: left;
+    width: 100%;
+    margin: 0 0 1em 0;
+    padding: 1em;
+    background-color: #e0e0e0;
+    border: 1px solid #333;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 0.8em;
 }
 
-.add-players {
-    float: right;
-    margin-top: 10px;
-
+.alert-success {
+    background-color: rgb(200, 230, 200);
+    border: 1px solid rgb(100, 200, 100);
+    color: rgb(100, 140, 100);
 }
