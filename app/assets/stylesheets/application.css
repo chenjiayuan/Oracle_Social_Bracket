@@ -226,14 +226,14 @@ td {
     margin: 0 0 10px 0;
 }
 
-.create_btn a, .create_form input[type="submit"], .start_btn a, .delete_btn a {
+.btn a, .create_form input[type="submit"] {
     display: block;
     height: auto;
     width: auto;
     padding: 0.8em;
     margin: 0 0 10px 10px;
     border-radius: 5px;
-    border: 1px solid #639423;
+    border: 1px solid rgba(0,0,0,.1);
     float: right;
     background: #70ae21;
     text-decoration: none;
@@ -242,7 +242,7 @@ td {
     color: #fff;
 }
 
-.create_btn a:hover, .create_form input[type="submit"]:hover, .start_btn a:hover, .delete_btn:hover{
+.btn a:hover, .create_form input[type="submit"]:hover {
     opacity: 0.70;
 }
 
@@ -250,14 +250,20 @@ td {
     clear: right;
 }
 
+.edit_btn a {
+    background: #aaa;
+}
+
+.remove_btn a {
+    background: #faa732;
+}
+
 .start_btn a {
     background: #4169E1;
-    border: 1px solid #1C3A94;
 }
 
 .delete_btn a {
     background-color: rgb(255, 70, 70);
-    border: 1px solid #CC2623;
 }
 
 .detail {

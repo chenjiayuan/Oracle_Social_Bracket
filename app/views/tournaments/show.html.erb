@@ -2,8 +2,8 @@
 <%= flash[:notice] %>
 
 <h2 class="title"><%= @tournament.name %></h2>
-<div class="start_btn"><%= link_to "Start Tournament", start_tournament_path(@tournament) %></div>
-<div class="delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
+<div class="btn start_btn"><%= link_to "Start Tournament", start_tournament_path(@tournament) %></div>
+<div class="btn delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
 <ul class="detail">
     <li><%= @tournament.active ? "Active" : "Inactive"  %></li>
     <li><%= pluralize(@tournament.players.count, "player") %></li>
@@ -20,7 +20,7 @@
 
 
     <h3 class="subtitle">Players</h3>
-    <div class="create_btn"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div>
+    <div class="btn create_btn"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div>
 
     <table>
         <thead>
