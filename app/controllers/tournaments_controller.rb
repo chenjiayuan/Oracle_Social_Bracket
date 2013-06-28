@@ -22,7 +22,7 @@ class TournamentsController < ApplicationController
     respond_to do |format|
       if @tournament.save
         format.html {
-          flash[:success] = "Tournament created!"
+          flash[:success] = "Tournament has been created! Huzzah!"
           redirect_to @tournament
         }
         format.js
