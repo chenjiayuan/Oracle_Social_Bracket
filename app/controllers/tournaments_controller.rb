@@ -28,7 +28,6 @@ class TournamentsController < ApplicationController
         format.js
       else
         format.html {
-          flash[:error] = "That Didn't work! :("
           render 'new'
         }
         format.js
