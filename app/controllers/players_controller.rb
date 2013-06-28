@@ -69,12 +69,15 @@ end
       if tournament
         tournament.players << @player
         tournament.save
+        flash[:success] = "Tournament created"
         redirect_to tournament
       else
+        flash[:success] = "Tournament created"
         redirect_to player_path(@player)
       end
     else
       if tournament
+        flash[:error] = "That didn't work :("
         session[:player_errors] = @player.errors
         redirect_to new_tournament_player_path(tournament)
       else
@@ -85,9 +88,19 @@ end
 
 
   def destroy
-    Player.find(params[:id]).destroy
-    flash[:success] = "Player deleted!"
-    redirect_to players_path
+
+    if(params[:tournament_id])
+      t = Tournament.find(params[:tournament_id])
+      t.tournament_players.where(player_id: params[:id]).destroy_all
+      flash[:success] = "Player removed from tournament"
+      redirect_to tournament_path(t)
+
+    else
+      Player.find(params[:id]).destroy
+      flash[:success] = "Player deleted!"
+      redirect_to players_path
+    end
+
   end
 
   def show
@@ -126,13 +139,14 @@ end
         redirect_to @player
       end
     else
-      flash[:error] = "That didn't work :("
       if tournament
+        flash[:error] = "That didn't work :("
         redirect_to tournament_players_path(tournament)
       else
         render 'new'
       end
     end
   end
+
 
 end

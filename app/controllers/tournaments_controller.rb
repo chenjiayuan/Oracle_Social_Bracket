@@ -28,7 +28,6 @@ class TournamentsController < ApplicationController
         format.js
       else
         format.html {
-          flash[:error] = "That Didn't work! :("
           render 'new'
         }
         format.js
@@ -38,6 +37,7 @@ class TournamentsController < ApplicationController
   end
 
   def start_tournament
+
     @tournament = Tournament.find(params[:id])
   end
 
@@ -71,5 +71,18 @@ class TournamentsController < ApplicationController
     redirect_to tournaments_path
 
   end
+
+=begin
+  def remove_from_tournament
+    t = Tournament.find(params[:tournament_id])
+    p = Player.find(params[:id])
+
+    t.players.reject! { |player| player.id == p.id }
+    t.save
+    redirect_to tournament_players_path(t)
+  end
+=end
+
+
 
 end
