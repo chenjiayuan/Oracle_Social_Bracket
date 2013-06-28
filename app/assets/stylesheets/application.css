@@ -109,12 +109,17 @@ nav button::after {
     padding: 0.1em;
     margin: 0;
     -webkit-transition: opacity 0.1s ease-in-out 0.1s;
+    -moz-transition: opacity 0.1s ease-in-out 0.1s;
+    -o-transition: opacity 0.1s ease-in-out 0.1s;
+    -ms-transition: opacity 0.1s ease-in-out 0.1s;
     transition: opacity 0.1s ease-in-out 0.1s;
 }
 
 #logo a:hover {
     background-color: transparent;
     color: #fff;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
     opacity: 1;
 }
 
@@ -123,6 +128,8 @@ nav a, nav a:visited, nav button {
     width: auto;
     text-align: center;
     color: #fff;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
     opacity: 0.8;
     text-decoration: none;
     padding: 1em;
@@ -312,5 +319,44 @@ td {
 .alert-success {
     background-color: rgb(200, 230, 200);
     border: 1px solid rgb(100, 200, 100);
-    color: rgb(100, 140, 100);
+    color: rgba(60, 120, 60, 1);
+}
+
+.alert-error {
+    background-color: rgb(230, 200, 200);
+    border: 1px solid #b94a48;
+    color: #b94a48;
+}
+
+#error_explanation {
+    display: block;
+    float: left;
+    width: 100%;
+    background-color: rgba(0,0,0,.1);
+    margin-bottom: 1em;
+    border-radius: 3px;
+    border: 1px solid #b94a48;
+}
+
+#error_explanation > .alert-error {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: 0.8em;
+    border-bottom: 1px solid #b94a48;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+#error_explanation ul {
+    margin: 1em;
+    font-weight: 700;
+    font-size: 0.8em;
+}
+
+#error_explanation li {
+    color: #333;
+    margin-bottom: 0.4em;
 }
