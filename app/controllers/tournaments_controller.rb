@@ -22,7 +22,7 @@ class TournamentsController < ApplicationController
     respond_to do |format|
       if @tournament.save
         format.html {
-          flash[:success] = "Tournament has been created! Huzzah!"
+          flash[:success] = "Tournament created!"
           redirect_to @tournament
         }
         format.js
@@ -65,7 +65,7 @@ class TournamentsController < ApplicationController
 =end
 
   def destroy
-    
+
     Tournament.find(params[:id]).destroy
     flash[:success] = "Tournament deleted!"
     redirect_to tournaments_path
