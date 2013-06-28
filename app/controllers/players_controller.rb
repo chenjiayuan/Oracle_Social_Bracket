@@ -85,9 +85,18 @@ end
 
 
   def destroy
-    Player.find(params[:id]).destroy
-    flash[:success] = "Player deleted!"
-    redirect_to players_path
+
+    if(params[:tournament_id])
+      t = Tournament.find(params[:tournament_id])
+      t.tournament_players.where(player_id: params[:id]).destroy_all
+      redirect_to tournament_path(t)
+
+    else
+      Player.find(params[:id]).destroy
+      flash[:success] = "Player deleted!"
+      redirect_to players_path
+    end
+
   end
 
   def show
@@ -134,5 +143,6 @@ end
       end
     end
   end
+
 
 end

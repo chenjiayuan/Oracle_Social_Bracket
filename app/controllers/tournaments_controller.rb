@@ -73,4 +73,17 @@ class TournamentsController < ApplicationController
 
   end
 
+=begin
+  def remove_from_tournament
+    t = Tournament.find(params[:tournament_id])
+    p = Player.find(params[:id])
+
+    t.players.reject! { |player| player.id == p.id }
+    t.save
+    redirect_to tournament_players_path(t)
+  end
+=end
+
+
+
 end

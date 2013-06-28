@@ -8,36 +8,10 @@
 	<li>Matches Won: <%= @player.matches_won %></li>
     <li><%= button_to "Edit Player", @tournament ? edit_tournament_player_path(@tournament, @player ) : edit_player_path(@player) %></li>
     <% if @tournament %>
-        <li><%= button_to "Remove player from tournament: #{@tournament.name}" %></li>
+        <li><%= button_to "Remove player from tournament: #{@tournament.name}", tournament_player_path(@tournament, @player), method: :delete %></li>
     <% end %>
 </ul>
 <div class="divider"></div>
 
 <aside>A table will go here for tournaments that the player is attached to later.</aside>
 
-
-<!--
-<header>
-    Player info
-</header>
-
-<br />
-
-<article>
-    <ul>
-        <li>Name: <%= "#{@player.first_name} #{@player.last_name}" %></li>
-        <li>Email: <%= @player.email %></li>
-        <li>Skill: <%= @player.skill %></li>
-        <li>Matches Won: <%= @player.matches_won %></li>
-        <% if @player.tournaments.any? %>
-            <li><%= button_to "Tournaments" %><li>
-
-        <% end %>
-
-        <li><%= button_to "Edit Player", edit_player_path(@player) %></li>
-
-
-        <li><%= button_to "Delete player", @player, method: :delete %></li>
-    </ul>
-</article>
--->
