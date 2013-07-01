@@ -2,6 +2,11 @@ class PlayersController < ApplicationController
 
   def index
     @players = Player.paginate(page: params[:page], per_page: 15)
+
+    if params[:tournament_id]
+      @tournament = Tournament.find(params[:tournament_id])
+    end
+
   end
 
 =begin
@@ -146,6 +151,32 @@ end
         render 'new'
       end
     end
+  end
+
+  def trash
+
+    if params[:tournament_id].present?
+      tournament_id = params[:tournament_id][:value]
+      tournament = Tournament.find(tournament_id)
+    end
+
+    if tournament
+      params[:player_ids].each do |id|
+        @player = Player.find(id)
+        tournament.players << @player
+        tournament.save
+      end
+      flash[:success] = "Players added"
+      redirect_to tournament
+    end
+
+    #Player.destroy(params[:player_ids])
+
+    #respond_to do |format|
+    #  format.html { redirect_to players_path }
+    #  format.json { head :no_content }
+    #end
+    
   end
 
 
