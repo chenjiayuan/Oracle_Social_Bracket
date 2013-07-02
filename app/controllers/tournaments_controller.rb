@@ -84,6 +84,8 @@ class TournamentsController < ApplicationController
   end
 =end
 
+  def winner
 
+  end
 
 end

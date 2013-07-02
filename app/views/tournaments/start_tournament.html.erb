@@ -10,8 +10,8 @@
         <lh>Match <%= match_number %></lh>
         <% p1 = Player.find(m.player1_id) if m.player1_id != 0 %>
         <% p2 = Player.find(m.player2_id) if m.player2_id != 0 %>
-        <li>Player 1 : <%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %></li>
-        <li>Player 2 : <%= p2 ? "#{p2.first_name} #{p2.last_name}" : "" %></li>
+        <li>Player 1 : <%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %> <div class="winner-finder-one"><%= button_tag "Winner?" if p1 %></div></li>
+        <li>Player 2 : <%= p2 ? "#{p2.first_name} #{p2.last_name}" : "" %> <div class="winner-finder-two"><%= button_tag "Winner?" if p2 %></div></li>
         <li>Round <%= m.round %></li>
         <% winner_id = m.winner_id %>
         <% if winner_id != 0 %>

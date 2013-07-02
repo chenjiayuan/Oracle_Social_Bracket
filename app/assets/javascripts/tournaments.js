@@ -2,19 +2,7 @@ $(document).ready(function() {
     $('.create-tour-button').on("click", ajax_test);
 });
 
-function sayHi() {
-    alert("hi");
-}
 
-function ajax_test() {
-    ajaxrequest = new XMLHttpRequest();
-
-    ajaxrequest.onreadystatechange = function() {
-        alert("yo");
-    }
-
-    ajaxrequest.send(null);
-}
 
 /*
 function showForm() {
