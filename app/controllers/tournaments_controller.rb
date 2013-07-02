@@ -39,6 +39,7 @@ class TournamentsController < ApplicationController
   def start_tournament
 
     @tournament = Tournament.find(params[:id])
+    @players = @tournament.players
   end
 
 =begin

@@ -11,34 +11,50 @@ class Tournament < ActiveRecord::Base
     if !self.matches.any? && self.players.any?
       players = self.players
       players.sort! { |a, b| a.skill <=> b.skill }
-      used_players = 0
       players_length = players.length
-      half_players_length = players_length / 2
       round = 1
+      rounds = Math.log2(players_length)
+      match_count = 0
 
-
-
-        i = 0
-        j = players_length - 1
+      i = 0
+      j = players_length - 1
 
       # round 1 loop
 
-        while i <= half_players_length
-          first_player = players[i]
-          second_player = players[j]
+      temp = players_length / 2
 
-          m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: 1, tournament_id: self.id})
+      while temp > 0
+        first_player = players[i]
+        second_player = players[j]
+
+        m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id})
+        self.matches << m
+        match_count = match_count + 1
+        temp = temp - 1
+        i = i + 1
+        j = j - 1
+      end
+
+      round = round + 1
+      bro = match_count / 2
+
+      while round <= rounds
+        temp = bro
+        while temp > 0
+          m = Match.create({round: round, tournament_id: self.id})
           self.matches << m
-
-          i = i + 1
-          j = j - 1
+          match_count = match_count + 1
+          temp = temp - 1
         end
-
+        round = round + 1
+        bro = bro / 2
+      end
 
     end
   end
 
+
   def start_tournament
-    # setup_matches
+    setup_matches
   end
 end
