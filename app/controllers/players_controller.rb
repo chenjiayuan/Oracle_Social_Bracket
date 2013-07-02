@@ -155,18 +155,40 @@ end
 
   def trash
 
-    if params[:tournament_id].present?
-      tournament_id = params[:tournament_id][:value]
-      tournament = Tournament.find(tournament_id)
+    if params[:tournament_id]
+      # Rails.logger.debug "#{eval(params[:tournament_id]).class.inspect}"
+      temp = eval(params[:tournament_id])
+      tournament = Tournament.find(temp)
+      # Rails.logger.debug "#{params[:tournament_id].class.inspect}"
+
     end
 
     if tournament
+      temp_arr = []
       params[:player_ids].each do |id|
         @player = Player.find(id)
-        tournament.players << @player
-        tournament.save
+        if !tournament.tournament_players.where(player_id: id).any?
+          @player = Player.find(id)
+          tournament.players << @player
+          tournament.save
+          flash[:success] = "Players added"
+        else
+          temp_arr << @player
+          # flash[:error] = "Player already in tournament"
+        end
+
       end
-      flash[:success] = "Players added"
+
+      if temp_arr.any?
+        names = []
+        for s in temp_arr
+          names << s.first_name + " " + s.last_name
+        end
+
+        s = ""
+
+        flash[:error] = "#{temp_arr.count} players were not added > #{names.to_sentence} "
+      end
       redirect_to tournament
     end
 
