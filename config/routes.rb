@@ -5,7 +5,11 @@ Brakkit::Application.routes.draw do
     resources :players
   end
 
-  resources :players
+  resources :players do
+    collection do
+      post 'trash'
+    end
+  end
 
   root to: 'tournaments#index'
 
