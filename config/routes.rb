@@ -1,13 +1,16 @@
 Brakkit::Application.routes.draw do
 
-
   resources :tournaments do
-    resources :players
+    resources :players do
+      collection do
+        post 'multiremove'
+      end
+    end
   end
 
   resources :players do
     collection do
-      post 'trash'
+      post 'multiadd'
     end
   end
 
@@ -23,6 +26,7 @@ Brakkit::Application.routes.draw do
   post '/players/:id/edit', to: 'players#edit'
   post '/tournaments/:id/players/:id/edit', to: 'players#edit'
   get '/tournaments/:id/start', to: 'tournaments#start_tournament', as: 'start_tournament'
+  get '/tournaments/:id/add_index/', to: 'players#add_index', as: 'add_index'
 
 
   # The priority is based upon order of creation:

@@ -5,7 +5,7 @@
 	<div class='btn create_btn'><%= link_to "New Tournament", new_tournament_url %></div>
 
 	<div class="detail">
-		<%= pluralize(Tournament.count, 'tournament') %> have been created so far.
+		<%= pluralize(Tournament.count, 'tournament has', 'tournaments have') %> been created so far.
 	</div>
 	<div class="divider"></div>
 
