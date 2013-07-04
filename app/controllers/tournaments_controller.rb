@@ -39,7 +39,7 @@ class TournamentsController < ApplicationController
   def start_tournament
 
     @tournament = Tournament.find(params[:id])
-    @players = @tournament.players
+
   end
 
 =begin
@@ -85,7 +85,37 @@ class TournamentsController < ApplicationController
 =end
 
   def winner
+    @tournament = Tournament.find(params[:id])
+    @match = Match.find(params['match-id'])
+    @player = Player.find(params['player-id'])
+    match_number = params['match-number'].to_i
 
+    if(match_number % 2 == 0)
+      next_match = match_number / 2
+    else
+      next_match = (match_number + 1) / 2
+    end
+
+    @match.winner_id = @player.id
+    @player.matches_won = @player.matches_won + 1
+    winner_name = "#{@player.first_name}" + " " + "#{@player.last_name}"
+    @match.save
+    @player.save
+
+    respond_to do |format|
+      format.js {
+        render nothing: true
+      }
+      format.json {
+        render json: {
+            player: @player,
+            match: @match,
+            winner_name: winner_name,
+            next_match: next_match
+        }
+      }
+
+    end
   end
 
 end

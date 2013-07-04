@@ -2,6 +2,9 @@ Brakkit::Application.routes.draw do
 
 
   resources :tournaments do
+    member do
+      post 'winner'
+    end
     resources :players
   end
 
@@ -24,6 +27,7 @@ Brakkit::Application.routes.draw do
   post '/tournaments/:id/players/:id/edit', to: 'players#edit'
   get '/tournaments/:id/start', to: 'tournaments#start_tournament', as: 'start_tournament'
 
+  #ajax routes
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

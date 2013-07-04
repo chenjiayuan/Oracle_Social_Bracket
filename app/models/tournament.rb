@@ -50,6 +50,8 @@ class Tournament < ActiveRecord::Base
         bro = bro / 2
       end
 
+      # self.save
+
     end
   end
 
