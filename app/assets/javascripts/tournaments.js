@@ -16,6 +16,17 @@ function update_start_page(event) {
         success: (function(data) {
             console.log(data);
             $('#match-' + el.data('match-id')).find('li').last().append(data.winner_name);
+
+            if(data.next_match_id != 0){
+                if(data.next_match_player == 1)
+                    $('#match-' + data.next_match_id).find('li').first().append(data.winner_name);
+                else
+                    $('#match-' + data.next_match_id).find('li').first().next().append(data.winner_name);
+            }
+            else{
+                $('#tournament-winner-' + data.tournament_id).append(data.winner_name);
+            }
+
         })
     });
 }

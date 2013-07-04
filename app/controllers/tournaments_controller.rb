@@ -89,6 +89,7 @@ class TournamentsController < ApplicationController
     @match = Match.find(params['match-id'])
     @player = Player.find(params['player-id'])
     match_number = params['match-number'].to_i
+    round = params['round-id'].to_i
 
     if(match_number % 2 == 0)
       next_match = match_number / 2
@@ -96,11 +97,38 @@ class TournamentsController < ApplicationController
       next_match = (match_number + 1) / 2
     end
 
+    if @tournament.matches.where(round: round + 1).any?
+      next_match_id = next_match + (@tournament.matches.where(round: 1).count) + @tournament.matches.first.id - 1
+    else
+      next_match_id = 0
+    end
+
+
     @match.winner_id = @player.id
     @player.matches_won = @player.matches_won + 1
     winner_name = "#{@player.first_name}" + " " + "#{@player.last_name}"
     @match.save
     @player.save
+
+    if next_match_id != 0
+
+      @next_match = Match.find(next_match_id)
+
+      if(@next_match.player1_id == 0)
+        @next_match.player1_id = @player.id
+        next_match_player = 1
+      else
+        @next_match.player2_id = @player.id
+        next_match_player = 2
+      end
+
+      @next_match.save
+
+    else
+      @tournament.winner_id = @player.id
+      @tournament.active = false
+      @tournament.save
+    end
 
     respond_to do |format|
       format.js {
@@ -110,8 +138,10 @@ class TournamentsController < ApplicationController
         render json: {
             player: @player,
             match: @match,
+            tournament_id: @tournament.id,
             winner_name: winner_name,
-            next_match: next_match
+            next_match_id: next_match_id,
+            next_match_player: next_match_player
         }
       }
 

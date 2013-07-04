@@ -6,6 +6,7 @@ class Tournament < ActiveRecord::Base
   has_many :players, through: :tournament_players
   has_many :tournament_players, dependent: :destroy
   has_many :matches
+  belongs_to :winner, class_name: Player, foreign_key: :winner_id
 
   def setup_matches
     if !self.matches.any? && self.players.any?

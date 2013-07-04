@@ -31,4 +31,6 @@
     <% end %>
 </ul>
 
+<h2 id="tournament-winner-<%= @tournament.id %>">Tournament Winner: <%= @tournament.winner_id != 0 ? "#{@tournament.winner.first_name}" + " " + "#{@tournament.winner.last_name}" : "" %></h2>
+
 
