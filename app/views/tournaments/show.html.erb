@@ -37,6 +37,10 @@
 
     <%= form_tag multiremove_tournament_players_path(@tournament) do %>
 
+    <% if @tournament.players.any? %>
+        <%= submit_tag "Remove Checked", class: "submit_btn remove" %>
+    <% end %>
+
     <table>
         <thead>
             <tr>
@@ -64,7 +68,4 @@
     </table>
 
     <%= hidden_field_tag "tournament_id", @tournament.id %>
-    <% if @tournament.players.any? %>
-        <%= submit_tag "Remove Checked", class: "submit_btn remove" %>
-    <% end %>
     <% end %>
