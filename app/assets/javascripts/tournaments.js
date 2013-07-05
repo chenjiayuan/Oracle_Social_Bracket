@@ -1,6 +1,7 @@
 $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
-    $('.winner-button').click(update_start_page);
+    $('#matches-list').on("click", ".winner-button", update_start_page);
+    //$('.winner-button').click(update_start_page);
 });
 
 function update_start_page(event) {
@@ -18,38 +19,39 @@ function update_start_page(event) {
             console.log(data);
             $('#match-' + el.data('match-id')).find('li').last().append(data.winner_name);
 
-            var li = $(this_button).closest('li');
+            var li = this_button.closest('li');
             li.addClass('match-winner');
-            //$("<div class='match-winner' type='text/css'>").prependTo(li);
-            //$("</div").appendTo(li);
-            $('<style>.newClass { background-color: greenyellow; }</style>').appendTo(li);
-
 
             if(el.data('player-number') == 1) {
                 li.next().addClass('match-loser');
-                //$("<style class='match-loser' type='text/css'> .MyClass{ color:#f00 !important; font-weight:bold !important;} </style>").appendTo("head");
             }
 
             else {
                 li.prev().addClass('match-loser');
             }
 
-            //var winner_button = '<button class="winner-button"' +
-              //  ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
-              //  '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
-              //  + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">Winner?</button>';
+            var winner_button = '<button class="winner-button"' +
+                ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
+                '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
+                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">Winner?</button>';
+
+            $('#match-' + el.data('match-id')).find('button').remove();
+
 
             if(data.next_match_id != 0){
                 if(data.next_match_player == 1) {
-                    $('#match-' + data.next_match_id).find('li').first().append(data.winner_name + " " + winner_button.click(update_start_page));
+                    $('#match-' + data.next_match_id).find('li').first().append(data.winner_name + " " + winner_button);
 
                 }
-                else
+                else{
                     $('#match-' + data.next_match_id).find('li').first().next().append(data.winner_name + " " + winner_button);
+                }
             }
             else{
                 $('#tournament-winner-' + data.tournament_id).append(data.winner_name);
             }
+
+            this_button.remove();
 
         })
     });

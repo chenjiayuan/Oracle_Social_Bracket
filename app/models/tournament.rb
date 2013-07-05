@@ -10,6 +10,8 @@ class Tournament < ActiveRecord::Base
 
   def setup_matches
     if !self.matches.any? && self.players.any?
+
+      self.active = true
       players = self.players
       players.sort! { |a, b| a.skill <=> b.skill }
       players_length = players.length
@@ -51,7 +53,7 @@ class Tournament < ActiveRecord::Base
         bro = bro / 2
       end
 
-      # self.save
+      self.save
 
     end
   end

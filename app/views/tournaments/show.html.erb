@@ -2,7 +2,19 @@
 <%= flash[:notice] %>
 
 <h2 class="title"><%= @tournament.name %></h2>
-<div class="btn start_btn"><%= link_to "Start Tournament", start_tournament_path(@tournament) %></div>
+
+<% if @tournament.winner_id == 0 %>
+    <div class="btn start_btn">
+        <% if !@tournament.active %>
+            <%= link_to "Start Tournament", start_tournament_path(@tournament), confirm: "Once the tournament is started, you cannot add any more players" %>
+        <% else %>
+            <%= link_to "Resume Tournament", start_tournament_path(@tournament) %>
+        <% end %>
+    </div>
+
+<% else %>
+    <div class="btn completed_btn"><%= link_to "Tournament Completed" %></div>
+<% end %>
 <div class="btn delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
 <ul class="detail">
     <li><%= @tournament.active ? "Active" : "Inactive"  %></li>
