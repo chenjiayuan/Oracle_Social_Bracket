@@ -11,25 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626182113) do
+ActiveRecord::Schema.define(:version => 20130704073438) do
 
   create_table "matches", :force => true do |t|
-    t.integer  "player1_id",      :default => 0
-    t.integer  "player2_id",      :default => 0
-    t.integer  "tournament_id",   :default => 0
-    t.integer  "winner_id",       :default => 0
-    t.integer  "round",           :default => 0
-    t.integer  "prev_player1_id", :default => 0
-    t.integer  "prev_player2_id", :default => 0
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-  end
-
-  create_table "player_matches", :force => true do |t|
-    t.integer  "player_id"
-    t.integer  "match_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "player1_id",    :default => 0
+    t.integer  "player2_id",    :default => 0
+    t.integer  "tournament_id", :default => 0
+    t.integer  "winner_id",     :default => 0
+    t.integer  "round",         :default => 0
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "players", :force => true do |t|
