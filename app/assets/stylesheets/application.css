@@ -284,6 +284,10 @@ td {
     color: #fff;
 }
 
+.remove {
+    float: right;
+}
+
 .add_existing {
     background: #70ae21;
 }
