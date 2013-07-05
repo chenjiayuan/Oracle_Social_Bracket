@@ -1,20 +1,3 @@
-<% provide(:title, "#{@player.first_name} #{@player.last_name}") %>
-
-<h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
-<% if @tournament %>
-   <div class="btn remove_btn"><%= link_to "Remove Player from #{@tournament.name}", tournament_player_path(@tournament, @player), method: :delete %></div>
-<% end %>
-<div class="btn edit_btn"><%= link_to "Edit Player", @tournament ? edit_tournament_player_path(@tournament, @player ) : edit_player_path(@player) %></div>
-<div class="btn delete_btn"><%= link_to "Delete Player", @player, confirm: "Did you really mean to delete this player?", method: :delete %></div>
-<ul class="detail">
-	<li><%= @player.email %></li>
-	<li>Skill: <%= @player.skill %></li>
-	<li>Matches Won: <%= @player.matches_won %></li>
-</ul>
-<div class="divider"></div>
-
-<h3 class="subtitle">Tournaments</h3>
-
 <table>
     <thead>
     <tr>
@@ -24,9 +7,9 @@
         <th>Winner</th>
     </tr>
     </thead>
-    <% if @player_tournaments.any? %>
+    <% if Tournament.any? %>
         <tbody>
-        <% @player_tournaments.order("created_at DESC").each do |t| %>
+        <% @tournaments.order("created_at DESC").each do |t| %>
             <tr>
                 <td><%= link_to t.name, tournament_path(t) %></td>
                 <td><%= t.players.count %></td>
@@ -50,4 +33,3 @@
         </tbody>
     <% end %>
 </table>
-

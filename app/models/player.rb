@@ -12,4 +12,5 @@ class Player < ActiveRecord::Base
 
   has_many :tournaments, through: :tournament_players
   has_many :tournament_players, dependent: :destroy
+
 end

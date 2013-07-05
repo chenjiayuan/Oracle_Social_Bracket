@@ -118,6 +118,8 @@ end
 
     @player = Player.find(params[:id])
 
+    @player_tournaments = @player.tournaments
+
   end
 
   def edit
