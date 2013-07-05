@@ -98,7 +98,8 @@ class TournamentsController < ApplicationController
     end
 
     if @tournament.matches.where(round: round + 1).any?
-      next_match_id = next_match + (@tournament.matches.where(round: 1).count) + @tournament.matches.first.id - 1
+      next_match_number = next_match + (@tournament.matches.where(round: 1).count)
+      next_match_id = next_match_number + @tournament.matches.first.id - 1
     else
       next_match_id = 0
     end
@@ -141,7 +142,8 @@ class TournamentsController < ApplicationController
             tournament_id: @tournament.id,
             winner_name: winner_name,
             next_match_id: next_match_id,
-            next_match_player: next_match_player
+            next_match_player: next_match_player,
+            next_match_number: next_match_number
         }
       }
 

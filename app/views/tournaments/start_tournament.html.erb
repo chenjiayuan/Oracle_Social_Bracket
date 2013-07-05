@@ -13,11 +13,13 @@
             <% p2 = m.player2 if m.player2_id != 0 %>
             <li>Player 1 : <%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %>
                 <% if p1 %>
-                    <button class="winner-button" data-match-id="<%= m.id %>" data-player-id="<%= p1.id if p1%>" data-round-id="<%= m.round %>" data-match-number="<%= match_number %>">Winner?</button></li>
+                    <button class="winner-button" data-match-id="<%= m.id %>" data-player-id="<%= p1.id if p1%>" data-round-id="<%= m.round %>"
+                            data-match-number="<%= match_number %>" data-player-number="1">Winner?</button></li>
                 <% end %>
             <li>Player 2 : <%= p2 ? "#{p2.first_name} #{p2.last_name}" : ""  %>
                 <% if p2 %>
-                    <button class="winner-button" data-match-id="<%= m.id %>" data-player-id="<%= p2.id if p2%>" data-round-id="<%= m.round %>" data-match-number="<%= match_number %>">Winner?</button></li>
+                    <button class="winner-button" data-match-id="<%= m.id %>" data-player-id="<%= p2.id if p2%>" data-round-id="<%= m.round %>"
+                            data-match-number="<%= match_number %>" data-player-number="2">Winner?</button></li>
                 <% end %>
             <li>Round <%= m.round %></li>
             <% winner_id = m.winner_id %>
