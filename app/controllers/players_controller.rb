@@ -1,3 +1,5 @@
+include ActionView::Helpers::TextHelper
+
 class PlayersController < ApplicationController
 
   def index
@@ -153,7 +155,7 @@ end
     end
   end
 
-  def trash
+  def multiadd
 
     if params[:tournament_id]
       # Rails.logger.debug "#{eval(params[:tournament_id]).class.inspect}"
@@ -164,41 +166,56 @@ end
     end
 
     if tournament
-      temp_arr = []
-      params[:player_ids].each do |id|
-        @player = Player.find(id)
-        if !tournament.tournament_players.where(player_id: id).any?
+      if params[:player_ids]
+        params[:player_ids].each do |id|
           @player = Player.find(id)
-          tournament.players << @player
-          tournament.save
-          flash[:success] = "Players added"
-        else
-          temp_arr << @player
-          # flash[:error] = "Player already in tournament"
+          if !tournament.tournament_players.where(player_id: id).any?
+            @player = Player.find(id)
+            tournament.players << @player
+            tournament.save
+          end
         end
-
+        flash[:success] = "#{pluralize(params[:player_ids].count, "player was", "players were")} added."
+        redirect_to tournament
+      else
+        flash[:error] = "No players were added."
+        redirect_to tournament
       end
+    end
+    
+  end
 
-      if temp_arr.any?
-        names = []
-        for s in temp_arr
-          names << s.first_name + " " + s.last_name
-        end
+  def multiremove
 
-        s = ""
-
-        flash[:error] = "#{temp_arr.count} players were not added > #{names.to_sentence} "
-      end
-      redirect_to tournament
+    if params[:tournament_id]
+      # Rails.logger.debug "#{eval(params[:tournament_id]).class.inspect}"
+      temp = eval(params[:tournament_id])
+      tournament = Tournament.find(temp)
+      # Rails.logger.debug "#{params[:tournament_id].class.inspect}"
     end
 
-    #Player.destroy(params[:player_ids])
-
-    #respond_to do |format|
-    #  format.html { redirect_to players_path }
-    #  format.json { head :no_content }
-    #end
+    if tournament && params[:player_ids]
+      params[:player_ids].each do |id|
+        tournament.tournament_players.where(player_id: id).destroy_all
+      end
+      flash[:success] = "#{pluralize(params[:player_ids].count, "player was", "players were")} removed."
+      redirect_to tournament
+    else
+      flash[:error] = "No player(s) selected to remove."
+      redirect_to tournament
+    end
     
+  end
+
+  def add_index
+
+    @tournament = Tournament.find(params[:id])
+    if @tournament.players.empty?
+      @players = Player.paginate(page: params[:page], per_page: 15)
+    else
+      @players = Player.where("id NOT IN (?)", @tournament.players).paginate(page: params[:page], per_page: 15)
+    end
+
   end
 
 

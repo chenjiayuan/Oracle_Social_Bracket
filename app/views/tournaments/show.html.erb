@@ -20,12 +20,15 @@
 
 
     <h3 class="subtitle">Players</h3>
-    <div class="btn create_btn"> <%= link_to "Add Existing Players", tournament_players_path(@tournament) %></div>
-    <div class="btn create_btn"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div>
+    <div class="btn"> <%= link_to "Add New Player", new_tournament_player_path(@tournament) %></div>
+    <div class="btn"> <%= link_to "Add Existing Players", add_index_path(@tournament) %></div>
+
+    <%= form_tag multiremove_tournament_players_path(@tournament) do %>
 
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Skill Level</th>
@@ -37,6 +40,7 @@
                 <% @tournament.players.order("created_at DESC").each do |p| %>
                 <tr>
                     <% temp = "#{p.first_name} #{p.last_name}" %>
+                    <td><%= check_box_tag "player_ids[]", p.id %></td>
                     <td><%= link_to "#{temp}", tournament_player_path(@tournament, p) %></td>
                     <td><%= p.email %></td>
                     <td><%= p.skill %></td>
@@ -46,3 +50,9 @@
             <% end %>
         </tbody>
     </table>
+
+    <%= hidden_field_tag "tournament_id", @tournament.id %>
+    <% if @tournament.players.any? %>
+        <%= submit_tag "Remove Checked", class: "submit_btn remove" %>
+    <% end %>
+    <% end %>
