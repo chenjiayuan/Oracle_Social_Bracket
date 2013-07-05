@@ -34,10 +34,10 @@ function update_start_page(event) {
                 li.prev().addClass('match-loser');
             }
 
-            var winner_button = '<button class="winner-button"' +
-                ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
-                '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
-                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">Winner?</button>';
+            //var winner_button = '<button class="winner-button"' +
+              //  ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
+              //  '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
+              //  + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">Winner?</button>';
 
             if(data.next_match_id != 0){
                 if(data.next_match_player == 1) {
