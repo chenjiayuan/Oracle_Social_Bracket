@@ -5,7 +5,8 @@ class TournamentsController < ApplicationController
   end
 
   def index
-    @tournaments = Tournament.paginate(page: params[:page], per_page: 5)
+    @tournament = Tournament.new
+    @tournaments = Tournament.paginate(page: params[:page], per_page: 5).order("created_at DESC")
   end
 
   def show
@@ -132,9 +133,6 @@ class TournamentsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js {
-        render nothing: true
-      }
       format.json {
         render json: {
             player: @player,

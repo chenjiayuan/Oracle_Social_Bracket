@@ -1,6 +1,10 @@
 $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
     $('#matches-list').on("click", ".winner-button", update_start_page);
+
+    $('.create_btn').click(tour_form_show);
+    $('.cancel_btn').click(tour_form_hide);
+    $('#dialog-form').submit(send_tournament_form);
     //$('.winner-button').click(update_start_page);
 });
 
@@ -52,6 +56,47 @@ function update_start_page(event) {
             }
 
             this_button.remove();
+
+        })
+    });
+}
+
+
+function tour_form_show(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    //$('.create_form').slideToggle();
+    $('.create_btn').fadeToggle("fast", function() {
+        $('.create_form_tournament').fadeToggle("fast");
+    });
+
+    $('.create_btn').sub
+    //$('#dialog-form').show('slide', {direction: 'left'}, 1000);
+}
+
+
+function tour_form_hide(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    $('.create_form_tournament').fadeToggle("fast", function() {
+        $(this).closest('form').find("input[type=text], textarea").val("");
+        $('.create_btn').fadeToggle("fast");
+    });
+}
+
+function send_tournament_form(event) {
+    //alert('hi');
+    event.preventDefault();
+
+    $.ajax({
+        type: 'POST',
+        data: {},
+        url: 'create',
+        dataType: "JSON",
+        success: (function(data) {
+
+        }),
+        failure: (function(data) {
 
         })
     });

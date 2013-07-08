@@ -3,6 +3,7 @@ Brakkit::Application.routes.draw do
   resources :tournaments do
     member do
       post 'winner'
+      post 'create'
     end
     resources :players do
       collection do

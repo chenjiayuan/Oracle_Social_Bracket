@@ -13,4 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
+//= require jquery.pjax
 //= require_tree .
+
+
+$(document).ready(function() {
+    $(this).pjax('a:not(.nopjax)', '#container');
+});

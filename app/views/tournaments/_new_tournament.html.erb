@@ -1,0 +1,11 @@
+<div class="create_form_tournament">
+    <%= form_for @tournament, html: { id: 'dialog-form' }, remote: true do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <ul>
+            <li><span>Tournament Name</span></li>
+            <li class="create_tournament_text_field"><%= f.text_field :name, autofocus: true %></li>
+            <li><%= f.submit "Create Tournament" %></li>
+            <li class="cancel_btn"><%= button_tag "Cancel" %></li>
+        </ul>
+    <% end %>
+</div>

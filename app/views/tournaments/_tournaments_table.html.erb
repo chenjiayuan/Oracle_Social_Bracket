@@ -9,7 +9,7 @@
     </thead>
     <% if Tournament.any? %>
         <tbody>
-        <% @tournaments.order("created_at DESC").each do |t| %>
+        <% @tournaments.each do |t| %>
             <tr>
                 <td><%= link_to t.name, tournament_path(t) %></td>
                 <td><%= t.players.count %></td>
