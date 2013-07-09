@@ -2,9 +2,10 @@ $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
     $('#matches-list').on("click", ".winner-button", update_start_page);
 
-    $('.create_btn').click(tour_form_show);
-    $('.cancel_btn').click(tour_form_hide);
-    $('#dialog-form').submit(send_tournament_form);
+    $('#container').on("click", ".create_btn", tour_form_show);
+    $('#container').on("click", ".cancel_btn", tour_form_hide);
+
+    $('#container').on("submit", "#dialog-form", send_tournament_form);
     //$('.winner-button').click(update_start_page);
 });
 
@@ -70,8 +71,9 @@ function tour_form_show(event) {
         $('.create_form_tournament').fadeToggle("fast");
     });
 
-    $('.create_btn').sub
+    //$('.create_btn').sub
     //$('#dialog-form').show('slide', {direction: 'left'}, 1000);
+    //return false;
 }
 
 
@@ -87,21 +89,52 @@ function tour_form_hide(event) {
 function send_tournament_form(event) {
     //alert('hi');
     event.preventDefault();
+    var value = $('#tournament_name').val();
+    var el = event.currentTarget;
+
+    $.pjax({url: '/tournaments?page=1', container: '#container'});
 
     $.ajax({
         type: 'POST',
-        data: {},
-        url: 'create',
+        data: { name: value },
+        url: 'tournaments/add_new_tournament',
         dataType: "JSON",
         success: (function(data) {
+            console.log(data);
+            var repaginate = false
 
+            if($('tbody tr').length == 5)
+                repaginate = true;
+
+            $('tbody').prepend("<tr data-tournament-id=" + data.tournament.id + ">" +
+
+                               "<td><a href='/tournaments/'" + data.tournament.id + ">" + data.tournament.name + "</td>" +
+                               "<td>0</td>" +
+                               "<td>Inactive</td>" +
+                               "<td></td>" +
+                               "</tr>");
+            //$('tbody tr').fadeIn();
+
+            if(repaginate)
+                $('tbody tr').last().remove();
         }),
-        failure: (function(data) {
+        error: (function(xhr, textStatus, errorThrown) {
+            console.log(xhr);
+            console.log(textStatus);
+            console.log(errorThrown);
 
+            //alert(xhr.responseText);
+
+
+            //createDialog('hi', 'there', {show: 'blind', hide: 'explode'});
+            //$('#tournament-error-dialog').remove();
         })
     });
 }
 
+function createDialog(title, text, options) {
+    return $("<div id='tournament-error-dialog' title='" + title + "'><p>" + text + "</p></div>").dialog(options);
+}
 
 
 /*

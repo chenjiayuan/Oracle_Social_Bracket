@@ -148,4 +148,23 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def add_new_tournament
+
+    @tournament = Tournament.new(name: params['name'])
+
+    respond_to do |format|
+      format.json {
+        if @tournament.save
+          render json: {
+              tournament: @tournament,
+          }
+        else
+          render json: @tournament.errors, status: :forbidden
+        end
+
+      }
+
+    end
+  end
+
 end
