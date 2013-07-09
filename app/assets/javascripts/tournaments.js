@@ -1,6 +1,13 @@
 $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
-    $('#matches-list').on("click", ".winner-button", update_start_page);
+    // var variable_position = 0;
+    // $('.round').each(function(){
+    //   $(this).css('margin', variable_position + 'em 0 0 0');
+    //   variable_position += 2.7;
+    // });
+    $('.round').css({'height':($('.round').height()+'px')});
+
+    $('.matches-list').on("click", ".winner_btn", update_start_page);
     //$('.winner-button').click(update_start_page);
 });
 
@@ -17,34 +24,36 @@ function update_start_page(event) {
         dataType: "JSON",
         success: (function(data) {
             console.log(data);
-            $('#match-' + el.data('match-id')).find('li').last().append(data.winner_name);
+            //$('#match-' + el.data('match-id')).find('li').last().append(data.winner_name);
 
             var li = this_button.closest('li');
+            li.append(data.winner_name);
             li.addClass('match-winner');
 
             if(el.data('player-number') == 1) {
+                li.next().append(data.loser_name);
                 li.next().addClass('match-loser');
             }
-
             else {
+                li.prev().append(data.loser_name);
                 li.prev().addClass('match-loser');
             }
 
-            var winner_button = '<button class="winner-button"' +
+            var winner_button = '<button class="winner_btn"' +
                 ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
                 '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
-                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">Winner?</button>';
+                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">' + data.winner_name + '</button>';
 
             $('#match-' + el.data('match-id')).find('button').remove();
 
 
             if(data.next_match_id != 0){
                 if(data.next_match_player == 1) {
-                    $('#match-' + data.next_match_id).find('li').first().append(data.winner_name + " " + winner_button);
+                    $('#match-' + data.next_match_id).find('li').first().append(winner_button);
 
                 }
                 else{
-                    $('#match-' + data.next_match_id).find('li').first().next().append(data.winner_name + " " + winner_button);
+                    $('#match-' + data.next_match_id).find('li').first().next().append(winner_button);
                 }
             }
             else{
