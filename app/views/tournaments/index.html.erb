@@ -2,18 +2,18 @@
 
 <body>
 	<h2 class="title">Tournaments</h2>
-	<div class='btn create_btn'><%= link_to "New Tournament", new_tournament_url %></div>
+	<div class='btn create_btn' id='new_tournament_container'><%= link_to "New Tournament", new_tournament_url, class: 'nopjax' %></div>
+    <%= render 'new_tournament' %>
 
-	<div class="detail">
+    <div class="detail">
 		<%= pluralize(Tournament.count, 'tournament has', 'tournaments have') %> been created so far.
 	</div>
 	<div class="divider"></div>
 
-    <%= will_paginate %>
+    <%= will_paginate @tournaments %>
 
     <%= render 'tournaments_table' %>
 
-    <%= will_paginate %>
 
 </body>
 

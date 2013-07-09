@@ -2,7 +2,10 @@ include ActionView::Helpers::TextHelper
 
 class PlayersController < ApplicationController
 
+  # after_filter :render_pjax, :except => [:create, :destroy]
+
   def index
+
     @players = Player.paginate(page: params[:page], per_page: 15)
 
     if params[:tournament_id]

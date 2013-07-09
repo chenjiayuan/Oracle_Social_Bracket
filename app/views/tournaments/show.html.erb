@@ -6,9 +6,9 @@
 <% if @tournament.winner_id == 0 %>
     <div class="btn start_btn">
         <% if !@tournament.active %>
-            <%= link_to "Start Tournament", start_tournament_path(@tournament), confirm: "Once the tournament is started, you cannot add any more players" %>
+            <%= link_to "Start Tournament", start_tournament_path(@tournament), class: 'nopjax', confirm: "Once the tournament is started, you cannot add any more players" %>
         <% else %>
-            <%= link_to "Resume Tournament", start_tournament_path(@tournament) %>
+            <%= link_to "Resume Tournament",  start_tournament_path(@tournament), class: 'nopjax' %>
         <% end %>
     </div>
 

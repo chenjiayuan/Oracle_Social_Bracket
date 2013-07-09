@@ -9,8 +9,8 @@
     </thead>
     <% if Tournament.any? %>
         <tbody>
-        <% @tournaments.order("created_at DESC").each do |t| %>
-            <tr>
+        <% @tournaments.each do |t| %>
+            <tr data-tournament-id="<%= t.id %>">
                 <td><%= link_to t.name, tournament_path(t) %></td>
                 <td><%= t.players.count %></td>
                 <% temp_id = t.winner_id %>

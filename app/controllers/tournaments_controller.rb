@@ -5,7 +5,8 @@ class TournamentsController < ApplicationController
   end
 
   def index
-    @tournaments = Tournament.paginate(page: params[:page], per_page: 5)
+    @tournament = Tournament.new
+    @tournaments = Tournament.paginate(page: params[:page], per_page: 5).order("created_at DESC")
   end
 
   def show
@@ -141,9 +142,6 @@ class TournamentsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js {
-        render nothing: true
-      }
       format.json {
         render json: {
             player: @player,
@@ -155,6 +153,25 @@ class TournamentsController < ApplicationController
             next_match_player: next_match_player,
             next_match_number: next_match_number
         }
+      }
+
+    end
+  end
+
+  def add_new_tournament
+
+    @tournament = Tournament.new(name: params['name'])
+
+    respond_to do |format|
+      format.json {
+        if @tournament.save
+          render json: {
+              tournament: @tournament,
+          }
+        else
+          render json: @tournament.errors, status: :forbidden
+        end
+
       }
 
     end
