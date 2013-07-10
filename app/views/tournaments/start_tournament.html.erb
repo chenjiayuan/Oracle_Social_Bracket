@@ -2,9 +2,21 @@
 
 <% @tournament.setup_matches %>
 
-<h1>Matches</h1>
+<h2 class="title"><%= @tournament.name %></h2>
 
-<h3 id="tournament-winner-<%= @tournament.id %>">Tournament Winner: <%= @tournament.winner_id != 0 ? "#{@tournament.winner.first_name}" + " " + "#{@tournament.winner.last_name}" : "" %></h3>
+<ul class="detail">
+    <li><%= pluralize(@tournament.players.count, "player") %></li>
+    <li>
+        <% temp_id = @tournament.winner_id %>
+        <% if temp_id != 0 %>
+            <% p = Player.find(temp_id) %>
+                Winner: <%= p.first_name %> <%= p.last_name %>
+        <% else %>
+            There is no winner yet.
+        <% end %>
+    </li>
+</ul>
+<div class="divider"></div>
 
 <% match_number = 1 %>
 <% cur_round = 0 %>
