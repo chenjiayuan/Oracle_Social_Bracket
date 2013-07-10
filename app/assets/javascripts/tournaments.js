@@ -1,6 +1,11 @@
 $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
     $('#matches-list').on("click", ".winner-button", update_start_page);
+
+    $('#container').on("click", ".create_btn", tour_form_show);
+    $('#container').on("click", ".cancel_btn", tour_form_hide);
+
+    $('#container').on("submit", "#dialog-form", send_tournament_form);
     //$('.winner-button').click(update_start_page);
 });
 
@@ -58,32 +63,117 @@ function update_start_page(event) {
 }
 
 
+function tour_form_show(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    //$('.create_form').slideToggle();
+    $('.create_btn').fadeToggle("fast", function() {
+        $('.create_form_tournament').fadeToggle("fast");
+    });
 
-/*
-function showForm() {
-    $('#dialog-form').submit(function(event) {
-        event.preventDefault();
-        var f = $(this);
-        f.find('.ajax_message').html('Working...');
-        f.find('input[type="submit"]').attr('disabled', true);
-        $.ajax({
-            url:  f.attr('action'),
-            type: f.attr('method'),
-            dataType: "html",
-            data: f.serialize(),
-            complete: function() {
-                f.find('.ajax_message').html('&nbsp;');
-                f.find('input[type="submit"]').attr('disabled', false);
-            },
-            success: function(data, textStatus, xhr) {
-                $('#tournaments').append(data);
-                f.find('input[type="text"], textarea').val('');
-            },
-            error: function() {
-                alert("Please enter a tournament name.");
-            }
-        });
+    //$('.create_btn').sub
+    //$('#dialog-form').show('slide', {direction: 'left'}, 1000);
+    //return false;
+}
+
+function tour_form_hide(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    $('.create_form_tournament').fadeToggle("fast", function() {
+        $(this).closest('form').find("input[type=text], textarea").val("");
+        $('.create_btn').fadeToggle("fast");
     });
 }
-*/
 
+function send_tournament_form(event) {
+    //alert('hi');
+    event.preventDefault();
+    var value = $('#tournament_name').val();
+    var el = event.currentTarget;
+
+    $.pjax({url: '/tournaments?page=1', container: '#container'});
+
+    $.ajax({
+        type: 'POST',
+        data: { name: value },
+        url: 'tournaments/add_new_tournament',
+        dataType: "JSON",
+        success: (function(data) {
+            console.log(data);
+            var repaginate = false;
+
+            if($('tbody tr').length == 5)
+                repaginate = true;
+
+            var new_row = $("<tr data-tournament-id=" + data.tournament.id + ">" +
+
+                "<td><a href='/tournaments/'" + data.tournament.id + ">" + data.tournament.name + "</td>" +
+                "<td>0</td>" +
+                "<td>Inactive</td>" +
+                "<td></td>" +
+                "</tr>");
+
+            $('tbody').prepend(new_row.hide().fadeIn());
+
+            new_row.effect('highlight', {color: 'green'});
+
+            //new_row.addClass('new-tournament-added');
+            //new_row.removeClass('new-tournament-added');
+            //$('#data-tournament-').first().fadeIn();
+
+            if(repaginate)
+                $('tbody tr').last().remove();
+        }),
+        error: (function(xhr, textStatus, errorThrown) {
+            console.log(xhr);
+            console.log(textStatus);
+            console.log(errorThrown);
+
+            var errors = "ERRORS -> \n";
+
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+
+            alert(errors);
+
+            tour_form_show(event);
+
+            //createDialog('hi', 'there', {show: 'blind', hide: 'explode'});
+            //$('#tournament-error-dialog').remove();
+        })
+    });
+}
+
+function createDialog(title, text, options) {
+    return $("<div id='tournament-error-dialog' title='" + title + "'><p>" + text + "</p></div>").dialog(options);
+}
+
+
+/*
+ function showForm() {
+ $('#dialog-form').submit(function(event) {
+ event.preventDefault();
+ var f = $(this);
+ f.find('.ajax_message').html('Working...');
+ f.find('input[type="submit"]').attr('disabled', true);
+ $.ajax({
+ url:  f.attr('action'),
+ type: f.attr('method'),
+ dataType: "html",
+ data: f.serialize(),
+ complete: function() {
+ f.find('.ajax_message').html('&nbsp;');
+ f.find('input[type="submit"]').attr('disabled', false);
+ },
+ success: function(data, textStatus, xhr) {
+ $('#tournaments').append(data);
+ f.find('input[type="text"], textarea').val('');
+ },
+ error: function() {
+ alert("Please enter a tournament name.");
+ }
+ });
+ });
+ }
+ */

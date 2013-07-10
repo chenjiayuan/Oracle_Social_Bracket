@@ -5,7 +5,8 @@ class TournamentsController < ApplicationController
   end
 
   def index
-    @tournaments = Tournament.paginate(page: params[:page], per_page: 5)
+    @tournament = Tournament.new
+    @tournaments = Tournament.paginate(page: params[:page], per_page: 5).order("created_at DESC")
   end
 
   def show
@@ -39,6 +40,7 @@ class TournamentsController < ApplicationController
   def start_tournament
 
     @tournament = Tournament.find(params[:id])
+    @matches = @tournament.matches
 
   end
 
@@ -91,6 +93,14 @@ class TournamentsController < ApplicationController
     match_number = params['match-number'].to_i
     round = params['round-id'].to_i
 
+    if(@match.player1_id == @player.id)
+      @loser = @match.player2
+    else
+      @loser = @match.player1
+    end
+
+    loser_name = "#{@loser.first_name} #{@loser.last_name}"
+
     if(match_number % 2 == 0)
       next_match = match_number / 2
     else
@@ -132,19 +142,36 @@ class TournamentsController < ApplicationController
     end
 
     respond_to do |format|
-      format.js {
-        render nothing: true
-      }
       format.json {
         render json: {
             player: @player,
             match: @match,
             tournament_id: @tournament.id,
             winner_name: winner_name,
+            loser_name: loser_name,
             next_match_id: next_match_id,
             next_match_player: next_match_player,
             next_match_number: next_match_number
         }
+      }
+
+    end
+  end
+
+  def add_new_tournament
+
+    @tournament = Tournament.new(name: params['name'])
+
+    respond_to do |format|
+      format.json {
+        if @tournament.save
+          render json: {
+              tournament: @tournament,
+          }
+        else
+          render json: @tournament.errors, status: :forbidden
+        end
+
       }
 
     end

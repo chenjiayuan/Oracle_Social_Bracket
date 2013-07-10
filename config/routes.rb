@@ -1,9 +1,14 @@
 Brakkit::Application.routes.draw do
 
+
   resources :tournaments do
     member do
       post 'winner'
     end
+    collection do
+      post 'add_new_tournament'
+    end
+
     resources :players do
       collection do
         post 'multiremove'

@@ -43,6 +43,7 @@ body {
     background: #f3f3f3;
     padding: 70px 2% 40px;
     z-index: 1;
+    overflow: hidden;
 }
 
 #container h3 {
@@ -228,7 +229,7 @@ td {
     margin: 0 0 10px 0;
 }
 
-.btn a, .create_form input[type="submit"] {
+.btn a, .create_form_tournament input[type="submit"] {
     display: block;
     height: auto;
     width: auto;
@@ -244,7 +245,7 @@ td {
     color: #fff;
 }
 
-.btn a:hover, .create_form input[type="submit"]:hover, .submit_btn:hover {
+.btn a:hover, .create_form_tournament input[type="submit"]:hover, .submit_btn:hover {
     opacity: 0.70;
 }
 
@@ -288,6 +289,10 @@ td {
     color: #fff;
 }
 
+.remove {
+    float: right;
+}
+
 .add_existing {
     background: #70ae21;
 }
@@ -301,19 +306,25 @@ td {
     border: 1px solid #666;
 }
 
-.create_form span {
+.create_form_tournament span {
     font-size: 0.95em;
     font-weight: 700;
 }
 
-.create_form input[type="text"], .create_form input[type="email"], .create_form select {
+.create_form_tournament input[type="text"], .create_form_tournament input[type="email"], .create_form_tournament select {
     margin: 0.5em 0 0.7em 0;
 }
 
-.create_form input[type="submit"] {
+.create_form_tournament input[type="submit"] {
     margin: 1em 0 0 0;
     padding: 0.6em;
-    float: none;
+    float: right;
+}
+
+.create_form_tournament {
+  display: none;
+  clear: right;
+  float: right;
 }
 
 .pagination {

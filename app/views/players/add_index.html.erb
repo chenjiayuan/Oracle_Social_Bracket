@@ -1,6 +1,19 @@
+<% provide(:title, "Add Existing Players") %>
+
+<body>
+    <h2 class="title">Add Existing Players</h2>
+
+<div class="detail">
+    <h4><%= "#{@tournament.name}"%></h4>
+    <p><%= pluralize(@players.count, 'player has', 'players have') %> not been added to this tournament yet.</p>
+</div>
+<div class="divider"></div>
+
 <%= will_paginate %>
 
 <%= form_tag multiadd_players_path do %>
+
+<%= submit_tag "Add Checked", class: "submit_btn add_existing" %>
 
 <table>
     <thead>
@@ -30,7 +43,8 @@
     <% end %>
 </table>
 <%= hidden_field_tag "tournament_id", @tournament.id %>
-<%= submit_tag "Add Checked", class: "submit_btn add_existing" %>
 <% end %>
 
 <%= will_paginate %>
+
+</body>
