@@ -1,9 +1,6 @@
 $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
-
-    $('.round').css({'height':($('.round-1').height()+'px')});
-
-    $('.matches-list').on("click", ".winner_btn", update_start_page);
+    $('#matches-list').on("click", ".winner-button", update_start_page);
 
     $('#container').on("click", ".create_btn", tour_form_show);
     $('#container').on("click", ".cancel_btn", tour_form_hide);
@@ -25,36 +22,34 @@ function update_start_page(event) {
         dataType: "JSON",
         success: (function(data) {
             console.log(data);
-            //$('#match-' + el.data('match-id')).find('li').last().append(data.winner_name);
+            $('#match-' + el.data('match-id')).find('li').last().append(data.winner_name);
 
             var li = this_button.closest('li');
-            li.append(data.winner_name);
             li.addClass('match-winner');
 
             if(el.data('player-number') == 1) {
-                li.next().append(data.loser_name);
                 li.next().addClass('match-loser');
             }
+
             else {
-                li.prev().append(data.loser_name);
                 li.prev().addClass('match-loser');
             }
 
-            var winner_button = '<button class="winner_btn"' +
+            var winner_button = '<button class="winner-button"' +
                 ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
                 '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
-                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">' + data.winner_name + '</button>';
+                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">Winner?</button>';
 
             $('#match-' + el.data('match-id')).find('button').remove();
 
 
             if(data.next_match_id != 0){
                 if(data.next_match_player == 1) {
-                    $('#match-' + data.next_match_id).find('li').first().append(winner_button);
+                    $('#match-' + data.next_match_id).find('li').first().append(data.winner_name + " " + winner_button);
 
                 }
                 else{
-                    $('#match-' + data.next_match_id).find('li').first().next().append(winner_button);
+                    $('#match-' + data.next_match_id).find('li').first().next().append(data.winner_name + " " + winner_button);
                 }
             }
             else{
@@ -106,19 +101,26 @@ function send_tournament_form(event) {
         dataType: "JSON",
         success: (function(data) {
             console.log(data);
-            var repaginate = false
+            var repaginate = false;
 
             if($('tbody tr').length == 5)
                 repaginate = true;
 
-            $('tbody').prepend("<tr data-tournament-id=" + data.tournament.id + ">" +
+            var new_row = $("<tr data-tournament-id=" + data.tournament.id + ">" +
 
-                               "<td><a href='/tournaments/'" + data.tournament.id + ">" + data.tournament.name + "</td>" +
-                               "<td>0</td>" +
-                               "<td>Inactive</td>" +
-                               "<td></td>" +
-                               "</tr>");
-            //$('tbody tr').fadeIn();
+                "<td><a href='/tournaments/'" + data.tournament.id + ">" + data.tournament.name + "</td>" +
+                "<td>0</td>" +
+                "<td>Inactive</td>" +
+                "<td></td>" +
+                "</tr>");
+
+            $('tbody').prepend(new_row.hide().fadeIn());
+
+            new_row.effect('highlight', {color: 'green'});
+
+            //new_row.addClass('new-tournament-added');
+            //new_row.removeClass('new-tournament-added');
+            //$('#data-tournament-').first().fadeIn();
 
             if(repaginate)
                 $('tbody tr').last().remove();
@@ -128,7 +130,7 @@ function send_tournament_form(event) {
             console.log(textStatus);
             console.log(errorThrown);
 
-            //alert(xhr.responseText);
+            alert(xhr.responseText);
 
 
             //createDialog('hi', 'there', {show: 'blind', hide: 'explode'});
@@ -143,30 +145,29 @@ function createDialog(title, text, options) {
 
 
 /*
-function showForm() {
-    $('#dialog-form').submit(function(event) {
-        event.preventDefault();
-        var f = $(this);
-        f.find('.ajax_message').html('Working...');
-        f.find('input[type="submit"]').attr('disabled', true);
-        $.ajax({
-            url:  f.attr('action'),
-            type: f.attr('method'),
-            dataType: "html",
-            data: f.serialize(),
-            complete: function() {
-                f.find('.ajax_message').html('&nbsp;');
-                f.find('input[type="submit"]').attr('disabled', false);
-            },
-            success: function(data, textStatus, xhr) {
-                $('#tournaments').append(data);
-                f.find('input[type="text"], textarea').val('');
-            },
-            error: function() {
-                alert("Please enter a tournament name.");
-            }
-        });
-    });
-}
-*/
-
+ function showForm() {
+ $('#dialog-form').submit(function(event) {
+ event.preventDefault();
+ var f = $(this);
+ f.find('.ajax_message').html('Working...');
+ f.find('input[type="submit"]').attr('disabled', true);
+ $.ajax({
+ url:  f.attr('action'),
+ type: f.attr('method'),
+ dataType: "html",
+ data: f.serialize(),
+ complete: function() {
+ f.find('.ajax_message').html('&nbsp;');
+ f.find('input[type="submit"]').attr('disabled', false);
+ },
+ success: function(data, textStatus, xhr) {
+ $('#tournaments').append(data);
+ f.find('input[type="text"], textarea').val('');
+ },
+ error: function() {
+ alert("Please enter a tournament name.");
+ }
+ });
+ });
+ }
+ */
