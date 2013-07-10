@@ -1,5 +1,7 @@
 $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
+    $('.round').css({'height':($('.round-1').height()+'px')});
+
     $('#matches-list').on("click", ".winner-button", update_start_page);
 
     $('#container').on("click", "#new_tournament_btn", tour_form_show);

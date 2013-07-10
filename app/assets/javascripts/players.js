@@ -1,6 +1,6 @@
 $(document).ready(function (){
     $('#container').on("click", "#new_player_btn", player_form_show);
-    $('#container').on("click", "#player_cancel_btn", player_form_hide);
+    //$('#container').on("click", "#player_cancel_btn", player_form_hide);
     $('#container').on("submit", "#player-dialog-form", send_player_form);
 
 });
@@ -8,36 +8,51 @@ $(document).ready(function (){
 function player_form_show(event){
     event.preventDefault();
     event.stopPropagation();
+    //$('body:not(#player-dialog-form)').fadeTo('2000', 0.6);
 
     //$('.create_form_player').show();
     var form = $("#player-dialog-form");
 
     form.dialog({
-        //autoOpen: false,
+        modal: true,
+        autoOpen: false,
+
         //dialogClass: 'nopjax',
         //draggable: false,
-        height: 300,
+        height: 400,
         width: 350,
-        modal: true,
-        buttons: {
 
+        buttons: {
+            Cancel: function() {
+
+                $(this).dialog('close');
+            }
+        },
+        close: function() {
+            console.log('hi');
+            //$('body:not(#player-dialog-form)').fadeTo('2000', 1);
+            //form.dialog('close');
         }
+
+
     });
 
     form.dialog('open');
 
     form.dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
 
-    //$('body:not(#player-dialog-form)').fadeTo('2000', 0.6);
+
 
 }
 
 function player_form_hide(event){
-    event.preventDefault();
+    //event.stopImmediatePropagation();
     event.stopPropagation();
+    event.preventDefault();
     $("#player-dialog-form").hide();
     console.log('hi');
     alert('hi');
+
 }
 
 function send_player_form(event){
