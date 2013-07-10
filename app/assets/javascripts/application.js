@@ -19,4 +19,10 @@
 
 $(document).ready(function() {
     $(this).pjax('a:not(.nopjax)', '#container');
+
+//    $("#players_header").click(function() {
+//        document.title "YO"
+//    });
 });
+
+

@@ -2,10 +2,10 @@ $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
     $('#matches-list').on("click", ".winner-button", update_start_page);
 
-    $('#container').on("click", ".create_btn", tour_form_show);
-    $('#container').on("click", ".cancel_btn", tour_form_hide);
+    $('#container').on("click", "#new_tournament_btn", tour_form_show);
+    $('#container').on("click", "#tournament_cancel_btn", tour_form_hide);
 
-    $('#container').on("submit", "#dialog-form", send_tournament_form);
+    $('#container').on("submit", "#tournament-dialog-form", send_tournament_form);
     //$('.winner-button').click(update_start_page);
 });
 
@@ -137,17 +137,16 @@ function send_tournament_form(event) {
 
             alert(errors);
 
+            //createDialog('hi', 'there', {show: 'blind', hide: 'explode'});
+
             tour_form_show(event);
 
-            //createDialog('hi', 'there', {show: 'blind', hide: 'explode'});
             //$('#tournament-error-dialog').remove();
         })
     });
 }
 
-function createDialog(title, text, options) {
-    return $("<div id='tournament-error-dialog' title='" + title + "'><p>" + text + "</p></div>").dialog(options);
-}
+
 
 
 /*

@@ -4,7 +4,7 @@
 <div class="detail">Please enter details for the new player.</div>
 <div class="divider"></div>
 <div class="create_form_tournament">
-	<%= form_for @player do |f| %>
+	<%= form_for @player, html: { id: 'player-dialog-form' } do |f| %>
 	    <%= render 'shared/error_messages', object: f.object %>
 
         <ul>
