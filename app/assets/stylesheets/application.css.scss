@@ -156,18 +156,35 @@ ul {
 #contact {
     display: block;
     margin: 0 auto;
-    width: 300px;
+    width: 50%;
 }
 
 #contact h3 {
-    margin: 1em 0 0 0;
+    margin: 1em auto 0 auto;
+    clear: both;
+}
+
+.img_box {
+    width: 200px;
+    height: 200px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin: 1.2em auto 0 auto;
 }
 
 #contact img {
-    height: 60px;
-    width: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.contact-info {
     float: left;
-    margin: 1.2em 10px 0 0;
+    &:first-of-type {
+        margin: 0 3em 0 0;
+    }
 }
 
 .info {
