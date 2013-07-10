@@ -1,7 +1,7 @@
 <% provide(:title, "New Player") %>
 
 <div class="create_form_player">
-    <%= form_for @player, html: { id: 'player-dialog-form', class: 'nopjax' } do |f| %>
+    <%= form_for @player, html: { id: 'player-dialog-form', class: 'nopjax', title: 'New Player' } do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
 
         <ul>
