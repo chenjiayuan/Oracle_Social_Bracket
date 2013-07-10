@@ -76,7 +76,6 @@ function tour_form_show(event) {
     //return false;
 }
 
-
 function tour_form_hide(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -130,8 +129,15 @@ function send_tournament_form(event) {
             console.log(textStatus);
             console.log(errorThrown);
 
-            alert(xhr.responseText);
+            var errors = "ERRORS -> \n";
 
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+
+            alert(errors);
+
+            tour_form_show(event);
 
             //createDialog('hi', 'there', {show: 'blind', hide: 'explode'});
             //$('#tournament-error-dialog').remove();
