@@ -2,6 +2,8 @@
 
 <% @tournament.setup_matches %>
 
+<% content_for :tournament do %>
+
 <h2 class="title"><%= @tournament.name %></h2>
 
 <ul class="detail">
@@ -97,5 +99,7 @@
 <% end %>
 
 </div>
+
+<% end %>
 
 <!-- </div> -->

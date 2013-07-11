@@ -87,7 +87,7 @@ function tour_form_hide(event) {
     event.stopPropagation();
     $('.create_form_tournament').fadeToggle("fast", function() {
         $(this).closest('form').find("input[type=text], textarea").val("");
-        $('.create_btn').fadeToggle("fast");
+        $('#new_tournament_btn').fadeToggle("fast");
     });
 }
 
