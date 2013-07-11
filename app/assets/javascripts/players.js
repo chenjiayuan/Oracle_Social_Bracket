@@ -51,6 +51,7 @@ function player_form_show(event){
             //console.log('hi');
             //$('body:not(#player-dialog-form)').fadeTo('2000', 1);
             form.dialog('close');
+            $('.create_btn').show();
         }
 
 
