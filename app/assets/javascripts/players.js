@@ -38,7 +38,7 @@ function player_form_show(event){
 
             Cancel: function() {
 
-                //$(this).dialog('close');
+                $(this).dialog('close');
             }
         },
 //
