@@ -1,3 +1,18 @@
+.round_container {
+    // position: absolute;
+    // left: 0;
+    // padding: 2em;
+    background: #f3f3f3;
+    //z-index: 2; 
+    min-width: 750px;
+    float: left;
+    // width: auto;
+    // height: auto;
+    // margin: 0 -50%;
+    // padding: 2em 0 0 43%;
+    // overflow: auto;
+}
+
 .matches-row {
     display: table-row;
 }
@@ -22,6 +37,7 @@
 .match li {
     height: 2em;
     padding: 0.3em;
+    font-size: 0.8em;
 }
 
 .match li:first-child {
@@ -53,4 +69,8 @@
 	&:first-of-type {
 		margin: 0;
 	}
+}
+
+.new-tournament-added {
+    background-color: green;
 }

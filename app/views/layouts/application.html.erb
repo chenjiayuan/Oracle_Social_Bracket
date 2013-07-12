@@ -2,7 +2,7 @@
 <html>
 <head>
     <link href='http://fonts.googleapis.com/css?family=Play:400,700|Sansita+One' rel='stylesheet' type='text/css'>
-    <title>Brakkit | <%= yield(:title) %></title>
+    <title id='page_title'>Brakkit | <%= yield(:title) %></title>
     <%= stylesheet_link_tag  "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= favicon_link_tag 'favicon.ico' %>
@@ -10,14 +10,15 @@
 </head>
 <body>
 <%= render "layouts/header" %>
-<div id="container">
-    <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
-<%= yield %>
-<!-- keep this padding div -->
-<div id="footer-padding"></div> 
+<div id="container" class="wrapper">
+	    <% flash.each do |key, value| %>
+	        <div class="alert alert-<%= key %>"><%= value %></div>
+	    <% end %>
+		<%= yield %>
+	<!-- keep this padding div -->
+	<div id="footer-padding"></div> 
 </div>
+
 <%= render "layouts/footer" %>
 
 </body>

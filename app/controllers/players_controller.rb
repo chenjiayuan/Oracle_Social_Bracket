@@ -6,6 +6,8 @@ class PlayersController < ApplicationController
 
   def index
 
+    @player = Player.new
+
     @players = Player.paginate(page: params[:page], per_page: 15)
 
     if params[:tournament_id]
@@ -223,5 +225,8 @@ end
 
   end
 
+  def add_new_player
+
+  end
 
 end

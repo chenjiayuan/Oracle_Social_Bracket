@@ -16,6 +16,12 @@
 //= require jquery.pjax
 //= require_tree .
 
+
 (document).ready(function() {
     $(this).pjax('a:not(.nopjax)', '#container');
+    // $("body").on("click", "#contact-button", fix_styling);
+
+//    $("#players_header").click(function() {
+//        document.title "YO"
+//    });
 });

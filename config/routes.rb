@@ -12,6 +12,7 @@ Brakkit::Application.routes.draw do
     resources :players do
       collection do
         post 'multiremove'
+        post 'add_new_player'
       end
     end
 
