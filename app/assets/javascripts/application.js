@@ -19,7 +19,7 @@
 
 $(document).ready(function() {
     $(this).pjax('a:not(.nopjax)', '#container');
-    $("body").on("click", "#contact-button", fix_styling);
+    // $("body").on("click", "#contact-button", fix_styling);
 
 //    $("#players_header").click(function() {
 //        document.title "YO"
@@ -27,9 +27,9 @@ $(document).ready(function() {
 });
 
 
-function fix_styling(event) {
-	// event.preventDefault();
-	// event.stopPropagation();
-	// alert('hi');
-	$("#container").toggleClass("full-width");
-}
+// function fix_styling(event) {
+// 	// event.preventDefault();
+// 	// event.stopPropagation();
+// 	// alert('hi');
+// 	$("#container").toggleClass("full-width");
+// }

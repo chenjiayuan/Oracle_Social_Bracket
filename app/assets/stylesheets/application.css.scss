@@ -38,7 +38,6 @@ body {
     width: 100%;
     min-height: 100%;
     height: auto !important;
-    height: 100%;
     margin: 0 auto -30px auto;
     background: #f3f3f3;
     padding: 70px 2% 40px;
@@ -46,6 +45,7 @@ body {
     overflow: hidden;
     &.full-width {
         max-width: none;
+        z-index: 2;
     }
 }
 
@@ -63,7 +63,7 @@ body {
     -webkit-box-shadow: rgba(0,0,0,0.7) 0 2px 10px;
     -moz-box-shadow: rgba(0,0,0,0.7) 0 2px 10px;
     box-shadow: rgba(0,0,0,0.7) 0 2px 10px;
-    z-index: 2;
+    z-index: 3;
 }
 
 nav {
@@ -165,6 +165,7 @@ ul {
 #footer-padding {
     height: 30px;
     margin: 1em;
+    clear: both;
 }
 
 footer {
@@ -176,6 +177,7 @@ footer {
     padding: 5px 0 0 0;
     font-size: 0.8em;
     font-weight: 700;
+    clear: both;
 }
 
 table {

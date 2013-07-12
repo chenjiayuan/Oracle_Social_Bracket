@@ -2,8 +2,6 @@
 
 <% @tournament.setup_matches %>
 
-<% content_for :tournament do %>
-
 <h2 class="title"><%= @tournament.name %></h2>
 
 <ul class="detail">
@@ -24,7 +22,7 @@
 <% cur_round = 0 %>
 <% new_round = false %>
 
-<!-- <div class="round_container"> -->
+<div class="round_container">
 
 <% @matches.each do |m| %>
     <% if cur_round != m.round %>
@@ -100,6 +98,4 @@
 
 </div>
 
-<% end %>
-
-<!-- </div> -->
+</div>
