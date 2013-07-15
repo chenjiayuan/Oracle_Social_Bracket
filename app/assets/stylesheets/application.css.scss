@@ -230,7 +230,12 @@ td {
     margin: 0 0 10px 0;
 }
 
-.btn a, .create_form_tournament input[type="submit"], .create_form_tournament button {
+.edit_player input[type="submit"] {
+    float: left;
+    margin: 1em 0 0 0;
+}
+
+.btn a, .create_form_tournament button, input[type="submit"] {
     display: block;
     height: auto;
     width: auto;
@@ -246,7 +251,7 @@ td {
     color: #fff;
 }
 
-.btn a:hover, .create_form_tournament input[type="submit"]:hover, .submit_btn:hover, .create_form_tournament button:hover {
+.btn a:hover, input[type="submit"]:hover, .submit_btn:hover, .create_form_tournament button:hover {
     opacity: 0.70;
 }
 
@@ -303,8 +308,9 @@ td {
 }
 
 .divider {
-    margin: 20px 0 40px 0;
+    margin: 1em 0 2em 0;
     border: 1px solid #666;
+    clear: both;
 }
 
 .create_form_tournament span {
