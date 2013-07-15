@@ -24,10 +24,11 @@ function player_form_show(event){
         buttons: {
             "Create Player": function() {
 
-                $.ajax({
-                    type: "POST",
-                    url: 'add_new_player'
-                });
+                send_player_form(event);
+//                $.ajax({
+//                    type: "POST",
+//                    url: 'add_new_player'
+//                });
 
                 //addClass('create_player_btn');
                 //alert('hi');
@@ -41,13 +42,13 @@ function player_form_show(event){
                 $(this).dialog('close');
             }
         },
-//
-//        open: function() {
-//            $(".ui-dialog-buttonset")
-//                .find(".ui-button:first") // the first button
-//                .attr('id', "create_player_btn");
-//        },
+
         close: function() {
+            $('#player-dialog-form').find('input[type=text], input[type=email]').val("");
+//            $('#player_first_name').attr('val', "");
+//            $('#player_last_name').attr('val', "");
+//            $('#player_email').attr('val', "");
+//            $('#player_skill').attr('val', "");
             //console.log('hi');
             //$('body:not(#player-dialog-form)').fadeTo('2000', 1);
             form.dialog('close');
@@ -78,13 +79,38 @@ function player_form_hide(event){
 function send_player_form(event){
     event.preventDefault();
 
+
+
     $.ajax({
         type: "POST",
-        url: 'add_new_player',
-        data: {},
+        url: 'players/add_new_player',
+        data: {
+            first_name: $('#player_first_name').val(),
+            last_name: $('#player_last_name').val(),
+            email: $('#player_email').val(),
+            skill: $('#player_skill').val()
+        },
         dataType: "JSON",
         success: function(data) {
+            $.pjax({url: '/players?page=1', container: '#container'});
+            $("#player-dialog-form").dialog('close');
+            $('table tbody tr').first().hide().effect('highlight', {color: 'green'}).show();
+            console.log(data);
+        },
+        error: function(xhr, textStatus, errorThrown){
+            console.log(xhr);
+            console.log(textStatus);
+            console.log(errorThrown);
 
+            var errors = "ERRORS -> \n";
+
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+
+            alert(errors);
+
+            $('#new_player_btn').click();
         }
     });
 

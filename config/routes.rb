@@ -21,6 +21,13 @@ Brakkit::Application.routes.draw do
   resources :players do
     collection do
       post 'multiadd'
+      post 'add_new_player'
+    end
+  end
+
+  resources :matches do
+    member do
+      post 'verdict'
     end
   end
 

@@ -17,7 +17,7 @@
 //= require_tree .
 
 
-(document).ready(function() {
+$(document).ready(function() {
     $(this).pjax('a:not(.nopjax)', '#container');
     // $("body").on("click", "#contact-button", fix_styling);
 

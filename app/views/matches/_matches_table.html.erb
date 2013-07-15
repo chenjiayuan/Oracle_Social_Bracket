@@ -1,0 +1,22 @@
+<table>
+    <thead>
+    <tr>
+        <th>Match ID</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Winner</th>
+    </tr>
+    </thead>
+    <% if @matches.any? %>
+        <tbody>
+            <% @matches.each do |m| %>
+                <tr data-match-id="<%= m.id %>">
+                    <td><%= link_to m.id, match_path(m), class: 'nopjax' %></td>
+                    <td><%= m.player1 ? m.player1.full_name : "N/A" %></td>
+                    <td><%= m.player2 ? m.player2.full_name : "N/A" %></td>
+                    <td><%= m.winner ? m.winner.full_name : "" %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    <% end %>
+</table>

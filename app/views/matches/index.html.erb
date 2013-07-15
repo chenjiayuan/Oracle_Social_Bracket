@@ -1,0 +1,18 @@
+<% provide(:title, "Matches") %>
+
+<h2 class="title">Matches</h2>
+<div class='btn create_btn nopjax' id='new_match_btn'><%= link_to "New Match", new_player_path %></div>
+
+<%= render 'new_match' %>
+
+<div class="detail">
+    <%= pluralize(@matches.count, 'match has', 'matches have') %> been created so far.
+</div>
+<div class="divider"></div>
+
+<%= will_paginate @matches %>
+
+<%= render 'matches_table' %>
+
+
+

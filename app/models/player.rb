@@ -1,5 +1,5 @@
 class Player < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :skill
+  attr_accessible :email, :first_name, :last_name, :skill, :matches_won
 
   before_save { |user| user.email = email.downcase }
 
@@ -16,6 +16,15 @@ class Player < ActiveRecord::Base
   has_many :tournament_players, dependent: :destroy
 
 
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
+  def increment_wins
+    self.matches_won = self.matches_won + 1
+    self.save(validate: false)
+  end
+
   private
 
   def player_unique_name
@@ -23,4 +32,5 @@ class Player < ActiveRecord::Base
   		errors.add :name, 'has already been taken'
   	end
   end
+
 end

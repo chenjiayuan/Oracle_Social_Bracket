@@ -142,18 +142,35 @@ ul {
 #contact {
     display: block;
     margin: 0 auto;
-    width: 300px;
+    width: 55%;
 }
 
 #contact h3 {
-    margin: 1em 0 0 0;
+    margin: 1em auto 0 auto;
+    clear: both;
+}
+
+.img_box {
+    width: 200px;
+    height: 200px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin: 1.2em auto 0 auto;
 }
 
 #contact img {
-    height: 60px;
-    width: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.contact-info {
     float: left;
-    margin: 1.2em 10px 0 0;
+    &:first-of-type {
+        margin: 0 3em 0 0;
+    }
 }
 
 .info {
@@ -217,7 +234,7 @@ td {
     margin: 0 0 10px 0;
 }
 
-.btn a, .create_form_tournament input[type="submit"] {
+.btn a, .create_form_tournament input[type="submit"], .create_form_tournament button {
     display: block;
     height: auto;
     width: auto;
@@ -233,7 +250,7 @@ td {
     color: #fff;
 }
 
-.btn a:hover, .create_form_tournament input[type="submit"]:hover, .submit_btn:hover {
+.btn a:hover, .create_form_tournament input[type="submit"]:hover, .submit_btn:hover, .create_form_tournament button:hover {
     opacity: 0.70;
 }
 
@@ -241,7 +258,7 @@ td {
     clear: right;
 }
 
-.edit_btn a {
+.edit_btn a, .create_form_tournament .edit_btn {
     background: #aaa;
 }
 
@@ -301,18 +318,23 @@ td {
 
 .create_form_tournament input[type="text"], .create_form_tournament input[type="email"], .create_form_tournament select {
     margin: 0.5em 0 0.7em 0;
+    clear: left;
 }
 
-.create_form_tournament input[type="submit"] {
-    margin: 1em 0 0 0;
-    padding: 0.6em;
-    float: right;
-}
+// .create_form_tournament input[type="submit"] {
+//     //margin: 1em 0 0 0;
+//     //padding: 0.6em;
+//     float: right;
+// }
 
 .create_form_tournament {
   display: none;
   clear: right;
   float: right;
+}
+
+.create_form_tournament li {
+    float: right;
 }
 
 .pagination {
