@@ -9,7 +9,7 @@ $(document).ready(function() {
     $('#container').on("click", "#tournament_cancel_btn", tour_form_hide);
 
     $('#container').on("submit", "#tournament-dialog-form", send_tournament_form);
-    $(".round_container").width($(window).width());
+    $('#filler').height($('.round_container').height());
     //$('.winner-button').click(update_start_page);
 });
 
@@ -125,7 +125,7 @@ function send_tournament_form(event) {
                 "<td></td>" +
                 "</tr>");
 
-            $('tbody').prepend(new_row.effect('highlight', {color: 'green'}));
+            $('tbody').prepend(new_row.effect('highlight', {color: '#70ae21'}, 'slow'));
 
 //            new_row.effect('highlight', {color: 'green'});
 

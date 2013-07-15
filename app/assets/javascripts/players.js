@@ -4,6 +4,10 @@ $(document).ready(function (){
     //$('#container').on("submit", "#player-dialog-form", send_player_form);
     //$('#container').on("click", "#create_player_btn", create_player);
 
+    $('#checkall').on("click", function(){
+        $('td input[type="checkbox"]').click();
+    });
+
 });
 
 function player_form_show(event){
