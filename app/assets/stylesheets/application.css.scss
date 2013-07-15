@@ -43,10 +43,6 @@ body {
     padding: 70px 2% 40px;
     z-index: 1;
     overflow: hidden;
-    &.full-width {
-        max-width: none;
-        z-index: 2;
-    }
 }
 
 .wrapper h3 {

@@ -9,7 +9,7 @@ $(document).ready(function() {
     $('#container').on("click", "#tournament_cancel_btn", tour_form_hide);
 
     $('#container').on("submit", "#tournament-dialog-form", send_tournament_form);
-    $(".round_container").width($(window).width());
+    $('#filler').height($('.round_container').height());
     //$('.winner-button').click(update_start_page);
 });
 
