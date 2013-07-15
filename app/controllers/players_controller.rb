@@ -8,7 +8,7 @@ class PlayersController < ApplicationController
 
     @player = Player.new
 
-    @players = Player.paginate(page: params[:page], per_page: 15)
+    @players = Player.paginate(page: params[:page], per_page: 16)
 
     if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
@@ -218,9 +218,9 @@ end
 
     @tournament = Tournament.find(params[:id])
     if @tournament.players.empty?
-      @players = Player.paginate(page: params[:page], per_page: 15)
+      @players = Player.paginate(page: params[:page], per_page: 16)
     else
-      @players = Player.where("id NOT IN (?)", @tournament.players).paginate(page: params[:page], per_page: 15)
+      @players = Player.where("id NOT IN (?)", @tournament.players).paginate(page: params[:page], per_page: 16)
     end
 
   end

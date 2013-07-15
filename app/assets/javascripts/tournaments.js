@@ -120,7 +120,7 @@ function send_tournament_form(event) {
                 "<td></td>" +
                 "</tr>");
 
-            $('tbody').prepend(new_row.effect('highlight', {color: 'green'}));
+            $('tbody').prepend(new_row.effect('highlight', {color: '#70ae21'}, 'slow'));
 
 //            new_row.effect('highlight', {color: 'green'});
 
