@@ -41,7 +41,7 @@ function update_start_page(event) {
                 li.prev().addClass('match-loser');
             }
 
-            var winner_button = '<button class="winner_btn"' +
+            var winner_button = '<button class="winner_btn tournament_match_winner_btn"' +
                 ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
                 '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
                 + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">' + data.winner_name + '</button>';
@@ -62,7 +62,7 @@ function update_start_page(event) {
                 $('#tournament-winner').html("Winner: " + data.winner_name);
             }
 
-            this_button.remove();
+//            this_button.remove();
 
         })
     });
@@ -125,7 +125,7 @@ function send_tournament_form(event) {
                 "<td></td>" +
                 "</tr>");
 
-            $('tbody').prepend(new_row.effect('highlight', {color: '#70ae21'}, 'slow'));
+            $('tbody').prepend(new_row.effect('highlight', {color: '#70ae21'}, '6000'));
 
 //            new_row.effect('highlight', {color: 'green'});
 
