@@ -63,7 +63,7 @@
                         <%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %>
                     <% end %>
                     <% if winner_id == 0 && p1 %>
-                        <button class="winner_btn" data-match-id="<%= m.id %>" data-player-id="<%= p1.id if p1%>" data-round-id="<%= m.round %>"
+                        <button class="winner_btn tournament_match_winner_btn" data-match-id="<%= m.id %>" data-player-id="<%= p1.id if p1%>" data-round-id="<%= m.round %>"
                                 data-match-number="<%= match_number %>" data-player-number="1"><%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %></button></li>
                     <% end %>
                     <li class="<% if winner_id != 0 %>
@@ -73,7 +73,7 @@
                             <%= p2 ? "#{p2.first_name} #{p2.last_name}" : ""  %>
                         <% end %>
                         <% if winner_id == 0 && p2 %>
-                            <button class="winner_btn" data-match-id="<%= m.id %>" data-player-id="<%= p2.id if p2%>" data-round-id="<%= m.round %>"
+                            <button class="winner_btn tournament_match_winner_btn" data-match-id="<%= m.id %>" data-player-id="<%= p2.id if p2%>" data-round-id="<%= m.round %>"
                                     data-match-number="<%= match_number %>" data-player-number="2"><%= p2 ? "#{p2.first_name} #{p2.last_name}" : ""  %></button></li>
                         <% end %>
                         <!--

@@ -3,7 +3,7 @@ $(document).ready(function() {
 
     $('.round').css({'height':($('.round-1').height()+'px')});
 
-    $('.matches-list').on("click", ".winner_btn", update_start_page);
+    $('.matches-list').on("click", ".tournament_match_winner_btn", update_start_page);
 
     $('#container').on("click", "#new_tournament_btn", tour_form_show);
     $('#container').on("click", "#tournament_cancel_btn", tour_form_hide);
@@ -70,11 +70,13 @@ function update_start_page(event) {
 
 
 function tour_form_show(event) {
+    console.log('show');
     event.preventDefault();
     event.stopPropagation();
     //$('.create_form').slideToggle();
-    $('#new_tournament_btn').fadeToggle("fast", function() {
-        $('.create_form_tournament').fadeToggle("fast");
+    $('#new_tournament_btn').toggle("fast", function() {
+        console.log('show_inner');
+        $('.create_form_tournament').toggle("fast");
     });
 
     //$('.create_btn').sub
@@ -84,11 +86,14 @@ function tour_form_show(event) {
 
 
 function tour_form_hide(event) {
+    console.log('hide');
+
     event.preventDefault();
     event.stopPropagation();
-    $('.create_form_tournament').fadeToggle("fast", function() {
+    $('.create_form_tournament').toggle("fast", function() {
+        console.log('hide_inner');
         $(this).closest('form').find("input[type=text], textarea").val("");
-        $('#new_tournament_btn').fadeToggle("fast");
+        $('#new_tournament_btn').toggle("fast");
     });
 }
 

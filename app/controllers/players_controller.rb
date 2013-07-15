@@ -226,6 +226,19 @@ end
   end
 
   def add_new_player
+    @player = Player.new({first_name: params['first_name'],
+                          last_name: params['last_name'],
+                         email: params['email'],
+                         skill: params['skill']})
+    respond_to do |format|
+      format.json {
+        if @player.save
+          render json: @player
+        else
+          render json: @player.errors, status: :forbidden
+        end
+      }
+    end
 
   end
 

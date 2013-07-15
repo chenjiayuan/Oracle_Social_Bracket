@@ -7,7 +7,7 @@
         <th>Winner</th>
     </tr>
     </thead>
-    <% if Tournament.any? %>
+    <% if @tournaments.any? %>
         <tbody>
         <% @tournaments.each do |t| %>
             <tr data-tournament-id="<%= t.id %>">

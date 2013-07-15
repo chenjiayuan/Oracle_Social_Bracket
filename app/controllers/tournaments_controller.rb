@@ -116,10 +116,11 @@ class TournamentsController < ApplicationController
 
 
     @match.winner_id = @player.id
-    @player.matches_won = @player.matches_won + 1
+    #@player.matches_won = @player.matches_won + 1
+    @player.increment_wins
     winner_name = "#{@player.first_name}" + " " + "#{@player.last_name}"
-    @match.save
     @player.save
+    @match.save
 
     if next_match_id != 0
 
