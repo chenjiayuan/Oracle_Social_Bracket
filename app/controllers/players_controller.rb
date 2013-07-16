@@ -8,7 +8,7 @@ class PlayersController < ApplicationController
 
     @player = Player.new
 
-    @players = Player.paginate(page: params[:page], per_page: 16)
+    @players = Player.paginate(page: params[:page], per_page: 16).order("created_at DESC")
 
     if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
@@ -123,8 +123,9 @@ end
 
     @player = Player.find(params[:id])
 
-    @player_tournaments = @player.tournaments
+    @player_tournaments = @player.tournaments.order("created_at DESC")
 
+    @matches = Match.where({player1_id: @player.id, tournament_id: 0}) +  Match.where({player2_id: @player.id, tournament_id: 0})
   end
 
   def edit
@@ -240,6 +241,25 @@ end
       }
     end
 
+  end
+
+  def search_players
+
+    search = params['search_term']
+
+    if !search.empty?
+      search_result = (Player.where("first_name LIKE ?", "%#{search}%") + Player.where("last_name LIKE ?", "%#{search}%") + Player.where("email LIKE ?", "%#{search}%")).uniq
+    else
+      search_result = Player.all
+    end
+
+    respond_to do |format|
+      format.json {
+        render json: {
+            search_result: search_result
+        }
+      }
+    end
   end
 
 end

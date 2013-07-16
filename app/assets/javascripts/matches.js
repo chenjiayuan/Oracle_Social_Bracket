@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('.matches-list').on("click", ".match_winner_btn", update_match);
+    $('#ncontainer').on("click", "#new_match_btn", show_match_form);
 });
 
 function update_match(event) {
@@ -35,4 +36,8 @@ function update_match(event) {
 
         })
     });
+}
+
+function show_match_form(event) {
+    event.preventDefault();
 }

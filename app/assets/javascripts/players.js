@@ -8,6 +8,10 @@ $(document).ready(function (){
         $('td input[type="checkbox"]').click();
     });
 
+//    $('#container input#search').val("");
+
+    $('#container').on("keyup", "input#search", search_player);
+
 });
 
 function player_form_show(event){
@@ -118,4 +122,37 @@ function send_player_form(event){
         }
     });
 
+}
+
+function search_player(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    $.ajax({
+        type: "POST",
+        url: 'players/search_players',
+        dataType: "JSON",
+        data: { search_term: $('input#search').val() },
+
+        success: function(data) {
+            console.log(data.search_result);
+            var el = $('#players_table');
+            el.html("");
+            var temp;
+
+            for(var i = 0; i < data.search_result.length; i++){
+//                $('#container')
+                temp = data.search_result[i];
+                el.append("<tr>" +
+                    "<td><a href='/players/" + temp.id + "'>" + temp.first_name +
+                    " " + temp.last_name + "</a></td>" +
+                    "<td>" + temp.email + "</td>" +
+                    "<td>" + temp.skill + "</td>" +
+                    "<td>" + temp.matches_won + "</td>" +
+                    "</tr>");
+            }
+
+        }
+
+    });
 }

@@ -1,0 +1,36 @@
+<h3 class="subtitle">Tournaments</h3>
+<table>
+    <thead>
+    <tr>
+        <th>Tournament Name</th>
+        <th># of Players</th>
+        <th>Status</th>
+        <th>Winner</th>
+    </tr>
+    </thead>
+    <% if @player_tournaments.any? %>
+        <tbody>
+        <% @player_tournaments.each do |t| %>
+            <tr>
+                <td><%= link_to t.name, tournament_path(t) %></td>
+                <td><%= t.players.count %></td>
+                <% temp_id = t.winner_id %>
+                <td>
+                    <% if temp_id != 0 %>
+                        Completed
+                    <% else %>
+                        <%= t.active ? "Active" : "Inactive"  %>
+                    <% end %>
+                </td>
+                <td>
+                    <% if temp_id != 0 %>
+                        <% p = Player.find(temp_id) %>
+                        <% temp = "#{p.first_name} #{p.last_name}" %>
+                        <%= link_to "#{temp}", player_path(p) %>
+                    <% end %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    <% end %>
+</table>

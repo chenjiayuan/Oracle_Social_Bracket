@@ -1,0 +1,29 @@
+<h3 class="subtitle">Matches</h3>
+
+<table>
+    <thead>
+    <tr>
+        <th>Match</th>
+        <th>Other Player</th>
+        <th>Winner</th>
+    </tr>
+    </thead>
+    <% if @matches.any? %>
+        <tbody>
+        <% @matches.each do |m| %>
+            <tr>
+                <td><%= link_to m.id, match_path(m) %></td>
+                <td><% if m.player1_id == @player.id  %>
+                        <%= link_to m.player2.full_name, player_path(m.player2) if m.player2 %>
+                    <% else %>
+                        <%= link_to m.player1.full_name, player_path(m.player1) if m.player1 %>
+                    <% end %></td>
+                <td><%= link_to m.winner.full_name, player_path(m.winner) if m.winner %></td>
+
+
+            </tr>
+        <% end %>
+        </tbody>
+    <% end %>
+</table>
+

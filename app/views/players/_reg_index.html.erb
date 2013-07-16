@@ -1,4 +1,6 @@
-<%= will_paginate %>
+<div id="players_pagination">
+    <%= will_paginate @players %>
+</div>
 
 <table>
     <thead>
@@ -9,9 +11,9 @@
     		<th>Matches Won</th>
     	</tr>
     </thead>
-    <% if Player.any? %>
-    <tbody>
-    	<% @players.order("created_at DESC").each do |p| %>
+    <% if @players.any? %>
+    <tbody id="players_table">
+    	<% @players.each do |p| %>
         <tr>
         	<% temp = "#{p.first_name} #{p.last_name}" %>
             <td><%= link_to "#{temp}", player_path(p) %></td>
@@ -23,5 +25,3 @@
     </tbody>
     <% end %>
 </table>
-
-<%= will_paginate %>

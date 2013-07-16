@@ -22,12 +22,17 @@ Brakkit::Application.routes.draw do
     collection do
       post 'multiadd'
       post 'add_new_player'
+      post 'search_players'
     end
   end
 
   resources :matches do
     member do
       post 'verdict'
+    end
+
+    resources :players do
+
     end
   end
 
