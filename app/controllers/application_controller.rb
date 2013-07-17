@@ -3,4 +3,5 @@ class ApplicationController < ActionController::Base
 
   layout proc { |c| env['HTTP_X_PJAX'].present? ? false : 'application' }
 
+
 end

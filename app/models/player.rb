@@ -1,7 +1,10 @@
 class Player < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :skill, :matches_won
+  attr_accessible :email, :first_name, :last_name, :skill, :matches_won, :full_name
 
-  before_save { |user| user.email = email.downcase }
+  before_save do |user|
+    user.email = email.downcase
+    user.full_name = "#{first_name} #{last_name}"
+  end
 
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }

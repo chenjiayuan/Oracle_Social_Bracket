@@ -248,7 +248,7 @@ end
     search = params['search_term']
 
     if !search.empty?
-      search_result = (Player.where("first_name LIKE ?", "%#{search}%") + Player.where("last_name LIKE ?", "%#{search}%") + Player.where("email LIKE ?", "%#{search}%")).uniq
+      search_result = (Player.where("email LIKE ?", "%#{search}%") + Player.where("full_name LIKE ?", "%#{search}%") ).uniq
     else
       search_result = Player.all
     end
