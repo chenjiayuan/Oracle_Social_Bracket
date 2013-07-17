@@ -2,6 +2,12 @@
 // They will automatically be included in application.css.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$mild-green: #99db76;
+
+#filler {
+    margin: 0 0 -1.8em 0;
+}
+
 .create_form_tournament {
     display: none;
     clear: right;
@@ -33,6 +39,7 @@
     background: #f3f3f3;
     min-width: 750px;
     max-width: 100%;
+    margin-top: -1.3em;
 }
 
 .matches-row {
@@ -49,17 +56,16 @@
 }
 
 .match {
-    border: 2px solid #aaa;
-    border-radius: 5px;
+    border: 1px solid #888;
+    // border-radius: 5px;
     margin: 0 0 1em 0;
     background: #fff;
     overflow: hidden;
     li {
-        height: 2em;
-        padding: 0.3em;
+        padding: 0.6em;
         font-size: 0.9em;
         &:first-child {
-            border-bottom: 1px solid #000;
+            border-bottom: 1px solid #888;
         }
     }
 }
@@ -74,7 +80,8 @@
 }
 
 .match-winner {
-    background-color: rgba(200, 255, 200, 1);
+    background-color: $mild-green;
+    color: #000;
 }
 
 .match-loser {

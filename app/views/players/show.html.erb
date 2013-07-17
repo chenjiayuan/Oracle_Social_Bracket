@@ -1,6 +1,10 @@
 <% provide(:title, "#{@player.first_name} #{@player.last_name}") %>
 
-<h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
+<%= render 'layouts/breadcrumbs' %>
+
+<div>
+    <h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
+</div>
 <% if @tournament %>
    <div class="btn remove_btn"><%= link_to "Remove Player from #{@tournament.name}", tournament_player_path(@tournament, @player), method: :delete %></div>
 <% end %>

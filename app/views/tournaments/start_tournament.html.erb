@@ -3,8 +3,12 @@
 <% @tournament.setup_matches %>
 
 <div class="round_container">
+
+<%= render 'layouts/breadcrumbs' %>
     
-<h2 class="title"><%= @tournament.name %></h2>
+<div>
+    <h2 class="title"><%= @tournament.name %></h2>
+</div>
 
 <ul class="detail">
     <li><%= pluralize(@tournament.players.count, "player") %></li>
