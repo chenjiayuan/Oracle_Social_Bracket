@@ -18,6 +18,9 @@
             <% if @tournament %>
                 <%= f.hidden_field :tournament_id, value: @tournament.id %>
             <% end %>
+            <% if @match %>
+                <%= f.hidden_field :match_id, value: @match.id %>
+            <% end %>
             <li><%= f.submit "Save Changes" %></li>
         </ul>
     <% end %>

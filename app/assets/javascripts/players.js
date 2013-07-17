@@ -1,16 +1,11 @@
 $(document).ready(function (){
     $('#container').on("click", "#new_player_btn", player_form_show);
-    //$('#container').on("click", "#player_cancel_btn", player_form_hide);
-    //$('#container').on("submit", "#player-dialog-form", send_player_form);
-    //$('#container').on("click", "#create_player_btn", create_player);
 
     $('#checkall').on("click", function(){
         $('td input[type="checkbox"]').click();
     });
 
-//    $('#container input#search').val("");
-
-    $('#container').on("keyup", "input#search", search_player);
+    $('#container').on("keyup", "input#player_search", search_player);
 
 });
 
@@ -23,47 +18,23 @@ function player_form_show(event){
     var form = $("#player-dialog-form").dialog({
         autoOpen: false,
         modal: true,
-
-        //dialogClass: 'nopjax',
-        //draggable: false,
         height: 400,
         width: 350,
 
         buttons: {
             "Create Player": function() {
-
                 send_player_form(event);
-//                $.ajax({
-//                    type: "POST",
-//                    url: 'add_new_player'
-//                });
-
-                //addClass('create_player_btn');
-                //alert('hi');
-//                $('ui-button-text').click(function() {
-//
-//                });
             },
-
             Cancel: function() {
-
                 $(this).dialog('close');
             }
         },
 
         close: function() {
             $('#player-dialog-form').find('input[type=text], input[type=email]').val("");
-//            $('#player_first_name').attr('val', "");
-//            $('#player_last_name').attr('val', "");
-//            $('#player_email').attr('val', "");
-//            $('#player_skill').attr('val', "");
-            //console.log('hi');
-            //$('body:not(#player-dialog-form)').fadeTo('2000', 1);
             form.dialog('close');
             $('.create_btn').show();
         }
-
-
     });
 
     form.dialog('open');
@@ -75,7 +46,6 @@ function player_form_show(event){
 }
 
 function player_form_hide(event){
-    //event.stopImmediatePropagation();
     event.stopPropagation();
     event.preventDefault();
     $("#player-dialog-form").hide();
@@ -86,8 +56,6 @@ function player_form_hide(event){
 
 function send_player_form(event){
     event.preventDefault();
-
-
 
     $.ajax({
         type: "POST",
@@ -132,7 +100,7 @@ function search_player(event){
         type: "POST",
         url: 'players/search_players',
         dataType: "JSON",
-        data: { search_term: $('input#search').val() },
+        data: { search_term: $('input#player_search').val() },
 
         success: function(data) {
             console.log(data.search_result);
@@ -141,7 +109,6 @@ function search_player(event){
             var temp;
 
             for(var i = 0; i < data.search_result.length; i++){
-//                $('#container')
                 temp = data.search_result[i];
                 el.append("<tr>" +
                     "<td><a href='/players/" + temp.id + "'>" + temp.first_name +

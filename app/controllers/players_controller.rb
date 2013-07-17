@@ -107,6 +107,12 @@ end
       flash[:success] = "Player removed from tournament"
       redirect_to tournament_path(t)
 
+    elsif(params[:match_id])
+      m = Match.find(params[:match_id])
+      Player.find(params[:id]).destroy
+      flash[:success] = "Player deleted!"
+      redirect_to match_path(m)
+
     else
       Player.find(params[:id]).destroy
       flash[:success] = "Player deleted!"
@@ -121,6 +127,10 @@ end
       @tournament = Tournament.find(params[:tournament_id])
     end
 
+    if params[:match_id]
+      @match = Match.find(params[:match_id])
+    end
+
     @player = Player.find(params[:id])
 
     @player_tournaments = @player.tournaments.order("created_at DESC")
@@ -133,6 +143,10 @@ end
       @tournament = Tournament.find(params[:tournament_id])
     end
 
+    if params[:match_id]
+      @match = Match.find(params[:match_id])
+    end
+
     @player = Player.find(params[:id])
   end
 
@@ -143,6 +157,11 @@ end
       tournament = Tournament.find(tournament_id)
     end
 
+    if params[:player][:match_id].present?
+      match_id = params[:player].delete :match_id
+      match = Match.find(match_id)
+    end
+
     @player = Player.find(params[:id])
 
     if @player.update_attributes(params[:player])
@@ -150,6 +169,8 @@ end
       if tournament
         tournament.players.find(@player.id).save
         redirect_to tournament_players_path(tournament)
+      elsif match
+        redirect_to match_path(match)
       else
         redirect_to @player
       end
@@ -157,6 +178,9 @@ end
       if tournament
         flash[:error] = "That didn't work :("
         redirect_to tournament_players_path(tournament)
+      elsif match
+        flash[:error] = "That didn't work :("
+        redirect_to match_path(match)
       else
         render 'new'
       end
@@ -248,9 +272,9 @@ end
     search = params['search_term']
 
     if !search.empty?
-      search_result = (Player.where("email LIKE ?", "%#{search}%") + Player.where("full_name LIKE ?", "%#{search}%") ).uniq
+      search_result = (Player.where("email LIKE ?", "%#{search}%") + Player.where("full_name LIKE ?", "%#{search}%") ).uniq.reverse
     else
-      search_result = Player.all
+      search_result = Player.paginate(page: params[:page], per_page: 16).order("created_at DESC")
     end
 
     respond_to do |format|

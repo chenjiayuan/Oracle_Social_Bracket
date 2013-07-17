@@ -1,19 +1,21 @@
 <% provide(:title, "Tournaments") %>
 
-<body>
-	<h2 class="title">Tournaments</h2>
-	<div class='btn create_btn' id='new_tournament_btn'><%= link_to "New Tournament", new_tournament_url, class: 'nopjax' %></div>
-    <%= render 'new_tournament' %>
+<h2 class="title">Tournaments</h2>
+<div class='btn create_btn' id='new_tournament_btn'><%= link_to "New Tournament", new_tournament_url, class: 'nopjax' %></div>
 
-    <div class="detail">
-		<%= pluralize(Tournament.count, 'tournament has', 'tournaments have') %> been created so far.
-	</div>
-	<div class="divider"></div>
+<%= render 'new_tournament' %>
 
-    <%= will_paginate @tournaments %>
+<div class="detail">
+    <%= pluralize(Tournament.count, 'tournament has', 'tournaments have') %> been created so far.
+</div>
+<div class="divider"></div>
 
-    <%= render 'tournaments_table' %>
+<form method="post">
+    <input type="text" id="tournament_search" placeholder="Search for tournament" >
+</form>
 
+<br />
 
-</body>
+<%= render 'tournaments_table' %>
+
 

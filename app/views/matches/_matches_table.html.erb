@@ -1,3 +1,7 @@
+<div id="matches_pagination">
+    <%= will_paginate @matches %>
+</div>
+
 <table>
     <thead>
     <tr>
@@ -12,9 +16,9 @@
             <% @matches.each do |m| %>
                 <tr data-match-id="<%= m.id %>">
                     <td><%= link_to m.id, match_path(m), class: 'nopjax' %></td>
-                    <td><%= link_to m.player1.full_name, player_path(m.player1) if m.player1 %></td>
-                    <td><%= link_to m.player2.full_name, player_path(m.player2) if m.player2 %></td>
-                    <td><%= link_to m.winner.full_name, player_path(m.winner) if m.winner %></td>
+                    <td><%= link_to m.player1.full_name, match_player_path(m, m.player1) if m.player1 %></td>
+                    <td><%= link_to m.player2.full_name, match_player_path(m, m.player2) if m.player2 %></td>
+                    <td><%= link_to m.winner.full_name, match_player_path(m, m.winner) if m.winner %></td>
                 </tr>
             <% end %>
         </tbody>
