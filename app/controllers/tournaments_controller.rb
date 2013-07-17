@@ -6,7 +6,7 @@ class TournamentsController < ApplicationController
 
   def index
     @tournament = Tournament.new
-    @tournaments = Tournament.paginate(page: params[:page], per_page: 5).order("created_at DESC")
+    @tournaments = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 5)
   end
 
   def show

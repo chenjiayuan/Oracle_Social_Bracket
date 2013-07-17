@@ -1,5 +1,9 @@
 <h3 class="subtitle">Matches</h3>
 
+<div id="player_matches_pagination">
+<%= will_paginate @matches, param_name: 'matches_page' %>
+</div>
+
 <table>
     <thead>
     <tr>

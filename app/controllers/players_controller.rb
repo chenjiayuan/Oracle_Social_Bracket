@@ -1,5 +1,8 @@
 include ActionView::Helpers::TextHelper
 
+require 'will_paginate/array'
+
+
 class PlayersController < ApplicationController
 
   # after_filter :render_pjax, :except => [:create, :destroy]
@@ -8,7 +11,7 @@ class PlayersController < ApplicationController
 
     @player = Player.new
 
-    @players = Player.paginate(page: params[:page], per_page: 16).order("created_at DESC")
+    @players = Player.order("created_at DESC").paginate(page: params[:page], per_page: 16)
 
     if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
@@ -133,9 +136,13 @@ end
 
     @player = Player.find(params[:id])
 
-    @player_tournaments = @player.tournaments.order("created_at DESC")
+    @player_tournaments = @player.tournaments.order("created_at DESC").paginate(page: params[:tournaments_page], per_page: 1)
+    #@matches = (Match.where({player1_id: @player.id, tournament_id: 0}) +  Match.where({player2_id: @player.id, tournament_id: 0})).paginate(page: params[:page], per_page: 10)
 
-    @matches = Match.where({player1_id: @player.id, tournament_id: 0}) +  Match.where({player2_id: @player.id, tournament_id: 0})
+    #@matches = (Match.where({player1_id: @player.id, tournament_id: 0}) +  Match.where({player2_id: @player.id, tournament_id: 0})).order("created_at DESC").paginate(page: params[:page], per_page: 10)
+    #@matches = Match.where("player1_id IN (:p_id) AND tournament_id IN (:t_id) OR player2_id IN (:p_id) AND tournament_id IN (:t_id)", p_id: @player.id, t_id: @tournament.id).order("created_at DESC").paginate(page: params[:page], per_page: 10)
+    #@matches = (Match.where("player1_id IN (?) AND tournament_id IN (?)", @player.id, 0)).join(Match.where("player2_id IN (?) AND tournament_id IN (?)", @player.id, 0)).order("created_at DESC").paginate(page: params[:page], per_page: 1)
+    @matches = Match.where("(player1_id = :p1id or player2_id = :p1id) and tournament_id = :tid", {p1id: 124, tid: 0}).order("created_at DESC").paginate(page: params[:matches_page], per_page: 1)
   end
 
   def edit

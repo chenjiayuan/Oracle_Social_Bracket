@@ -1,4 +1,9 @@
 <h3 class="subtitle">Tournaments</h3>
+
+<div id="player_tournaments_pagination">
+    <%= will_paginate @player_tournaments, param_name: 'tournaments_page' %>
+</div>
+
 <table>
     <thead>
     <tr>
