@@ -29,22 +29,28 @@ function update_start_page(event) {
             //$('#match-' + el.data('match-id')).find('li').last().append(data.winner_name);
 
             var li = this_button.closest('li');
-            li.append(data.winner_name);
+            li.append('<img alt="' + data.winner_name + '" class="gravatar" src="' + li.find('button').find('img').attr('src') + 
+            '">' + data.winner_name);
             li.addClass('match-winner');
 
             if(el.data('player-number') == 1) {
-                li.next().append(data.loser_name);
-                li.next().addClass('match-loser');
+                temp = li.next();
+                temp.append('<img alt="' + data.loser_name + '" class="gravatar" src="' + temp.find('button').find('img').attr('src') + 
+                '">' + data.loser_name);
+                temp.addClass('match-loser');
             }
             else {
-                li.prev().append(data.loser_name);
-                li.prev().addClass('match-loser');
+                temp = li.prev();
+                temp.append('<img alt="' + data.loser_name + '" class="gravatar" src="' + temp.find('button').find('img').attr('src') + 
+                '">' + data.loser_name);
+                temp.addClass('match-loser');
             }
 
             var winner_button = '<button class="winner_btn tournament_match_winner_btn"' +
                 ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
                 '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
-                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">' + data.winner_name + '</button>';
+                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">' + '<img alt="'
+                 + el.find('img').attr('alt') + '" class="gravatar" src="' + el.find('img').attr('src') + '">' + data.winner_name + '</button>' ;
 
             $('#match-' + el.data('match-id')).find('button').remove();
 
