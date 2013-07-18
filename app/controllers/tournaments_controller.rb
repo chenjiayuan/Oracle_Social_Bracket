@@ -50,7 +50,7 @@ class TournamentsController < ApplicationController
 
     add_breadcrumb "Tournaments", :tournaments_path
     add_breadcrumb "#{@tournament.name}", tournament_path(@tournament)
-    add_breadcrumb "<span>Tournament View</span>", start_tournament_path
+    add_breadcrumb "<span>Bracket View</span>", start_tournament_path
 
   end
 

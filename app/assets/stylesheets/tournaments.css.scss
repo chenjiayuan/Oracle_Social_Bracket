@@ -57,7 +57,6 @@ $mild-green: #99db76;
 
 .match {
     border: 1px solid #888;
-    // border-radius: 5px;
     margin: 0 0 1em 0;
     background: #fff;
     overflow: hidden;
@@ -66,6 +65,10 @@ $mild-green: #99db76;
         font-size: 0.9em;
         &:first-child {
             border-bottom: 1px solid #888;
+        }
+        .gravatar {
+            margin: 0 0.3em 0 0;
+            vertical-align: middle;
         }
     }
 }

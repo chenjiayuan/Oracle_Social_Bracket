@@ -9,6 +9,20 @@
   }
 }
 
+.player-info {
+  margin: 0 0 1em 0;
+  display: block;
+  float: left;
+  .gravatar {
+    float: left;
+    margin: 0 1em 0 0;
+  }
+  .detail {
+    clear: none;
+    float: left;
+  }
+}
+
 .edit_player input {
   margin: 0 0 0.8em 0;
 }

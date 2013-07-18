@@ -14,6 +14,7 @@
  */
 
  $mild-green: #99db76;
+ $indigo: #4169e1;
 
 * {
     -moz-box-sizing: border-box;
@@ -51,12 +52,12 @@ body {
 }
 
 #nav-bar-back {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     height: 50px;
     width: 100%;
-    background: #4169e1;
+    background: $indigo;
     -webkit-box-shadow: rgba(0,0,0,0.7) 0 2px 10px;
     -moz-box-shadow: rgba(0,0,0,0.7) 0 2px 10px;
     box-shadow: rgba(0,0,0,0.7) 0 2px 10px;
@@ -116,7 +117,7 @@ body {
     letter-spacing: normal;
     &:hover {
         background-color: #f3f3f3;
-        color: #4169e1;
+        color: $indigo;
         opacity: 1;
     }
 }
@@ -144,24 +145,23 @@ table {
     margin: 0 auto 1em auto;
     border: 1px solid #e0e0e0;
     width: 100%;
-}
+    thead tr {
+        background-color: #bfbfbf;
+    }
 
-thead tr {
-    background-color: #bfbfbf;
-}
+    tr:nth-child(2n) {
+        background-color: #e0e0e0;
+    }
 
-tr:nth-child(2n) {
-    background-color: #e0e0e0;
-}
+    th {
+        padding: 0.8em;
+        text-align: left;
+        color: #333;
+    }
 
-th {
-    padding: 0.8em;
-    text-align: left;
-    color: #333;
-}
-
-td {
-    padding: 0.8em;
+    td {
+        padding: 0.8em;
+    }
 }
 
 .title, .subtitle {
@@ -318,7 +318,8 @@ div .title {
     font-size: 0.9em;
     margin: 0 0 2em 0;
     padding: 0 1em 0 1em ;
-    display: inline-block;
+    display: block;
+    float: left;
     overflow: hidden;
     text-align: center;
     a, span {
@@ -338,9 +339,11 @@ div .title {
             position: absolute;
             top: 50%;
             margin-top: -1.5em;
-            border-width: 1.5em 0 1.5em 1em;
-            border-style: solid;
-            border-color: #ddd #ddd #ddd transparent;
+            border: {
+                width: 1.5em 0 1.5em 1em;
+                style: solid;
+                color: #ddd #ddd #ddd transparent;
+            }
             left: -0.97em;
         }
         &::after {
@@ -348,9 +351,11 @@ div .title {
             position: absolute;
             top: 50%;
             margin-top: -1.5em;
-            border-top: 1.5em solid transparent;
-            border-bottom: 1.5em solid transparent;
-            border-left: 1em solid #ddd;
+            border: {
+                top: 1.5em solid transparent;
+                bottom: 1.5em solid transparent;
+                left: 1em solid #ddd;
+            }
             right: -0.97em;
         }
     }
@@ -374,4 +379,10 @@ div .title {
             border-left: 1em solid $mild-green;
         }
     }
+}
+
+.clear {
+    display: block;
+    width: 100%;
+    clear: both;
 }

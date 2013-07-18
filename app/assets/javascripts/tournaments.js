@@ -62,8 +62,6 @@ function update_start_page(event) {
                 $('#tournament-winner').html("Winner: " + data.winner_name);
             }
 
-//            this_button.remove();
-
         })
     });
 }
@@ -74,9 +72,10 @@ function tour_form_show(event) {
     event.preventDefault();
     event.stopPropagation();
     //$('.create_form').slideToggle();
-    $('#new_tournament_btn').toggle("fast", function() {
+    $('#new_tournament_btn').fadeToggle("fast", function() {
         console.log('show_inner');
-        $('.create_form_tournament').toggle("fast");
+        $('.create_form_tournament').fadeToggle("fast");
+        $("input[type=text]").focus();
     });
 
     //$('.create_btn').sub
@@ -90,10 +89,10 @@ function tour_form_hide(event) {
 
     event.preventDefault();
     event.stopPropagation();
-    $('.create_form_tournament').toggle("fast", function() {
+    $('.create_form_tournament').fadeToggle("fast", function() {
         console.log('hide_inner');
-        $(this).closest('form').find("input[type=text], textarea").val("");
-        $('#new_tournament_btn').toggle("fast");
+        $("input[type=text]").val("");
+        $('#new_tournament_btn').fadeToggle("fast");
     });
 }
 
