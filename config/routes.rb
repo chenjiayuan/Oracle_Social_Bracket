@@ -7,6 +7,7 @@ Brakkit::Application.routes.draw do
     end
     collection do
       post 'add_new_tournament'
+      post 'search_tournaments'
     end
 
     resources :players do

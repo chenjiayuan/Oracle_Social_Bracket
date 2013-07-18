@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
 
   def index
-    @matches = Match.where(tournament_id: 0)..order("created_at DESC").paginate(page: params[:page], per_page: 15)
+    @matches = Match.where(tournament_id: 0).order("created_at DESC").paginate(page: params[:page], per_page: 15)
   end
 
   def new

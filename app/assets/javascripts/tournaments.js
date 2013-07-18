@@ -9,6 +9,7 @@ $(document).ready(function() {
 
     $('#container').on("submit", "#tournament-dialog-form", send_tournament_form);
     $('#filler').height($('.round_container').height());
+    $('#container').on("keyup", "input#tournament_search", search_tournament);
 });
 
 function update_start_page(event) {
@@ -141,6 +142,48 @@ function createDialog(title, text, options) {
     return $("<div id='tournament-error-dialog' title='" + title + "'><p>" + text + "</p></div>").dialog(options);
 }
 
+function search_tournament(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    $.ajax({
+        type: "POST",
+        url: 'tournaments/search_tournaments',
+        dataType: "JSON",
+        data: { search_term: $('input#tournament_search').val() },
+
+        success: function(data) {
+            console.log(data.search_result);
+            var el = $('#tournaments_table');
+            el.html("");
+            var temp;
+
+            for(var i = 0; i < data.search_result.length; i++){
+                temp = data.search_result[i];
+                var status, winner_name;
+                if(temp.winner_id != 0)
+                    status = "Completed";
+                else if(temp.active)
+                    status = "Active";
+                else
+                    status = "Inactive";
+
+                if(temp.winner_name != null)
+                    winner_name = temp.winner_name
+                else
+                    winner_name = ""
+
+
+                el.append("<tr>" +
+                    "<td><a href='/tournaments/" + temp.id + "'>" + temp.name + "</a></td>" +
+                    "<td>" + "" + "</td>" +
+                    "<td>" + status + "</td>" +
+                    "<td>" + winner_name + "</td>" +
+                    "</tr>");
+            }
+        }
+    });
+}
 
 /*
  function showForm() {

@@ -138,6 +138,7 @@ class TournamentsController < ApplicationController
 
     else
       @tournament.winner_id = @player.id
+      @tournament.winner_name = @player.full_name
       @tournament.active = false
       @tournament.save
     end
@@ -175,6 +176,25 @@ class TournamentsController < ApplicationController
 
       }
 
+    end
+  end
+
+  def search_tournaments
+
+    search = params['search_term']
+
+    if !search.empty?
+      search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%").uniq
+    else
+      search_result = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 6)
+    end
+
+    respond_to do |format|
+      format.json {
+        render json: {
+            search_result: search_result
+        }
+      }
     end
   end
 

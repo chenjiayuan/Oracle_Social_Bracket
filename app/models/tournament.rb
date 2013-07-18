@@ -1,5 +1,5 @@
 class Tournament < ActiveRecord::Base
-  attr_accessible :name, :winner_id, :active
+  attr_accessible :name, :winner_id, :active, :winner_name
 
   validates :name, presence: true, uniqueness: true
 
@@ -7,6 +7,12 @@ class Tournament < ActiveRecord::Base
   has_many :tournament_players, dependent: :destroy
   has_many :matches
   belongs_to :winner, class_name: Player, foreign_key: :winner_id
+
+  before_save do |t|
+    if winner_id != 0
+      t.winner_name = Player.find(winner_id).full_name
+    end
+  end
 
   def setup_matches
     if !self.matches.any? && self.players.any?
