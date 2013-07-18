@@ -184,10 +184,37 @@ class TournamentsController < ApplicationController
     search = params['search_term']
 
     if !search.empty?
-      search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%").uniq
+      search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%")
+      if Integer(search)
+
+      end
+
     else
       search_result = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 6)
     end
+
+    search_result = search_result.map do |s|
+      if s.winner_id == 0
+        if s.active
+          status = "Active"
+        else
+          status = "Inactive"
+        end
+        winner_name = ""
+      else
+        status = "Completed"
+        winner_name = s.winner_name
+      end
+      {
+          id: s.id,
+          name: s.name,
+          status: status,
+          player_count: s.players.count,
+          winner_name: winner_name,
+          winner_id: s.winner_id
+      }
+    end
+
 
     respond_to do |format|
       format.json {

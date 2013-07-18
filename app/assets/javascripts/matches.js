@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('.matches-list').on("click", ".match_winner_btn", update_match);
-    $('#container').on("click", "#new_match_btn", show_match_form);
+    $('#container').on("click", "#new_match_btn", match_form_show);
 });
 
 function update_match(event) {
@@ -38,7 +38,9 @@ function update_match(event) {
     });
 }
 
-function show_match_form(event) {
+function match_form_show(event) {
     event.preventDefault();
     event.stopPropagation();
+
+    //console.log('hi');
 }

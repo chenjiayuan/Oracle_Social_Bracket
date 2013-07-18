@@ -12,6 +12,10 @@ class MatchesController < ApplicationController
     @match = Match.find(params[:id])
   end
 
+  def start_match
+    @match = Match.find(params[:id])
+  end
+
   def verdict
     @match = Match.find(params['match-id'])
     @player = Player.find(params['player-id'])

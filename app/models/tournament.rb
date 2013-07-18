@@ -8,6 +8,7 @@ class Tournament < ActiveRecord::Base
   has_many :matches
   belongs_to :winner, class_name: Player, foreign_key: :winner_id
 
+
   before_save do |t|
     if winner_id != 0
       t.winner_name = Player.find(winner_id).full_name
@@ -63,7 +64,6 @@ class Tournament < ActiveRecord::Base
 
     end
   end
-
 
   def start_tournament
     setup_matches

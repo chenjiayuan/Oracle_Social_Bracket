@@ -160,25 +160,12 @@ function search_tournament(event){
 
             for(var i = 0; i < data.search_result.length; i++){
                 temp = data.search_result[i];
-                var status, winner_name;
-                if(temp.winner_id != 0)
-                    status = "Completed";
-                else if(temp.active)
-                    status = "Active";
-                else
-                    status = "Inactive";
-
-                if(temp.winner_name != null)
-                    winner_name = temp.winner_name
-                else
-                    winner_name = ""
-
-
                 el.append("<tr>" +
                     "<td><a href='/tournaments/" + temp.id + "'>" + temp.name + "</a></td>" +
-                    "<td>" + "" + "</td>" +
-                    "<td>" + status + "</td>" +
-                    "<td>" + winner_name + "</td>" +
+                    "<td>" + temp.player_count + "</td>" +
+                    "<td>" + temp.status + "</td>" +
+                    "<td>" + (temp.winner_name == null ? "" : "<a href='/tournaments/" + temp.id
+                    + "/players/" + temp.winner_id + "'>" + temp.winner_name + "</a>" ) + "</td>" +
                     "</tr>");
             }
         }
