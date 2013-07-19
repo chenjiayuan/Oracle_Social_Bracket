@@ -6,7 +6,7 @@ class TournamentsController < ApplicationController
 
   def index
     @tournament = Tournament.new
-    @tournaments = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 5)
+    @tournaments = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 10)
   end
 
   def show
@@ -185,12 +185,14 @@ class TournamentsController < ApplicationController
 
     if !search.empty?
       search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%")
-      if Integer(search)
-
-      end
+      search = search.to_i
+      #if search != 0
+        search_result = search_result + Tournament.includes(:players).group('tournaments.id').having('count(players.id)=(?)', search)
+        search_result.reverse!
+      #end
 
     else
-      search_result = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 6)
+      search_result = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 10)
     end
 
     search_result = search_result.map do |s|

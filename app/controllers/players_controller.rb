@@ -189,7 +189,8 @@ end
         flash[:error] = "That didn't work :("
         redirect_to match_path(match)
       else
-        render 'new'
+        flash[:error] = @player.errors
+        render 'edit'
       end
     end
   end
