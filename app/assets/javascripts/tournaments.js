@@ -1,7 +1,10 @@
 $(document).ready(function() {
     //$('.create-tour-button').on("click", ajax_test);
 
-    $('.round').css({'height':($('.round-1').height()+'px')});
+    $('img').load(function() {
+        $('.round').css({'height':($('.round-1').height()+'px')});
+        $('#filler').height($('.round_container').height());
+    });
 
     $('.matches-list').on("click", ".tournament_match_winner_btn", update_start_page);
 
@@ -9,7 +12,6 @@ $(document).ready(function() {
     $('#container').on("click", "#tournament_cancel_btn", tour_form_hide);
 
     $('#container').on("submit", "#tournament-dialog-form", send_tournament_form);
-    $('#filler').height($('.round_container').height());
     //$('.winner-button').click(update_start_page);
 });
 
