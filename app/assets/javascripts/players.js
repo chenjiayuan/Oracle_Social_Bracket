@@ -33,7 +33,7 @@ function player_form_show(event){
         close: function() {
             $('#player-dialog-form').find('input[type=text], input[type=email]').val("");
             form.dialog('close');
-            $('.create_btn').show();
+//            $('.create_btn').show();
         }
     });
 

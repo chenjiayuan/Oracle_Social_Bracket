@@ -2,6 +2,7 @@ class MatchesController < ApplicationController
 
   def index
     @matches = Match.where(tournament_id: 0).order("created_at DESC").paginate(page: params[:page], per_page: 15)
+    @match = Match.new
   end
 
   def new
@@ -39,6 +40,24 @@ class MatchesController < ApplicationController
              winner_name: @player.full_name,
              loser_name: @loser.full_name
          }
+      }
+    end
+  end
+
+  #def create
+  #  @match = Match.create(params[:name])
+  #end
+
+  def add_new_match
+    @match = Match.new(name: params['name'])
+
+    respond_to do |format|
+      format.json {
+        if @match.save
+          render json: @match
+        else
+          render json: @match.errors, status: :forbidden
+        end
       }
     end
   end
