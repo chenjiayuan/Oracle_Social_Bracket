@@ -80,7 +80,7 @@ function tour_form_show(event) {
     $('#new_tournament_btn').fadeToggle("fast", function() {
         console.log('show_inner');
         $('.create_form_tournament').fadeToggle("fast");
-        $("input[type=text]").focus();
+        $("input#tournament_name").focus();
     });
 }
 

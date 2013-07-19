@@ -196,9 +196,12 @@ class TournamentsController < ApplicationController
     if !search.empty?
       search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%")
       search = search.to_i
-      #if search != 0
+
         search_result = search_result + Tournament.includes(:players).group('tournaments.id').having('count(players.id)=(?)', search)
-        search_result.reverse!
+        if search != 0
+          search_result.reverse!
+        end
+
       #end
 
     else
