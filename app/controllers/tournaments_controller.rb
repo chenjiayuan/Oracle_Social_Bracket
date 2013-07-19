@@ -2,6 +2,9 @@ class TournamentsController < ApplicationController
 
   def new
     @tournament = Tournament.new
+
+    add_breadcrumb "Tournaments", :tournaments_path
+    add_breadcrumb "<span>New Tournament</span>", new_tournament_path
   end
 
   def index
@@ -11,6 +14,9 @@ class TournamentsController < ApplicationController
 
   def show
     @tournament = Tournament.find(params[:id])
+
+    add_breadcrumb "Tournaments", :tournaments_path
+    add_breadcrumb "<span>#{@tournament.name}</span>", tournament_path(@tournament)
   end
 
   def edit
@@ -41,6 +47,10 @@ class TournamentsController < ApplicationController
 
     @tournament = Tournament.find(params[:id])
     @matches = @tournament.matches
+
+    add_breadcrumb "Tournaments", :tournaments_path
+    add_breadcrumb "#{@tournament.name}", tournament_path(@tournament)
+    add_breadcrumb "<span>Bracket View</span>", start_tournament_path
 
   end
 

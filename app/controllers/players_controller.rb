@@ -4,8 +4,18 @@ require 'will_paginate/array'
 
 
 class PlayersController < ApplicationController
+  before_filter :follow_crumbs
+  skip_before_filter :follow_crumbs, only: :add_index
 
   # after_filter :render_pjax, :except => [:create, :destroy]
+
+  def follow_crumbs
+    if params[:tournament_id]
+      add_breadcrumb "Tournaments", :tournaments_path
+    else
+      add_breadcrumb "Players", :players_path
+    end
+  end
 
   def index
 
@@ -16,6 +26,8 @@ class PlayersController < ApplicationController
     if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
     end
+
+    # add_breadcrumb "Players Index", players_path
 
   end
 
@@ -46,6 +58,12 @@ end
       @tournament = Tournament.find(params[:tournament_id])
     end
 
+    if @tournament
+      add_breadcrumb @tournament.name, tournament_path(@tournament)
+      add_breadcrumb "<span>New Player</span>", new_tournament_player_path, :title => "new!"
+    else
+      add_breadcrumb "<span>New Player</span>", new_player_path
+    end
 
   end
 
@@ -137,12 +155,15 @@ end
     @player = Player.find(params[:id])
 
     @player_tournaments = @player.tournaments.order("created_at DESC").paginate(page: params[:tournaments_page], per_page: 1)
-    #@matches = (Match.where({player1_id: @player.id, tournament_id: 0}) +  Match.where({player2_id: @player.id, tournament_id: 0})).paginate(page: params[:page], per_page: 10)
-
-    #@matches = (Match.where({player1_id: @player.id, tournament_id: 0}) +  Match.where({player2_id: @player.id, tournament_id: 0})).order("created_at DESC").paginate(page: params[:page], per_page: 10)
-    #@matches = Match.where("player1_id IN (:p_id) AND tournament_id IN (:t_id) OR player2_id IN (:p_id) AND tournament_id IN (:t_id)", p_id: @player.id, t_id: @tournament.id).order("created_at DESC").paginate(page: params[:page], per_page: 10)
-    #@matches = (Match.where("player1_id IN (?) AND tournament_id IN (?)", @player.id, 0)).join(Match.where("player2_id IN (?) AND tournament_id IN (?)", @player.id, 0)).order("created_at DESC").paginate(page: params[:page], per_page: 1)
     @matches = Match.where("(player1_id = :p1id or player2_id = :p1id) and tournament_id = :tid", {p1id: 124, tid: 0}).order("created_at DESC").paginate(page: params[:matches_page], per_page: 1)
+
+    if @tournament
+      add_breadcrumb @tournament.name, tournament_path(@tournament)
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", tournament_player_path
+    else
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", player_path(@player)
+    end
+
   end
 
   def edit
@@ -155,6 +176,16 @@ end
     end
 
     @player = Player.find(params[:id])
+
+    if @tournament
+      add_breadcrumb @tournament.name, tournament_path(@tournament)
+      add_breadcrumb "#{@player.first_name} #{@player.last_name}", tournament_player_path
+      add_breadcrumb "<span>Edit</span>", edit_tournament_player_path
+    else
+      add_breadcrumb "#{@player.first_name} #{@player.last_name}", player_path(@player)
+      add_breadcrumb "<span>Edit</span>", edit_player_path(@player)
+    end
+
   end
 
   def update
@@ -221,8 +252,7 @@ end
         flash[:error] = "No players were added."
         redirect_to tournament
       end
-    end
-    
+    end    
   end
 
   def multiremove
@@ -255,6 +285,10 @@ end
     else
       @players = Player.where("id NOT IN (?)", @tournament.players).paginate(page: params[:page], per_page: 16)
     end
+
+    add_breadcrumb "Tournaments", :tournaments_path
+    add_breadcrumb @tournament.name, tournament_path(@tournament)
+    add_breadcrumb "<span>Add Existing Players</span>", add_index_path
 
   end
 

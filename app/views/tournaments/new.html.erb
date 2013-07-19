@@ -1,9 +1,13 @@
 <% provide(:title, "New Tournament") %>
 
-<h2 class="title">New Tournament</h2>
+<%= render 'layouts/breadcrumbs' %>
+
+<div>
+	<h2 class="title">New Tournament</h2>
+</div>
 <div class="detail">Please enter a name for the new tournament.</div>
 <div class="divider"></div>
-<div class="create_form_tournament">
+<div class="create_form_tournament show_form">
 	<%= form_for @tournament, html: { id: 'tournament-dialog-form' } do |f| %>
 	    <%= render 'shared/error_messages', object: f.object %>
 	    <ul>

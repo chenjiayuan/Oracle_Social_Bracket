@@ -1,7 +1,9 @@
 <% provide(:title, "#{@tournament.name}") %>
 <%= flash[:notice] %>
 
-<h2 class="title"><%= @tournament.name %></h2>
+<%= render 'layouts/breadcrumbs' %>
+
+<div><h2 class="title"><%= @tournament.name %></h2></div>
 
 <% if @tournament.winner_id == 0 %>
     <div class="btn start_btn">

@@ -3,8 +3,12 @@
 <% @tournament.setup_matches %>
 
 <div class="round_container">
+
+<%= render 'layouts/breadcrumbs' %>
     
-<h2 class="title"><%= @tournament.name %></h2>
+<div>
+    <h2 class="title"><%= @tournament.name %></h2>
+</div>
 
 <ul class="detail">
     <li><%= pluralize(@tournament.players.count, "player") %></li>
@@ -60,33 +64,27 @@
                                     <%= p1_is_winner ? "match-winner" : "match-loser" %>
                                <% end %>">
                     <% if winner_id != 0 %>
+                        <%= gravatar_for p1, size: 30 %>
                         <%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %>
                     <% end %>
                     <% if winner_id == 0 && p1 %>
                         <button class="winner_btn tournament_match_winner_btn" data-match-id="<%= m.id %>" data-player-id="<%= p1.id if p1%>" data-round-id="<%= m.round %>"
-                                data-match-number="<%= match_number %>" data-player-number="1"><%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %></button></li>
+                                data-match-number="<%= match_number %>" data-player-number="1"><%= gravatar_for p1, size: 30 %><%= p1 ? "#{p1.first_name} #{p1.last_name}" : "" %>
+                            </button></li>
                     <% end %>
                     <li class="<% if winner_id != 0 %>
                                     <%= p2_is_winner ? "match-winner" : "match-loser" %>
                                <% end %>">
                         <% if winner_id != 0 %>
+                            <%= gravatar_for p2, size: 30 %>
                             <%= p2 ? "#{p2.first_name} #{p2.last_name}" : ""  %>
                         <% end %>
                         <% if winner_id == 0 && p2 %>
                             <button class="winner_btn tournament_match_winner_btn" data-match-id="<%= m.id %>" data-player-id="<%= p2.id if p2%>" data-round-id="<%= m.round %>"
-                                    data-match-number="<%= match_number %>" data-player-number="2"><%= p2 ? "#{p2.first_name} #{p2.last_name}" : ""  %></button></li>
+                                    data-match-number="<%= match_number %>" data-player-number="2"><%= gravatar_for p2, size: 30 %><%= p2 ? "#{p2.first_name} #{p2.last_name}" : ""  %></button></li>
                         <% end %>
-                        <!--
-                    <li>Round <%= m.round %></li>
 
-                    <% if winner_id != 0 %>
-                        <% winner = m.winner %>
-                    <% end %>
-                    <li>Winner: <%= "#{winner.first_name} #{winner.last_name}" if winner %></li>
-                    <br />
-                    -->
                         <% match_number = match_number + 1 %>
-
 
                         </div>
         </ul>

@@ -1,18 +1,46 @@
+// Place all the styles related to the Tournaments controller here.
+// They will automatically be included in application.css.scss.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$mild-green: #99db76;
+
+#filler {
+    margin: 0 0 -1.8em 0;
+}
+
+.create_form_tournament {
+    display: none;
+    clear: right;
+    float: right;
+    input[type="text"] {
+        margin: 0.5em 0 0.7em 0;
+        clear: left;
+    }
+    li {
+        float: left;
+    }
+    &.show_form {
+        display: block;
+        float: left;
+        input, select {
+            margin: 0 0 0.7em 0;
+        }
+        li {
+            clear: left;
+        }
+    }
+}
+
 .round_container {
     position: absolute;
     left: 0;
     right: 0;
     padding: 2em;
     background: #f3f3f3;
-    //z-index: 2; 
     min-width: 750px;
     max-width: 100%;
-    // float: left;
-    // width: auto;
-    // height: auto;
-    // margin: 0 -50%;
-    // padding: 2em 0 0 43%;
-    // overflow: scroll;
+    min-height: 91.7%;
+    margin-top: -1.3em;
 }
 
 .matches-row {
@@ -29,21 +57,21 @@
 }
 
 .match {
-    border: 2px solid #aaa;
-    border-radius: 5px;
+    border: 1px solid #888;
     margin: 0 0 1em 0;
     background: #fff;
     overflow: hidden;
-}
-
-.match li {
-    height: 2em;
-    padding: 0.3em;
-    font-size: 0.9em;
-}
-
-.match li:first-child {
-    border-bottom: 1px solid #000;
+    li {
+        padding: 0.6em;
+        font-size: 0.9em;
+        &:first-child {
+            border-bottom: 1px solid #888;
+        }
+        .gravatar {
+            margin: 0 0.3em 0 0;
+            vertical-align: middle;
+        }
+    }
 }
 
 .winner_btn {
@@ -56,7 +84,8 @@
 }
 
 .match-winner {
-    background-color: rgba(200, 255, 200, 1);
+    background-color: $mild-green;
+    color: #000;
 }
 
 .match-loser {
