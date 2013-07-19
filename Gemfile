@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'normalize-rails'
 gem 'will_paginate'
 gem 'faker'
+gem 'breadcrumbs_on_rails'
 
 # Gems used only for assets and not required
 # in production environments by default.

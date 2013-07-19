@@ -1,8 +1,18 @@
 include ActionView::Helpers::TextHelper
 
 class PlayersController < ApplicationController
+  before_filter :follow_crumbs
+  skip_before_filter :follow_crumbs, only: :add_index
 
   # after_filter :render_pjax, :except => [:create, :destroy]
+
+  def follow_crumbs
+    if params[:tournament_id]
+      add_breadcrumb "Tournaments", :tournaments_path
+    else
+      add_breadcrumb "Players", :players_path
+    end
+  end
 
   def index
 
@@ -13,6 +23,8 @@ class PlayersController < ApplicationController
     if params[:tournament_id]
       @tournament = Tournament.find(params[:tournament_id])
     end
+
+    # add_breadcrumb "Players Index", players_path
 
   end
 
@@ -43,6 +55,12 @@ end
       @tournament = Tournament.find(params[:tournament_id])
     end
 
+    if @tournament
+      add_breadcrumb @tournament.name, tournament_path(@tournament)
+      add_breadcrumb "<span>New Player</span>", new_tournament_player_path, :title => "new!"
+    else
+      add_breadcrumb "<span>New Player</span>", new_player_path
+    end
 
   end
 
@@ -125,6 +143,13 @@ end
 
     @player_tournaments = @player.tournaments
 
+    if @tournament
+      add_breadcrumb @tournament.name, tournament_path(@tournament)
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", tournament_player_path
+    else
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", player_path(@player)
+    end
+
   end
 
   def edit
@@ -133,6 +158,16 @@ end
     end
 
     @player = Player.find(params[:id])
+
+    if @tournament
+      add_breadcrumb @tournament.name, tournament_path(@tournament)
+      add_breadcrumb "#{@player.first_name} #{@player.last_name}", tournament_player_path
+      add_breadcrumb "<span>Edit</span>", edit_tournament_player_path
+    else
+      add_breadcrumb "#{@player.first_name} #{@player.last_name}", player_path(@player)
+      add_breadcrumb "<span>Edit</span>", edit_player_path(@player)
+    end
+
   end
 
   def update
@@ -188,8 +223,7 @@ end
         flash[:error] = "No players were added."
         redirect_to tournament
       end
-    end
-    
+    end    
   end
 
   def multiremove
@@ -222,6 +256,10 @@ end
     else
       @players = Player.where("id NOT IN (?)", @tournament.players).paginate(page: params[:page], per_page: 16)
     end
+
+    add_breadcrumb "Tournaments", :tournaments_path
+    add_breadcrumb @tournament.name, tournament_path(@tournament)
+    add_breadcrumb "<span>Add Existing Players</span>", add_index_path
 
   end
 

@@ -9,6 +9,20 @@
   }
 }
 
+.player-info {
+  margin: 0 0 1em 0;
+  display: block;
+  float: left;
+  .gravatar {
+    float: left;
+    margin: 0 1em 0 0;
+  }
+  .detail {
+    clear: none;
+    float: left;
+  }
+}
+
 .edit_player input {
   margin: 0 0 0.8em 0;
 }
@@ -68,4 +82,30 @@
   position: fixed;
   width: 100%; 
   height: 100%;
+}
+
+#error_explanation {
+  display: block;
+  float: right;
+  width: 100%;
+  background-color: rgba(0,0,0,.1);
+  margin-bottom: 1em;
+  padding: 0 0 0.6em 0;
+  > .alert-error {
+    border-radius: 0;
+    font-size: 0.8em;
+    border-bottom: 1px solid #b94a48;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  ul {
+    margin: 1em;
+    font-weight: 700;
+    font-size: 0.8em;
+    li {
+      color: #333;
+      margin-bottom: 0.4em;
+    }
+  }
 }

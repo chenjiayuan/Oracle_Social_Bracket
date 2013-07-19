@@ -1,16 +1,25 @@
 <% provide(:title, "#{@player.first_name} #{@player.last_name}") %>
 
-<h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
+<%= render 'layouts/breadcrumbs' %>
+
+<div class="player-info">
+    <%= gravatar_for @player, size: 93 %>
+    <div class="detail">
+        <h2 class="title">
+            <%= "#{@player.first_name} #{@player.last_name}" %>
+        </h2>
+        <ul>
+            <li><%= @player.email %></li>
+            <li>Skill: <%= @player.skill %></li>
+            <li>Matches Won: <%= @player.matches_won %></li>
+        </ul>
+    </div>
+</div>
 <% if @tournament %>
    <div class="btn remove_btn"><%= link_to "Remove Player from #{@tournament.name}", tournament_player_path(@tournament, @player), method: :delete %></div>
 <% end %>
 <div class="btn edit_btn"><%= link_to "Edit Player", @tournament ? edit_tournament_player_path(@tournament, @player ) : edit_player_path(@player) %></div>
 <div class="btn delete_btn"><%= link_to "Delete Player", @player, confirm: "Did you really mean to delete this player?", method: :delete %></div>
-<ul class="detail">
-	<li><%= @player.email %></li>
-	<li>Skill: <%= @player.skill %></li>
-	<li>Matches Won: <%= @player.matches_won %></li>
-</ul>
 <div class="divider"></div>
 
 <h3 class="subtitle">Tournaments</h3>

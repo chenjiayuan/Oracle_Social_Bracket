@@ -1,3 +1,47 @@
 // Place all the styles related to the StaticPages controller here.
 // They will automatically be included in application.css.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#contact {
+    display: block;
+    margin: 0 auto;
+    width: 55%;
+    h3 {
+        margin: 1em auto 0 auto;
+        clear: both;
+    }
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+
+.img_box {
+    width: 200px;
+    height: 200px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin: 1.2em auto 0 auto;
+}
+
+.contact-info {
+    float: left;
+    &:first-of-type {
+        margin: 0 3em 0 0;
+    }
+}
+
+.info {
+    display: block;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+#footer-padding {
+    height: 30px;
+    margin: 1em;
+    clear: both;
+}
