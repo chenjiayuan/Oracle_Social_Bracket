@@ -71,6 +71,7 @@ function send_player_form(event){
             $.pjax({url: '/players?page=1', container: '#container'});
             $("#player-dialog-form").dialog('close');
             $('table tbody tr').first().hide().effect('highlight', {color: 'green'}).show();
+            $('form').remove();
             console.log(data);
         },
         error: function(xhr, textStatus, errorThrown){
@@ -85,9 +86,9 @@ function send_player_form(event){
             });
 
             alert(errors);
-
             $('#new_player_btn').click();
         }
+
     });
 
 }

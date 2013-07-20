@@ -61,6 +61,7 @@ function match_form_show(event) {
         close: function() {
             $('#match-dialog-form').find('input[type=text]').val("");
             form.dialog('close');
+            $('form').remove();
 //            $('.create_btn').show();
         }
     });

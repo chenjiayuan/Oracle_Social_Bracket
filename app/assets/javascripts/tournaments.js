@@ -142,8 +142,10 @@ function send_tournament_form(event) {
             });
 
             alert(errors);
+//            $('#new_tournament_btn').fadeToggle("fast");
+//            $('.create_form_tournament').remove();
 
-            tour_form_show(event);
+                tour_form_show(event);
 
         })
     });
