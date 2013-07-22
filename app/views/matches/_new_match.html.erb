@@ -1,0 +1,12 @@
+<% provide(:title, "New Match") %>
+
+<div class="create_form_match">
+    <%= form_for @match, html: { id: 'match-dialog-form', class: 'nopjax', title: 'New Match' } do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+
+        <ul>
+            <li><span>Match Name <small>(Optional)</small></span></li>
+            <li><%= f.text_field :name, autofocus: true %></li>
+        </ul>
+    <% end %>
+</div>

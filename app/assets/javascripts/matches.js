@@ -42,5 +42,65 @@ function match_form_show(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    //console.log('hi');
+//    console.log('hi');
+    var form = $("#match-dialog-form").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 400,
+        width: 350,
+
+        buttons: {
+            "Create Match": function() {
+                send_match_form(event);
+            },
+            Cancel: function() {
+                $(this).dialog('close');
+            }
+        },
+
+        close: function() {
+            $('#match-dialog-form').find('input[type=text]').val("");
+            form.dialog('close');
+            $('form').remove();
+//            $('.create_btn').show();
+        }
+    });
+
+    form.dialog('open');
+
+    form.dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
+}
+
+function send_match_form(event){
+    event.preventDefault();
+
+    $.ajax({
+        type: "POST",
+        url: 'matches/add_new_match',
+        data: {
+            name: $('input#match_name').val()
+        },
+        dataType: "JSON",
+        success: function(data) {
+            $.pjax({url: '/matches?page=1', container: '#container'});
+            $("#match-dialog-form").dialog('close');
+            $('table tbody tr').first().hide().effect('highlight', {color: 'green', duration: 1200}).show();
+            console.log(data);
+        },
+        error: function(xhr, textStatus, errorThrown){
+            console.log(xhr);
+            console.log(textStatus);
+            console.log(errorThrown);
+
+            var errors = "ERRORS -> \n";
+
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+
+            alert(errors);
+
+            $('#new_match_btn').click();
+        }
+    });
 }

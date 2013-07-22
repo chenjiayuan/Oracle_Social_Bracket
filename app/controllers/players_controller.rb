@@ -103,7 +103,7 @@ end
         tournament.players << @player
         tournament.save
         flash[:success] = "Player created"
-        redirect_to tournament
+        redirect_to tournament_path(tournament)
       else
         flash[:success] = "Player created"
         redirect_to player_path(@player)

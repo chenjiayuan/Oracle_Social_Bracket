@@ -33,7 +33,7 @@ function player_form_show(event){
         close: function() {
             $('#player-dialog-form').find('input[type=text], input[type=email]').val("");
             form.dialog('close');
-            $('.create_btn').show();
+//            $('.create_btn').show();
         }
     });
 
@@ -72,6 +72,7 @@ function send_player_form(event){
             $("#player-dialog-form").dialog('close');
             $('form').remove();
             $('table tbody tr').first().hide().effect('highlight', {color: 'green'}).show();
+            $('form').remove();
             console.log(data);
         },
         error: function(xhr, textStatus, errorThrown){
@@ -86,9 +87,9 @@ function send_player_form(event){
             });
 
             alert(errors);
-
             $('#new_player_btn').click();
         }
+
     });
 
 }

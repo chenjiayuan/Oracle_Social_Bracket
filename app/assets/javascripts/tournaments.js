@@ -80,7 +80,7 @@ function tour_form_show(event) {
     $('#new_tournament_btn').fadeToggle("fast", function() {
         console.log('show_inner');
         $('.create_form_tournament').fadeToggle("fast");
-        $("input[type=text]").focus();
+        $("input#tournament_name").focus();
     });
 }
 
@@ -102,7 +102,6 @@ function send_tournament_form(event) {
     var value = $('#tournament_name').val();
     var el = event.currentTarget;
 
-    $.pjax({url: '/tournaments?page=1', container: '#container'});
 
     $.ajax({
         type: 'POST',
@@ -110,11 +109,12 @@ function send_tournament_form(event) {
         url: 'tournaments/add_new_tournament',
         dataType: "JSON",
         success: (function(data) {
+            $.pjax({url: '/tournaments?page=1', container: '#container'});
             console.log(data);
-            var repaginate = false
-
-            if($('tbody tr').length == 5)
-                repaginate = true;
+//            var repaginate = false
+//
+//            if($('tbody tr').length == 5)
+//                repaginate = true;
 
             var new_row = $("<tr data-tournament-id=" + data.tournament.id + ">" +
 
@@ -126,8 +126,8 @@ function send_tournament_form(event) {
 
             $('tbody').prepend(new_row.effect('highlight', {color: '#70ae21'}, '6000'));
 
-            if(repaginate)
-                $('tbody tr').last().remove();
+//            if(repaginate)
+//                $('tbody tr').last().remove();
         }),
         error: (function(xhr, textStatus, errorThrown) {
 
@@ -142,8 +142,10 @@ function send_tournament_form(event) {
             });
 
             alert(errors);
+//            $('#new_tournament_btn').fadeToggle("fast");
+//            $('.create_form_tournament').remove();
 
-            tour_form_show(event);
+                tour_form_show(event);
 
         })
     });
