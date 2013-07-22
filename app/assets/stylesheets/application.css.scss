@@ -370,7 +370,7 @@ div .title {
             }
         }
     }
-    span {
+    &:last-child {
         background: $mild-green;
         &::before {
             border-color: $mild-green $mild-green $mild-green transparent;
@@ -390,6 +390,7 @@ div .title {
 .search_box {
     float: left;
     width: 30%;
+    margin: 0 0 1em 0;
     .search {
         font-size: 0.9em;
         overflow: hidden;

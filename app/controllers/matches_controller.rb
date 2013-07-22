@@ -61,4 +61,22 @@ class MatchesController < ApplicationController
       }
     end
   end
+
+  def search_matches
+    search = params['search_term']
+
+    if !search.empty?
+      search_result = Match.where("name LIKE :test", test: "%#{search}%")
+    else
+      search_result = Match.order("created_at DESC").paginate(page: params[:page], per_page: 16)
+    end
+
+    respond_to do |format|
+      format.json {
+        render json: {
+            search_result: search_result
+        }
+      }
+    end
+  end
 end

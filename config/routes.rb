@@ -30,6 +30,7 @@ Brakkit::Application.routes.draw do
   resources :matches do
     collection do
       post 'add_new_match'
+      post 'search_matches'
     end
     member do
       post 'verdict'

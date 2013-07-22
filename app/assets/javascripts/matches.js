@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $('.matches-list').on("click", ".match_winner_btn", update_match);
     $('#container').on("click", "#new_match_btn", match_form_show);
+    $('#container').on('keyup', 'input#match_search', search_match);
 });
 
 function update_match(event) {
@@ -103,4 +104,35 @@ function send_match_form(event){
             $('#new_match_btn').click();
         }
     });
+}
+
+function search_match(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log('hi');
+
+    $.ajax({
+        type: "POST",
+        url: 'matches/search_matches',
+        dataType: "JSON",
+        data: { search_term: $('input#match_search').val() },
+
+        success: function(data) {
+            var el= $('#matches_table');
+            el.html("");
+            var temp;
+
+            for(var i = 0; i < data.search_result.length; i++){
+                temp = data.search_result[i];
+                el.append("<tr>" +
+                    "<td><a href='/tournaments/" + temp.id + "'>" + temp.name + "</a></td>" +
+                    "<td>" + temp.player_count + "</td>" +
+                    "<td>" + temp.status + "</td>" +
+                    "<td>" + (temp.winner_name == null ? "" : "<a href='/tournaments/" + temp.id
+                    + "/players/" + temp.winner_id + "'>" + temp.winner_name + "</a>" ) + "</td>" +
+                    "</tr>");
+            }
+
+        }
+    })
 }

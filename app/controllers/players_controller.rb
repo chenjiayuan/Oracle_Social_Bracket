@@ -220,7 +220,8 @@ end
         flash[:error] = "That didn't work :("
         redirect_to match_path(match)
       else
-        flash[:error] = @player.errors
+        #add_breadcrumb "#{@player.first_name} #{@player.last_name}", player_path(@player)
+        #add_breadcrumb "<span>Edit</span>", edit_player_path(@player)
         render 'edit'
       end
     end

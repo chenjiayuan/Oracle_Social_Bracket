@@ -6,7 +6,7 @@ class Match < ActiveRecord::Base
   validates_uniqueness_of :name
 
   after_save do |m|
-    if(m.name.empty?)
+    if(!m.name || m.name.empty?)
       m.name = "Match-#{m.id}"
       m.save
     end

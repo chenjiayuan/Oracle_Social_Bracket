@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <% if @matches.any? %>
-        <tbody>
+        <tbody id="matches_table">
             <% @matches.each do |m| %>
                 <tr data-match-id="<%= m.id %>">
                     <td><%= link_to m.name, match_path(m), class: 'nopjax' %></td>
