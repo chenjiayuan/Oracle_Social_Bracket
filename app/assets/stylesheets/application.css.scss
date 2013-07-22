@@ -386,3 +386,20 @@ div .title {
     width: 100%;
     clear: both;
 }
+
+.search_box {
+    float: left;
+    width: 30%;
+    .search {
+        font-size: 0.9em;
+        overflow: hidden;
+        border: none;
+        padding: 5px 0 5px 10px;
+        width: 100%;
+        color: #666;
+        background: #fff;
+        border: 1px solid #ccc;
+        -moz-border-radius: 50px;
+        border-radius: 50px;
+    }
+}

@@ -70,6 +70,7 @@ function send_player_form(event){
         success: function(data) {
             $.pjax({url: '/players?page=1', container: '#container'});
             $("#player-dialog-form").dialog('close');
+            $('form').remove();
             $('table tbody tr').first().hide().effect('highlight', {color: 'green'}).show();
             console.log(data);
         },
