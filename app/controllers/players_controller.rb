@@ -114,7 +114,7 @@ end
         session[:player_errors] = @player.errors
         redirect_to new_tournament_player_path(tournament)
       else
-        render 'new'
+        # render 'new'
       end
     end
   end
