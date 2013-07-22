@@ -35,7 +35,7 @@
 
     <h3 class="subtitle">Players</h3>
     <div class="btn"> <%= link_to "Add New Player", new_tournament_player_path(@tournament) %></div>
-    <div class="btn"> <%= link_to "Add Existing Players", add_index_path(@tournament), class: 'nopjax' %></div>
+    <div class="btn"> <%= link_to "Add Existing Players", add_index_path(@tournament) %></div>
 
     <%= form_tag multiremove_tournament_players_path(@tournament) do %>
 
