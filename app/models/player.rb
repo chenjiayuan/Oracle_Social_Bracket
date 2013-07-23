@@ -18,6 +18,13 @@ class Player < ActiveRecord::Base
   has_many :tournaments, through: :tournament_players
   has_many :tournament_players, dependent: :destroy
 
+  def first_name=(value)
+    write_attribute(:full_name, "#{value} #{self.last_name}")
+  end
+
+  def last_name=(value)
+    write_attribute(:full_name, "#{self.first_name} #{value}")
+  end
 
   def full_name
     "#{self.first_name} #{self.last_name}"

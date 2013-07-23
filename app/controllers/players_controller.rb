@@ -220,7 +220,6 @@ end
         flash[:error] = "That didn't work :("
         redirect_to match_path(match)
       else
-        flash[:error] = @player.errors
         render 'edit'
       end
     end
@@ -327,5 +326,11 @@ end
       }
     end
   end
+
+  private
+
+    def player_params
+      params.require(:player).permit(:first_name, :last_name, :email, :skill)
+    end
 
 end
