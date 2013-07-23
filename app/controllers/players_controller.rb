@@ -220,7 +220,8 @@ end
         flash[:error] = "That didn't work :("
         redirect_to match_path(match)
       else
-        render 'edit'
+        flash[:error] = @player.errors.to_a.to_sentence
+        redirect_to edit_player_path(@player)
       end
     end
   end
