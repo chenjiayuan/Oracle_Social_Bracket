@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
 
   def index
-    @matches = Match.where(tournament_id: 0).order("created_at DESC").paginate(page: params[:page], per_page: 15)
+    @matches = Match.where(tournament_id: 0).order("created_at DESC").paginate(page: params[:page], per_page: 16)
     @match = Match.new
   end
 
@@ -64,11 +64,40 @@ class MatchesController < ApplicationController
 
   def search_matches
     search = params['search_term']
+    matches = Match.where(tournament_id: 0)
 
     if !search.empty?
-      search_result = Match.where("name LIKE :test", test: "%#{search}%")
+      search_result = matches.where("name LIKE :test", test: "%#{search}%")
     else
-      search_result = Match.order("created_at DESC").paginate(page: params[:page], per_page: 16)
+      search_result = matches.order("created_at DESC").paginate(page: params[:page], per_page: 16)
+    end
+
+    players = Player.select('id, full_name').where('full_name like :test', test: "%#{search}%")
+    ids = players.map(&:id)
+    search_result = (search_result + matches.find_all_by_player1_id(ids) + matches.find_all_by_player2_id(ids) + matches.find_all_by_winner_id(ids)).uniq
+
+    search_result = search_result.map do |s|
+      if s.winner_id != 0
+        winner_name = s.winner.full_name
+      else
+        winner_name = ""
+      end
+
+      player1_id = s.player1 ? s.player1_id : 0
+      player2_id = s.player2 ? s.player2_id : 0
+      player1_name = s.player1 ? Player.find(player1_id).full_name : ""
+      player2_name = s.player2 ? Player.find(player2_id).full_name : ""
+
+      {
+          id: s.id,
+          name: s.name,
+          player1_id: player1_id,
+          player2_id: player2_id,
+          player1_name: player1_name,
+          player2_name: player2_name,
+          winner_name: winner_name,
+          winner_id: s.winner_id
+      }
     end
 
     respond_to do |format|
