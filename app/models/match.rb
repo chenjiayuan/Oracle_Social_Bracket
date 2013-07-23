@@ -1,8 +1,14 @@
 class Match < ActiveRecord::Base
   attr_accessible :player1_id, :player2_id, :round, :tournament_id, :winner_id, :name
+
+  before_update do
+    validate :unique_players
+  end
+
   belongs_to :player1, class_name: Player, foreign_key: :player1_id
   belongs_to :player2, class_name: Player, foreign_key: :player2_id
   belongs_to :winner, class_name: Player, foreign_key: :winner_id
+
   validates_uniqueness_of :name
 
   after_save do |m|
@@ -12,5 +18,14 @@ class Match < ActiveRecord::Base
     end
 
   end
+
+  def players
+    [self.player1, self.player2]
+  end
+
+  private
+    def unique_players
+      errors.add :players, "The match needs to have two unique players" if self.player1_id == self.player2_id
+    end
 
 end

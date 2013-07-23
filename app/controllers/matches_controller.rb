@@ -11,10 +11,18 @@ class MatchesController < ApplicationController
 
   def show
     @match = Match.find(params[:id])
+    @count = 0
+    @count = @count + 1 if @match.player1
+    @count = @count + 1 if @match.player2
+
+    add_breadcrumb "Matches", matches_path
+    add_breadcrumb "<span>#{@match.name}</span>", match_path(@match)
   end
 
-  def start_match
-    @match = Match.find(params[:id])
+  def destroy
+    Match.find(params[:id]).destroy
+    flash[:success] = "Match deleted!"
+    redirect_to matches_path
   end
 
   def verdict
@@ -108,4 +116,13 @@ class MatchesController < ApplicationController
       }
     end
   end
+
+  def start_match
+    @match = Match.find(params[:id])
+
+    add_breadcrumb "Matches", matches_path
+    add_breadcrumb "#{@match.name}", match_path(@match)
+    add_breadcrumb "<span>Bracket View</span>", start_match_path
+  end
+
 end

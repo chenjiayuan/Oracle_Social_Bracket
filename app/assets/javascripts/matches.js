@@ -62,7 +62,7 @@ function match_form_show(event) {
         close: function() {
             $('#match-dialog-form').find('input[type=text]').val("");
             form.dialog('close');
-            $('form').remove();
+//          ('form').remove();
 //            $('.create_btn').show();
         }
     });
@@ -77,7 +77,7 @@ function send_match_form(event){
 
     $.ajax({
         type: "POST",
-        url: 'matches/add_new_match',
+        url: 'add_new_match',
         data: {
             name: $('input#match_name').val()
         },
@@ -85,7 +85,7 @@ function send_match_form(event){
         success: function(data) {
             $.pjax({url: '/matches?page=1', container: '#container'});
             $("#match-dialog-form").dialog('close');
-            $('table tbody tr').first().hide().effect('highlight', {color: 'green', duration: 1200}).show();
+            $('table tbody tr').first().effect('highlight', {color: 'green', duration: 6000});
             console.log(data);
         },
         error: function(xhr, textStatus, errorThrown){

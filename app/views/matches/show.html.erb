@@ -1,10 +1,84 @@
 <% provide(:title, "#{@match.id}") %>
 <%= flash[:notice] %>
 
-<h2 class="title">Match ID: <%= @match.id %></h2>
+<%= render 'layouts/breadcrumbs' %>
+
+<h2 class="title"><%= @match.name %></h2>
 
 <% if !@match.winner %>
-
+    <div class="btn start_btn">
+        <%= link_to "Start Match", start_match_path(@match), class: 'nopjax' %>
+    </div>
 <% else %>
     <div class="btn completed_btn"><%= link_to "Match Completed" %></div>
 <% end %>
+
+<div class="btn delete_btn"><%= link_to "Delete Match", @match, confirm: "Did you really mean to delete this match?", method: :delete %></div>
+
+<ul class="detail">
+    <li><%= pluralize(@count, "player") %></li>
+</ul>
+<div class="divider"></div>
+
+<h3 class="subtitle">Players</h3>
+<% if @count < 2 %>
+    <div class="btn"> <%= link_to "Add New Player", new_match_player_path(@match) %></div>
+<% end %>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Skill Level</th>
+        <th>Matches Won</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% player1 = @match.player1 ? @match.player1 : nil %>
+    <% player2 = @match.player2 ? @match.player2 : nil %>
+
+    <tr>
+        <td><% if !player1.nil? %>
+                <%= link_to player1.full_name, match_player_path(@match, player1) %>
+            <% else %>
+                <button class="btn add_match_player" data-player-number="1">Add Player</button>
+            <% end %>
+        </td>
+        <td>
+            <%= player1.email if !player1.nil? %>
+        </td>
+        <td>
+            <%= player1.skill if !player1.nil? %>
+        </td>
+        <td>
+            <%= player1.matches_won if !player1.nil? %>
+        </td>
+        <td>
+            <%= link_to "Remove Player", player1, confirm: "Are you sure" %>
+        </td>
+    </tr>
+    <tr>
+        <td><% if !player2.nil? %>
+                <%= link_to player2.full_name, match_player_path(@match, player2) %>
+            <% else %>
+                <button class="btn add_match_player" data-player-number="1">Add Player</button>
+            <% end %>
+        </td>
+        <td>
+            <%= player2.email if !player2.nil? %>
+        </td>
+        <td>
+            <%= player2.skill if !player2.nil? %>
+        </td>
+        <td>
+            <%= player2.matches_won if !player2.nil? %>
+        </td>
+        <td>
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
