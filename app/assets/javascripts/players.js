@@ -12,9 +12,6 @@ $(document).ready(function (){
 function player_form_show(event){
     event.preventDefault();
     event.stopPropagation();
-    //$('body:not(#player-dialog-form)').fadeTo('2000', 0.6);
-
-    //$('.create_form_player').show();
     var form = $("#player-dialog-form").dialog({
         autoOpen: false,
         modal: true,
