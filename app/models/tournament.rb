@@ -15,13 +15,18 @@ class Tournament < ActiveRecord::Base
     end
   end
 
-  def setup_matches
+  def setup_playoff
+
+    
+  end
+
+  def setup_normal
     if !self.matches.any? && self.players.any?
 
-      self.active = true
       players = self.players
-      players.sort! { |a, b| a.skill <=> b.skill }
       players_length = players.length
+      self.active = true
+      players.sort! { |a, b| a.skill <=> b.skill }
       round = 1
       rounds = Math.log2(players_length)
       match_count = 0
@@ -66,6 +71,17 @@ class Tournament < ActiveRecord::Base
   end
 
   def start_tournament
-    setup_matches
+    if power_of_2?(self.players.length)
+      setup_normal
+    else
+      setup_playoff
+    end
   end
+
+  def power_of_2?(number)
+    return true if number == 1
+    return false if number == 0 || number % 2 != 0
+    power_of_2?(number / 2)
+  end
+
 end
