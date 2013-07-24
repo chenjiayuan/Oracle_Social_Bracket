@@ -2,6 +2,8 @@ $(document).ready(function() {
     $('.matches-list').on("click", ".match_winner_btn", update_match);
     $('#container').on("click", "#new_match_btn", match_form_show);
     $('#container').on('keyup', 'input#match_search', search_match);
+    $('#container').on('click', '.add_match_player_picker', add_match_player_picker);
+    $('#container').on('click', '.remove_match_player', remove_match_player);
 });
 
 function update_match(event) {
@@ -77,7 +79,7 @@ function send_match_form(event){
 
     $.ajax({
         type: "POST",
-        url: 'add_new_match',
+        url: 'matches/add_new_match',
         data: {
             name: $('input#match_name').val()
         },
@@ -138,4 +140,78 @@ function search_match(event) {
 
         }
     })
+}
+
+function add_match_player_picker(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var el = $(event.currentTarget);
+    var match_id = el.data('match-id');
+    var player_id = el.data('player-id');
+    var button = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: '/matches/' + el.data('match-id') + '/add_match_player',
+        dataType: "JSON",
+        data: {
+            match_id: match_id,
+            player_id: player_id
+        },
+        success: function(data){
+//            alert(el.data('player-number'));
+            console.log(data);
+            if(data.row == 1){
+                $('table:first tbody tr').first().html("<td><a href='/matches/" + match_id +
+                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
+                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
+                    "<td>" + "<button class='btn remove_match_player' data-player-number='1' data-match-id='" + match_id + "' " +
+                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>")
+            }
+            else{
+                $('table:first tbody tr').last().html("<td><a href='/matches/" + match_id +
+                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
+                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
+                    "<td>" + "<button class='btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
+                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>")
+            }
+            //if the player added is the last player...
+//            button.closest('tr')
+        }
+    })
+}
+
+function remove_match_player(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    var el = $(event.currentTarget);
+    var player_id = el.data('player-id');
+    var player_row = el.data('player-number');
+    var match_id = el.data('match-id')
+    var button = $(this);
+
+    $.ajax({
+        type: "POST",
+        url: '/matches/' + el.data('match-id') + '/remove_match_player',
+        dataType: "JSON",
+        data: {
+            match_id: match_id,
+            player_id: player_id
+        },
+        success: function() {
+            if(player_row == 1){
+                $('table:first tbody tr:first').html("<td><button class='btn add_match_player' " +
+                    "data-player-number='1' data-match-id='" + match_id + "'>Add Player</button></td>" +
+                    "<td></td><td></td><td></td><td></td>");
+            }
+            else {
+                $('table:first tbody tr:last').html("<td><button class='btn add_match_player' " +
+                    "data-player-number='2' data-match-id='" + match_id + "'>Add Player</button></td>" +
+                    "<td></td><td></td><td></td><td></td>");
+            }
+
+        }
+
+    })
+
 }

@@ -15,6 +15,8 @@ class MatchesController < ApplicationController
     @count = @count + 1 if @match.player1
     @count = @count + 1 if @match.player2
 
+    @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+
     add_breadcrumb "Matches", matches_path
     add_breadcrumb "<span>#{@match.name}</span>", match_path(@match)
   end
@@ -125,4 +127,46 @@ class MatchesController < ApplicationController
     add_breadcrumb "<span>Bracket View</span>", start_match_path
   end
 
+  def add_match_player
+    @match = Match.find(params['match_id'].to_i)
+    player_id = params['player_id'].to_i
+    row = 0
+    @player = Player.find(player_id)
+
+    if @match.player1_id == 0
+      @match.player1_id = player_id
+      row = 1
+    elsif @match.player2_id == 0
+      @match.player2_id = player_id
+      row = 2
+    end
+    @match.save
+
+    respond_to do |format|
+      format.json {
+        render json: {
+          match: @match,
+          player: @player,
+          row: row
+        }
+      }
+    end
+  end
+
+  def remove_match_player
+    @match = Match.find(params['match_id'])
+    player_id = params['player_id'].to_i
+    if @match.player1_id == player_id
+      @match.player1_id = 0
+    elsif @match.player2_id == player_id
+      @match.player2_id = 0
+    end
+    @match.save
+
+    respond_to do |format|
+      format.json {
+        render json: @match, status: :ok
+      }
+    end
+  end
 end

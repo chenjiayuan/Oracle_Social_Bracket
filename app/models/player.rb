@@ -21,14 +21,6 @@ class Player < ActiveRecord::Base
   belongs_to :match
 
 
-  def first_name=(value)
-    write_attribute(:full_name, "#{value} #{self.last_name}")
-  end
-
-  def last_name=(value)
-    write_attribute(:full_name, "#{self.first_name} #{value}")
-  end
-
   def full_name
     "#{self.first_name} #{self.last_name}"
   end

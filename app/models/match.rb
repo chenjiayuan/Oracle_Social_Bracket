@@ -1,9 +1,9 @@
 class Match < ActiveRecord::Base
   attr_accessible :player1_id, :player2_id, :round, :tournament_id, :winner_id, :name
 
-  before_update do
-    validate :unique_players
-  end
+  #before_update do
+  #  validate :unique_players
+  #end
 
   belongs_to :player1, class_name: Player, foreign_key: :player1_id
   belongs_to :player2, class_name: Player, foreign_key: :player2_id
@@ -20,7 +20,10 @@ class Match < ActiveRecord::Base
   end
 
   def players
-    [self.player1, self.player2]
+    players = []
+    players << self.player1 if self.player1
+    players << self.player2 if self.player2
+    players
   end
 
   private

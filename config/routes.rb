@@ -34,6 +34,8 @@ Brakkit::Application.routes.draw do
     end
     member do
       post 'verdict'
+      post 'add_match_player'
+      post 'remove_match_player'
     end
 
     resources :players do
@@ -54,6 +56,7 @@ Brakkit::Application.routes.draw do
   post '/tournaments/:id/players/:id/edit', to: 'players#edit'
   get '/tournaments/:id/start', to: 'tournaments#start_tournament', as: 'start_tournament'
   get '/tournaments/:id/add_index/', to: 'players#add_index', as: 'add_index'
+  get '/matches/:id/start_match', to: 'matches#start_match', as: 'start_match'
 
   #ajax routes
 

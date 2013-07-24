@@ -43,7 +43,7 @@
         <td><% if !player1.nil? %>
                 <%= link_to player1.full_name, match_player_path(@match, player1) %>
             <% else %>
-                <button class="btn add_match_player" data-player-number="1">Add Player</button>
+                <button class="btn add_match_player" data-player-number="1" data-match-id="<%= @match.id %>">Add Player</button>
             <% end %>
         </td>
         <td>
@@ -56,14 +56,17 @@
             <%= player1.matches_won if !player1.nil? %>
         </td>
         <td>
-            <%= link_to "Remove Player", player1, confirm: "Are you sure" %>
+            <% if !player1.nil? %>
+                <button class="btn remove_match_player" data-player-number="1" data-match-id="<%= @match.id %>"
+                data-player-id="<%= @match.player1_id %>">Remove Player</button>
+            <% end %>
         </td>
     </tr>
     <tr>
         <td><% if !player2.nil? %>
                 <%= link_to player2.full_name, match_player_path(@match, player2) %>
             <% else %>
-                <button class="btn add_match_player" data-player-number="1">Add Player</button>
+                <button class="btn add_match_player" data-player-number="2" data-match-id="<%= @match.id %>">Add Player</button>
             <% end %>
         </td>
         <td>
@@ -76,9 +79,15 @@
             <%= player2.matches_won if !player2.nil? %>
         </td>
         <td>
-
+            <% if !player2.nil? %>
+                <button class="btn remove_match_player" data-player-number="2" data-match-id="<%= @match.id %>"
+                data-player-id="<%= @match.player2_id %>">Remove Player</button>
+            <% end %>
         </td>
     </tr>
     </tbody>
 </table>
+
+<%= render 'player_picker' %>
+
 
