@@ -156,6 +156,8 @@ class MatchesController < ApplicationController
   def remove_match_player
     @match = Match.find(params['match_id'])
     player_id = params['player_id'].to_i
+    player = Player.find(player_id)
+
     if @match.player1_id == player_id
       @match.player1_id = 0
     elsif @match.player2_id == player_id
@@ -165,7 +167,9 @@ class MatchesController < ApplicationController
 
     respond_to do |format|
       format.json {
-        render json: @match, status: :ok
+        render json: {
+            player: player
+        }
       }
     end
   end

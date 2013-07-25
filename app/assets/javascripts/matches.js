@@ -4,6 +4,7 @@ $(document).ready(function() {
     $('#container').on('keyup', 'input#match_search', search_match);
     $('#container').on('click', '.add_match_player_picker', add_match_player_picker);
     $('#container').on('click', '.remove_match_player', remove_match_player);
+    $('#container').on('click', '.add_match_player', add_player_click_listener);
 });
 
 function update_match(event) {
@@ -175,6 +176,11 @@ function add_match_player_picker(event) {
                     "<td>" + "<button class='btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
                     "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>")
             }
+            $('table:last tbody').find(button).closest('tr').remove();
+
+//            if(data.match.players.size == 2){
+//
+//            }
             //if the player added is the last player...
 //            button.closest('tr')
         }
@@ -198,20 +204,66 @@ function remove_match_player(event) {
             match_id: match_id,
             player_id: player_id
         },
-        success: function() {
+        success: function(data) {
+            var second_table = $('table:last tbody');
+
             if(player_row == 1){
-                $('table:first tbody tr:first').html("<td><button class='btn add_match_player' " +
+                $('table:first tbody').find(button).closest('tr').html("<td><button class='btn add_match_player' " +
                     "data-player-number='1' data-match-id='" + match_id + "'>Add Player</button></td>" +
                     "<td></td><td></td><td></td><td></td>");
             }
             else {
-                $('table:first tbody tr:last').html("<td><button class='btn add_match_player' " +
+                $('table:first tbody').find(button).closest('tr').html("<td><button class='btn add_match_player' " +
                     "data-player-number='2' data-match-id='" + match_id + "'>Add Player</button></td>" +
                     "<td></td><td></td><td></td><td></td>");
             }
 
+            if((second_table).find('tr:first td:last').html() == '')
+                second_table.find('tr:first').remove();
+
+            second_table.append('<tr>' +
+                '<td><button class="add_match_player_picker" data-player-id="' + player_id + '"' +
+                ' data-match-id="' + match_id + '">' + data.player.full_name + '</button></td>' +
+                '<td>' + data.player.skill + '</td>' +
+                '</tr>');
         }
 
+
     })
+
+}
+
+function add_player_click_listener(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('hi');
+
+    var form = $("#match_player_picker").dialog({
+        autoOpen: false,
+        modal: false,
+        height: 400,
+        width: 350,
+
+        buttons: {
+            "Add Player": function() {
+//                send_match_form(event);
+            },
+            Cancel: function() {
+                $(this).dialog('close');
+            }
+        },
+
+        close: function() {
+            form.dialog('close');
+//            $('#match_player_picker').remove();
+//          ('form').remove();
+//            $('.create_btn').show();
+        }
+    });
+
+    form.dialog('open');
+
+    form.dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
 
 }

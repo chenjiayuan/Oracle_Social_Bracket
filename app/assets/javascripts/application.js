@@ -10,6 +10,7 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
@@ -19,6 +20,14 @@
 
 $(document).ready(function() {
     $(this).pjax('a:not(.nopjax)', '#container');
+    $('#ajax_spinner').hide();
+
+//    $(document).on('pjax:send', function() {
+//        $('#ajax_spinner').show();
+//    })
+//        .on('pjax:complete', function() {
+//            $('#ajax_spinner').hide();
+//        });
     // $("body").on("click", "#contact-button", fix_styling);
 
 //    $("#players_header").click(function() {
