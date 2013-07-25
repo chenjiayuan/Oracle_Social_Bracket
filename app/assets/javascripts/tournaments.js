@@ -1,7 +1,17 @@
 $(document).ready(function() {
 
     $('img').load(function() {
-        $('.round').css({'height':($('.round-1').height()+'px')});
+        // $('.round').css({'height':($('.round-1').height()+'px')});
+        var maxHeight = 0;
+
+        $('.round').each(function(index){
+            if ($(this).height() > maxHeight)
+                {
+                    maxHeight = $(this).height();
+                }
+        });
+
+        $('.round').css({'height': maxHeight + 'px'});
         $('#filler').height($('.round_container').height());
     });
 
