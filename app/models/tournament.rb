@@ -40,6 +40,8 @@ class Tournament < ActiveRecord::Base
       # Give a temp variable so we can use playoff_matches later
 
       leftover = p.length - (playoff_matches * 2)
+      true_length = p.length - playoff_matches
+      filler_matches = true_length - playoff_matches
       p_tail = 1
       p_head = 0
       temp = playoff_matches
@@ -50,18 +52,31 @@ class Tournament < ActiveRecord::Base
         first_player = p[p_tail]
         second_player = p[p_head]
 
+        if filler_matches > 0
+          m = Match.create({round: round, tournament_id: self.id, name: ""})
+          self.matches << m
+        end
+
         m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
         self.matches << m
 
         p_tail = p_tail + 2
         p_head = p_head + 2
         temp = temp - 1
+        filler_matches = filler_matches - 1
+
+        if temp == 0 && filler_matches != 0
+          while filler_matches > 0
+            m = Match.create({round: round, tournament_id: self.id, name: ""})
+            self.matches << m
+            filler_matches = filler_matches - 1
+          end
+        end
       end
 
       # Set up the other rounds
 
       round = round + 1
-      true_length = p.length - playoff_matches
       if p.length > (true_length + true_length/2)
         spare_players = true_length - (p.length - true_length)
       else
