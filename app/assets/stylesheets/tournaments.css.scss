@@ -64,12 +64,20 @@ $mild-green: #99db76;
     li {
         padding: 0.6em;
         font-size: 0.9em;
+        min-height: 48px;
         &:first-child {
             border-bottom: 1px solid #888;
         }
         .gravatar {
             margin: 0 0.4em 0 0;
             vertical-align: middle;
+        }
+    }
+    &.non-match {
+        border: none;
+        background: none;
+        li:first-child {
+            border: none;
         }
     }
 }

@@ -15,13 +15,120 @@ class Tournament < ActiveRecord::Base
     end
   end
 
-  def setup_matches
+  def setup_playoff
+
     if !self.matches.any? && self.players.any?
 
       self.active = true
+      p = self.players
+      p_length = p.length
+      p.sort! { |a, b| a.skill <=> b.skill }
+      round = 1
+      playoff_matches = 0
+
+      # Loop to see how many playoff matches there should be
+      # This is equal to the number of players - the next lowest power of 2
+      # Ex: 15 - 8 = 7 playoff matches
+
+      while !power_of_2?(p_length)
+        p_length = p_length - 1
+        playoff_matches = playoff_matches + 1
+      end
+
+      # Set the tail to the end of the array
+      # Set the head to just enough players to fill out the playoff matches
+      # Give a temp variable so we can use playoff_matches later
+
+      leftover = p.length - (playoff_matches * 2)
+      true_length = p.length - playoff_matches
+      filler_matches = true_length - playoff_matches
+      p_tail = 1
+      p_head = 0
+      temp = playoff_matches
+
+      # Set up the playoff round
+
+      while temp > 0
+        first_player = p[p_tail]
+        second_player = p[p_head]
+
+        if filler_matches > 0
+          m = Match.create({round: round, tournament_id: self.id, name: ""})
+          self.matches << m
+        end
+
+        m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+        self.matches << m
+
+        p_tail = p_tail + 2
+        p_head = p_head + 2
+        temp = temp - 1
+        filler_matches = filler_matches - 1
+
+        if temp == 0 && filler_matches != 0
+          while filler_matches > 0
+            m = Match.create({round: round, tournament_id: self.id, name: ""})
+            self.matches << m
+            filler_matches = filler_matches - 1
+          end
+        end
+      end
+
+      # Set up the other rounds
+
+      round = round + 1
+      if p.length > (true_length + true_length/2)
+        spare_players = true_length - (p.length - true_length)
+      else
+        spare_players = p.length - true_length
+      end
+      rounds = Math.log2(true_length) + 1
+      match_count = (true_length) / 2
+      p_tail = p.length - 1
+      p_head = p.length - leftover
+
+      # Iterate through the rest of the players left in the players array and add them according to skill
+      # If one player left, add them to
+
+      while round <= rounds
+        temp = match_count
+        while temp > 0
+          if p_head == p_tail || spare_players > 0 
+            first_player = p[p_tail]
+            m = Match.create({player1_id: first_player.id, round: round, tournament_id: self.id, name: ""})
+            self.matches << m
+            p_tail = p_tail - 1
+          elsif p_head < p_tail
+            first_player = p[p_tail]
+            second_player = p[p_head]
+            m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+            self.matches << m
+            p_tail = p_tail - 1
+            p_head = p_head + 1              
+          else
+            m = Match.create({round: round, tournament_id: self.id, name: ""})
+            self.matches << m
+          end
+          temp = temp - 1
+          spare_players = spare_players - 1
+        end
+        round = round + 1
+        match_count = match_count / 2
+      end
+
+      self.save
+
+    end
+    
+  end
+
+  def setup_normal
+    if !self.matches.any? && self.players.any?
+
       players = self.players
-      players.sort! { |a, b| a.skill <=> b.skill }
       players_length = players.length
+      self.active = true
+      players.sort! { |a, b| a.skill <=> b.skill }
       round = 1
       rounds = Math.log2(players_length)
       match_count = 0
@@ -66,6 +173,17 @@ class Tournament < ActiveRecord::Base
   end
 
   def start_tournament
-    setup_matches
+    if power_of_2?(self.players.length)
+      setup_normal
+    else
+      setup_playoff
+    end
   end
+
+  def power_of_2?(number)
+    return true if number == 1
+    return false if number == 0 || number % 2 != 0
+    power_of_2?(number / 2)
+  end
+
 end

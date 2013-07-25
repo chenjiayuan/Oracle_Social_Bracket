@@ -2,6 +2,8 @@ $(document).ready(function() {
 
     $('img').load(function() {
         $('.round').css({'height':($('.round-1').height()+'px')});
+
+        $('.round').css({'height': maxHeight + 'px'});
         $('#filler').height($('.round_container').height());
     });
 

@@ -126,7 +126,6 @@ class TournamentsController < ApplicationController
 
 
     @match.winner_id = @player.id
-    #@player.matches_won = @player.matches_won + 1
     @player.increment_wins
     winner_name = "#{@player.first_name}" + " " + "#{@player.last_name}"
     @player.save

@@ -1,6 +1,6 @@
 <% provide(:title, "#{@tournament.name}") %>
 
-<% @tournament.setup_matches %>
+<% @tournament.start_tournament %>
 
 <div class="round_container">
 
@@ -43,8 +43,11 @@
     <div class="matches-row">
 
         <ul class="matches-list">
+            <% if cur_round == 1 && m.player1_id == 0 && m.player2_id == 0 %>
+            <div id="match-<%= m.id %>" class="match non-match">
+            <% else %>
             <div id="match-<%= m.id %>" class="match">
-                <!--<lh>Match <%= match_number %></lh>-->
+            <% end %>
                 <% winner_id = m.winner_id %>
 
                 <% p1 = m.player1 if m.player1_id != 0 %>
