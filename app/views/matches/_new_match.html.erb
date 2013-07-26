@@ -1,7 +1,7 @@
 <% provide(:title, "New Match") %>
 
 <div class="create_form_match">
-    <%= form_for @match, html: { id: 'match-dialog-form', class: 'nopjax', title: 'New Match' } do |f| %>
+    <%= form_for @match, remote: true, html: { id: 'match-dialog-form', class: 'nopjax', title: 'New Match' } do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
 
         <ul>

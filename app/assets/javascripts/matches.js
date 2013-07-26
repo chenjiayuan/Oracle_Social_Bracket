@@ -56,6 +56,7 @@ function match_form_show(event) {
         buttons: {
             "Create Match": function() {
                 send_match_form(event);
+                $('form').remove();
             },
             Cancel: function() {
                 $(this).dialog('close');
@@ -65,8 +66,7 @@ function match_form_show(event) {
         close: function() {
             $('#match-dialog-form').find('input[type=text]').val("");
             form.dialog('close');
-//          ('form').remove();
-//            $('.create_btn').show();
+         //   $('.create_btn').show();
         }
     });
 
@@ -77,6 +77,7 @@ function match_form_show(event) {
 
 function send_match_form(event){
     event.preventDefault();
+    event.stopPropagation();
 
     $.ajax({
         type: "POST",
@@ -257,7 +258,7 @@ function add_player_click_listener(event){
         }
     });
 
-    var form = $("#testcrap").dialog({
+    var form = $("#match_player_picker_wrapper").dialog({
         title: 'Add Existing Players',
         autoOpen: false,
         modal: false,

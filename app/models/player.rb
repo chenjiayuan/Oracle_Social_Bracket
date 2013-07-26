@@ -13,8 +13,6 @@ class Player < ActiveRecord::Base
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 
-  validate :player_unique_name
-
   has_many :tournaments, through: :tournament_players
   has_many :tournament_players, dependent: :destroy
   belongs_to :match
