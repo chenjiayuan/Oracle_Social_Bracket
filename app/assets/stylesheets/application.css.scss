@@ -370,7 +370,7 @@ div .title {
             }
         }
     }
-    span {
+    &:last-child {
         background: $mild-green;
         &::before {
             border-color: $mild-green $mild-green $mild-green transparent;

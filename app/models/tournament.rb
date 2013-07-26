@@ -147,7 +147,7 @@ class Tournament < ActiveRecord::Base
         first_player = players[i]
         second_player = players[j]
 
-        m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+        m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id})
         self.matches << m
         match_count = match_count + 1
         temp = temp - 1
@@ -161,7 +161,7 @@ class Tournament < ActiveRecord::Base
       while round <= rounds
         temp = bro
         while temp > 0
-          m = Match.create({round: round, tournament_id: self.id, name: ""})
+          m = Match.create({round: round, tournament_id: self.id})
           self.matches << m
           match_count = match_count + 1
           temp = temp - 1
