@@ -11,6 +11,8 @@
     <%= form_for @player do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
         <ul>
+            <li><%= gravatar_for @player, size: 93 %></li>
+            <li><a href="http://gravatar.com/emails">Change Gravatar</a></li>
             <li><span>First Name</span></li>
             <li><%= f.text_field :first_name, autofocus: true %></li>
             <li><span>Last Name</span></li>

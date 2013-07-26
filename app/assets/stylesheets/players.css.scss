@@ -23,8 +23,14 @@
   }
 }
 
-.edit_player input {
-  margin: 0 0 0.8em 0;
+.edit_player {
+  input {
+    margin: 0 0 0.8em 0;
+  }
+  a {
+    display: inline-block;
+    margin: 0 0 0.8em 0;
+  }
 }
 
 .ui-widget {
