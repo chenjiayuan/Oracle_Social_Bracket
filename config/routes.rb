@@ -36,6 +36,7 @@ Brakkit::Application.routes.draw do
       post 'verdict'
       post 'add_match_player'
       post 'remove_match_player'
+      get 'non_match_players'
     end
 
     resources :players do

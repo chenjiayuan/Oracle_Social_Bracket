@@ -19,18 +19,36 @@
 
 
 $(document).ready(function() {
+
     $(this).pjax('a:not(.nopjax)', '#container');
+
     $('#ajax_spinner').hide();
 
-//    $(document).on('pjax:send', function() {
-//        $('#ajax_spinner').show();
-//    })
-//        .on('pjax:complete', function() {
-//            $('#ajax_spinner').hide();
-//        });
-    // $("body").on("click", "#contact-button", fix_styling);
-
-//    $("#players_header").click(function() {
-//        document.title "YO"
-//    });
 });
+
+
+//    $.on('pjax:timeout', function(event) {
+//        // Prevent default timeout redirection behavior
+//        event.preventDefault()
+//    })
+
+//    $.xhrPool = [];
+//    $.xhrPool.abortAll = function() {
+//        $(this).each(function(idx, jqXHR) {
+//            jqXHR.abort();
+//        });
+//        $.xhrPool = [];
+//    };
+//
+//    $.ajaxSetup({
+//        beforeSend: function(jqXHR) {
+//            $.xhrPool.push(jqXHR);
+//        },
+//        complete: function(jqXHR) {
+//            var index = $.xhrPool.indexOf(jqXHR);
+//            if (index > -1) {
+//                $.xhrPool.splice(index, 1);
+//            }
+//
+//        }
+//    });

@@ -159,10 +159,11 @@ function search_tournament(event){
     event.preventDefault();
     event.stopPropagation();
 
-    $.ajax({
+    window.tournXHR = $.ajax({
         type: "POST",
         url: 'tournaments/search_tournaments',
         dataType: "JSON",
+//        async: false,
         data: { search_term: $('input#tournament_search').val() },
 
         beforeSend: function() {

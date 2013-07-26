@@ -237,14 +237,32 @@ function add_player_click_listener(event){
     event.preventDefault();
     event.stopPropagation();
 
+    var el = $(event.currentTarget);
+    var match_id = el.data('match-id');
+
     console.log('hi');
 
-    var form = $("#match_player_picker").dialog({
+    $.ajax({
+        type: "GET",
+        url: '/matches/' + el.data('match-id') + '/non_match_players',
+
+        success:function(data){
+            var players_div = $('#match_player_picker tbody');
+//            players_div.append("<%= will_paginate" + data.players + " %>");
+            console.log(data);
+            for(var i = 0; i < data.players.length; i++){
+                var temp = data.players[i];
+                players_div.append('<tr><td>' + temp.full_name + '</td><td>' + temp.skill + '</td></tr>');
+            }
+        }
+    });
+
+    var form = $("#testcrap").dialog({
+        title: 'Add Existing Players',
         autoOpen: false,
         modal: false,
+        width: 400,
         height: 400,
-        width: 350,
-
         buttons: {
             "Add Player": function() {
 //                send_match_form(event);

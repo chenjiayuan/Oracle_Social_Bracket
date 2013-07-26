@@ -11,11 +11,12 @@ class MatchesController < ApplicationController
 
   def show
     @match = Match.find(params[:id])
+    #@non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).paginate(page: params[:page], per_page: 10)
     @count = 0
     @count = @count + 1 if @match.player1
     @count = @count + 1 if @match.player2
 
-    @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+    #@non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
 
     add_breadcrumb "Matches", matches_path
     add_breadcrumb "<span>#{@match.name}</span>", match_path(@match)
@@ -169,6 +170,24 @@ class MatchesController < ApplicationController
       format.json {
         render json: {
             player: player
+        }
+      }
+    end
+  end
+
+  def non_match_players
+
+    @match = Match.find(params[:id])
+    #@count = 0
+    #@count = @count + 1 if @match.player1
+    #@count = @count + 1 if @match.player2
+
+    @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+
+    respond_to do |format|
+      format.json{
+        render json: {
+            players: @non_match_players
         }
       }
     end

@@ -1,9 +1,4 @@
-<ul id="match_player_picker">
-    <table>
-        <thead>
-        <th>Name</th>
-        <th>Skill</th>
-        </thead>
+
         <tbody>
             <% if @non_match_players.any? && @match.players.size != 2 %>
                 <% for p in @non_match_players %>
@@ -26,4 +21,3 @@
             <% end %>
         </tbody>
     </table>
-</ul>
