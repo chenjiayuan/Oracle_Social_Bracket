@@ -11,12 +11,14 @@ class Player < ActiveRecord::Base
   validates :skill, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
-  # validates_uniqueness_of :first_name, scope: [:last_name], message: "Name has already been taken" 
+  # validates_uniqueness_of :first_name, scope: [:last_name], message: "Name has already been taken"
+  #validates_uniqueness_of :full_name
 
   validate :player_unique_name
 
   has_many :tournaments, through: :tournament_players
   has_many :tournament_players, dependent: :destroy
+  belongs_to :match
 
 
   def full_name

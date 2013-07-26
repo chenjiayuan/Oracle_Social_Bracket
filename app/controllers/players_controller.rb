@@ -12,6 +12,8 @@ class PlayersController < ApplicationController
   def follow_crumbs
     if params[:tournament_id]
       add_breadcrumb "Tournaments", :tournaments_path
+    elsif params[:match_id]
+      add_breadcrumb "Matches", matches_path
     else
       add_breadcrumb "Players", :players_path
     end
@@ -58,9 +60,16 @@ end
       @tournament = Tournament.find(params[:tournament_id])
     end
 
+    if params[:match_id]
+      @match = Match.find(params[:match_id])
+    end
+
     if @tournament
       add_breadcrumb @tournament.name, tournament_path(@tournament)
-      add_breadcrumb "<span>New Player</span>", new_tournament_player_path, :title => "new!"
+      add_breadcrumb "<span>New Player</span>", new_tournament_player_path(@tournament), :title => "new!"
+    elsif
+      add_breadcrumb @match.name, match_path(@match)
+      add_breadcrumb "<span>New Player</span>", new_match_player_path(@match), :title => "new!"
     else
       add_breadcrumb "<span>New Player</span>", new_player_path
     end
@@ -220,7 +229,8 @@ end
         flash[:error] = "That didn't work :("
         redirect_to match_path(match)
       else
-        flash[:error] = @player.errors
+        #add_breadcrumb "#{@player.first_name} #{@player.last_name}", player_path(@player)
+        #add_breadcrumb "<span>Edit</span>", edit_player_path(@player)
         render 'edit'
       end
     end

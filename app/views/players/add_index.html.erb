@@ -12,7 +12,7 @@
 </div>
 <div class="divider"></div>
 
-<%= will_paginate %>
+<%= will_paginate @players %>
 
 <%= form_tag multiadd_players_path do %>
 
@@ -28,7 +28,7 @@
     		<th>Matches Won</th>
     	</tr>
     </thead>
-    <% if Player.any? %>
+    <% if @players.any? %>
     <tbody>
     	<% @players.order("created_at DESC").each do |p| %>
         
@@ -48,4 +48,3 @@
 <%= hidden_field_tag "tournament_id", @tournament.id %>
 <% end %>
 
-<%= will_paginate %>

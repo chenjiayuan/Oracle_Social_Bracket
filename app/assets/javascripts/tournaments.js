@@ -159,12 +159,16 @@ function search_tournament(event){
     event.preventDefault();
     event.stopPropagation();
 
-    $.ajax({
+    window.tournXHR = $.ajax({
         type: "POST",
         url: 'tournaments/search_tournaments',
         dataType: "JSON",
+//        async: false,
         data: { search_term: $('input#tournament_search').val() },
 
+        beforeSend: function() {
+            $('#ajax_spinner').show();
+        },
         success: function(data) {
             console.log(data.search_result);
             var el = $('#tournaments_table');
@@ -181,6 +185,9 @@ function search_tournament(event){
                     + "/players/" + temp.winner_id + "'>" + temp.winner_name + "</a>" ) + "</td>" +
                     "</tr>");
             }
+        },
+        complete: function(){
+            $('#ajax_spinner').hide();
         }
     });
 }

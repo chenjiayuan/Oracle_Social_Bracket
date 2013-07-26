@@ -1,7 +1,7 @@
 namespace :db do
   desc "Fill database with sample data"
   task populate: :environment do
-    32.times do |n|
+    1000.times do |n|
       firstname  = Faker::Name.first_name
       firstname = "#{firstname}#{n+1}"
       lastname = Faker::Name.last_name
