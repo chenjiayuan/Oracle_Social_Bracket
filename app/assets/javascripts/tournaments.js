@@ -15,6 +15,7 @@ $(document).ready(function() {
     $('#container').on("submit", "#tournament-dialog-form", send_tournament_form);
     $('#filler').height($('.round_container').height());
     $('#container').on("keyup", "input#tournament_search", search_tournament);
+    $('.round:last .matches-row .match-border').css('border', 'none');
 
 });
 

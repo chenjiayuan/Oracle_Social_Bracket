@@ -39,8 +39,12 @@
         <% end %>
 
     <% end %>
-
+    
+    <% if cur_round == 1 && m.player1_id == 0 && m.player2_id == 0 %>
+    <div class="matches-row non-match-row">
+    <% else %>
     <div class="matches-row">
+    <% end %>
 
         <ul class="matches-list">
             <% if cur_round == 1 && m.player1_id == 0 && m.player2_id == 0 %>
@@ -91,6 +95,8 @@
 
                         </div>
         </ul>
+        <div class="match-border-filler"></div>
+        <div class="match-border"></div>
 
     </div>
 

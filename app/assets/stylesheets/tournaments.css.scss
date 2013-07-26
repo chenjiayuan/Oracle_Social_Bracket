@@ -50,16 +50,16 @@ $mild-green: #99db76;
 .matches-list {
     display: table-cell;
     vertical-align: middle;
-    min-width: 5em;
+    min-width: 10em;
     max-width: 20em;
     margin: 0 auto;
     vertical-align: middle;
 }
 
 .match {
-    border: 1px solid #888;
-    margin: 0 0 1em 0;
-    background: #fff;
+    // border: 1px solid #888;
+    padding: 1em 0;
+    // background: #fff;
     overflow: hidden;
     li {
         padding: 0.6em;
@@ -67,6 +67,9 @@ $mild-green: #99db76;
         min-height: 48px;
         &:first-child {
             border-bottom: 1px solid #888;
+        }
+        &:nth-child(odd) {
+            // border-right: 1px solid #888;
         }
         .gravatar {
             margin: 0 0.4em 0 0;
@@ -97,17 +100,36 @@ $mild-green: #99db76;
 }
 
 .match-loser {
-    background-color: rgba(230, 230, 230, 1);
+    // background-color: rgba(230, 230, 230, 1);
 }
 
 .round {
 	display: table;
 	float: left;
 	height: 100%;
-	margin: 0 0 0 1em;
-	&:first-of-type {
-		margin: 0;
-	}
+    .matches-row {
+        &:nth-child(even) {
+            .match-border {
+                height: 50%; 
+                border-right: 1px solid #888;
+            }
+        }
+        &:nth-child(odd) {
+            .match-border-filler {
+                height: 50%;
+            }
+            .match-border {
+                height: 50%;
+                border-right: 1px solid #888;
+            }
+        }
+        &.non-match-row {
+            .match-border {
+                border: none;
+            }
+        }
+    }
+
 }
 
 .new-tournament-added {

@@ -47,6 +47,7 @@ class Tournament < ActiveRecord::Base
       temp = playoff_matches
 
       # Set up the playoff round
+      # Need to fix logic for this though. Right now, it just puts in players according to skill top to bottom.
 
       while temp > 0
         first_player = p[p_tail]
@@ -65,12 +66,15 @@ class Tournament < ActiveRecord::Base
         temp = temp - 1
         filler_matches = filler_matches - 1
 
-        if temp == 0 && filler_matches != 0
-          while filler_matches > 0
-            m = Match.create({round: round, tournament_id: self.id, name: ""})
-            self.matches << m
-            filler_matches = filler_matches - 1
-          end
+      end
+
+      # Keep putting in the filler matches
+
+      if temp == 0 && filler_matches != 0
+        while filler_matches > 0
+          m = Match.create({round: round, tournament_id: self.id, name: ""})
+          self.matches << m
+          filler_matches = filler_matches - 1
         end
       end
 
@@ -88,7 +92,6 @@ class Tournament < ActiveRecord::Base
       p_head = p.length - leftover
 
       # Iterate through the rest of the players left in the players array and add them according to skill
-      # If one player left, add them to
 
       while round <= rounds
         temp = match_count
