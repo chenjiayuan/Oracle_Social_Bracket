@@ -2,9 +2,10 @@ $(document).ready(function() {
     $('.matches-list').on("click", ".match_winner_btn", update_match);
     $('#container').on("click", "#new_match_btn", match_form_show);
     $('#container').on('keyup', 'input#match_search', search_match);
-    $('#container').on('click', '.add_match_player_picker', add_match_player_picker);
+//    $('#container').on('click', '.add_match_player_picker', add_match_player_picker);
     $('#container').on('click', '.remove_match_player', remove_match_player);
     $('#container').on('click', '.add_match_player', add_player_click_listener);
+    $('#container').on('click', '.player_picker_entry', player_picker_entry_click_listener);
 });
 
 function update_match(event) {
@@ -15,7 +16,7 @@ function update_match(event) {
     $.ajax({
         type: "POST",
         data: { 'match-id': el.data('match-id'), 'player-id': el.data('player-id'), 'round-id': el.data('round-id')},
-        url: '../matches/' + el.data('match-id') + '/verdict',
+        url: '/matches/' + el.data('match-id') + '/verdict',
         dataType: "JSON",
         success: (function(data) {
             console.log(data);
@@ -36,7 +37,7 @@ function update_match(event) {
             $('#match-' + el.data('match-id')).find('button').remove();
 
 
-            $('#match-winner').html("Winner: " + data.winner_name);
+            $('#match-winner').html('Winner: <a href="/players/' + data.player.id + '">' + data.winner_name + '</a>');
 
         })
     });
@@ -144,6 +145,7 @@ function search_match(event) {
     })
 }
 
+/*
 function add_match_player_picker(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -187,6 +189,7 @@ function add_match_player_picker(event) {
         }
     })
 }
+*/
 
 function remove_match_player(event) {
     event.preventDefault();
@@ -253,7 +256,7 @@ function add_player_click_listener(event){
             console.log(data);
             for(var i = 0; i < data.players.length; i++){
                 var temp = data.players[i];
-                players_div.append('<tr><td>' + temp.full_name + '</td><td>' + temp.skill + '</td></tr>');
+                players_div.append('<tr class="player_picker_entry" id="player_picker_id_' + temp.id + '"><td>' + temp.full_name + '</td><td>' + temp.skill + '</td></tr>');
             }
         }
     });
@@ -284,5 +287,29 @@ function add_player_click_listener(event){
     form.dialog('open');
 
     form.dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
+
+}
+
+function player_picker_entry_click_listener(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log('hi');
+}
+
+function update_match_start_page(event){
+    event.preventDefault();
+//    event.stopPropagation();
+    var el = $(event.currentTarget);
+
+    $.ajax({
+        type: 'POST',
+        data: { },
+        url: 'winner',
+        dataType: "JSON",
+        success: function(data) {
+
+        }
+    })
 
 }

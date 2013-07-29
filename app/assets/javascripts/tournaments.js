@@ -3,11 +3,10 @@ $(document).ready(function() {
     $('img').load(function() {
         $('.round').css({'height':($('.round-1').height()+'px')});
 
-        $('.round').css({'height': maxHeight + 'px'});
         $('#filler').height($('.round_container').height());
     });
 
-    $('.matches-list').on("click", ".tournament_match_winner_btn", update_start_page);
+    $('.matches-list').on("click", ".tournament_match_winner_btn", update_tournament_start_page);
 
     $('#container').on("click", "#new_tournament_btn", tour_form_show);
     $('#container').on("click", "#tournament_cancel_btn", tour_form_hide);
@@ -19,7 +18,7 @@ $(document).ready(function() {
 
 });
 
-function update_start_page(event) {
+function update_tournament_start_page(event) {
     var el = $(event.currentTarget);
     var this_button = $(this);
     event.preventDefault();
@@ -52,7 +51,7 @@ function update_start_page(event) {
             var winner_button = '<button class="winner_btn tournament_match_winner_btn"' +
                 ' data-match-id="' + data.next_match_id + '" data-player-id="' + data.player.id +
                 '" data-round-id="' + (el.data('round-id') + 1) + '" data-match-number="'
-                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_start_page">' + '<img alt="'
+                + data.next_match_number + '" data-player-number="' + data.next_match_player + '"on-click="update_tournament_start_page">' + '<img alt="'
                  + el.find('img').attr('alt') + '" class="gravatar" src="' + el.find('img').attr('src') + '">' + data.winner_name + '</button>' ;
 
             $('#match-' + el.data('match-id')).find('button').remove();
@@ -68,7 +67,7 @@ function update_start_page(event) {
                 }
             }
             else{
-                $('#tournament-winner').html("Winner: " + data.winner_name);
+                $('#tournament-winner').html('Winner: <a href="/players/' + data.player.id + '">' + data.winner_name + '</a>');
             }
 
         })

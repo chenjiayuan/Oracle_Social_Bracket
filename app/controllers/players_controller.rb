@@ -168,7 +168,10 @@ end
 
     if @tournament
       add_breadcrumb @tournament.name, tournament_path(@tournament)
-      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", tournament_player_path
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", tournament_player_path(@tournament, @player)
+    elsif @match
+      add_breadcrumb @match.name, match_path(@match)
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", match_player_path(@match, @player)
     else
       add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", player_path(@player)
     end
