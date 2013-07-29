@@ -31,12 +31,14 @@ Brakkit::Application.routes.draw do
     collection do
       post 'add_new_match'
       post 'search_matches'
+
     end
     member do
       post 'verdict'
       post 'add_match_player'
       post 'remove_match_player'
       get 'non_match_players'
+      post 'add_player_from_player_picker'
     end
 
     resources :players do

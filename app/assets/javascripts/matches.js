@@ -5,7 +5,7 @@ $(document).ready(function() {
 //    $('#container').on('click', '.add_match_player_picker', add_match_player_picker);
     $('#container').on('click', '.remove_match_player', remove_match_player);
     $('#container').on('click', '.add_match_player', add_player_click_listener);
-    $('#container').on('click', '.player_picker_entry', player_picker_entry_click_listener);
+    $('body').on('click', '.player_picker_entry', player_picker_entry_click_listener);
 });
 
 function update_match(event) {
@@ -67,6 +67,7 @@ function match_form_show(event) {
         close: function() {
             $('#match-dialog-form').find('input[type=text]').val("");
             form.dialog('close');
+
          //   $('.create_btn').show();
         }
     });
@@ -145,52 +146,6 @@ function search_match(event) {
     })
 }
 
-/*
-function add_match_player_picker(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    var el = $(event.currentTarget);
-    var match_id = el.data('match-id');
-    var player_id = el.data('player-id');
-    var button = $(this);
-
-    $.ajax({
-        type: "POST",
-        url: '/matches/' + el.data('match-id') + '/add_match_player',
-        dataType: "JSON",
-        data: {
-            match_id: match_id,
-            player_id: player_id
-        },
-        success: function(data){
-//            alert(el.data('player-number'));
-            console.log(data);
-            if(data.row == 1){
-                $('table:first tbody tr').first().html("<td><a href='/matches/" + match_id +
-                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
-                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
-                    "<td>" + "<button class='btn remove_match_player' data-player-number='1' data-match-id='" + match_id + "' " +
-                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>")
-            }
-            else{
-                $('table:first tbody tr').last().html("<td><a href='/matches/" + match_id +
-                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
-                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
-                    "<td>" + "<button class='btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
-                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>")
-            }
-            $('table:last tbody').find(button).closest('tr').remove();
-
-//            if(data.match.players.size == 2){
-//
-//            }
-            //if the player added is the last player...
-//            button.closest('tr')
-        }
-    })
-}
-*/
-
 function remove_match_player(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -209,7 +164,6 @@ function remove_match_player(event) {
             player_id: player_id
         },
         success: function(data) {
-            var second_table = $('table:last tbody');
 
             if(player_row == 1){
                 $('table:first tbody').find(button).closest('tr').html("<td><button class='btn add_match_player' " +
@@ -222,14 +176,9 @@ function remove_match_player(event) {
                     "<td></td><td></td><td></td><td></td>");
             }
 
-            if((second_table).find('tr:first td:last').html() == '')
-                second_table.find('tr:first').remove();
+            if(!$('#add_new_player_button').is(":visible"))
+                $('#add_new_player_button').show();
 
-            second_table.append('<tr>' +
-                '<td><button class="add_match_player_picker" data-player-id="' + player_id + '"' +
-                ' data-match-id="' + match_id + '">' + data.player.full_name + '</button></td>' +
-                '<td>' + data.player.skill + '</td>' +
-                '</tr>');
         }
 
 
@@ -250,26 +199,39 @@ function add_player_click_listener(event){
         type: "GET",
         url: '/matches/' + el.data('match-id') + '/non_match_players',
 
+        beforeSend: function() {
+            $('#ajax_spinner').show();
+        },
         success:function(data){
-            var players_div = $('#match_player_picker tbody');
+            var players_div = $('#match_player_picker_body');
 //            players_div.append("<%= will_paginate" + data.players + " %>");
             console.log(data);
             for(var i = 0; i < data.players.length; i++){
                 var temp = data.players[i];
-                players_div.append('<tr class="player_picker_entry" id="player_picker_id_' + temp.id + '"><td>' + temp.full_name + '</td><td>' + temp.skill + '</td></tr>');
+                players_div.append('<tr class="player_picker_entry" data-player-id="' + temp.id + '" data-match-id="' + match_id + '"><td>' + temp.full_name + '</td><td>' + temp.skill + '</td></tr>');
             }
+        },
+        complete: function() {
+            $('#ajax_spinner').hide();
         }
     });
 
     var form = $("#match_player_picker_wrapper").dialog({
         title: 'Add Existing Players',
         autoOpen: false,
-        modal: false,
+        modal: true,
         width: 400,
         height: 400,
+        draggable: false,
         buttons: {
             "Add Player": function() {
-//                send_match_form(event);
+                if($('#match_player_picker tr').hasClass('highlightEntry')){
+                    send_match_player_picker_form(event);
+                    $(this).dialog('close');
+                }
+                else{
+                    alert('No Player selected');
+                }
             },
             Cancel: function() {
                 $(this).dialog('close');
@@ -277,7 +239,10 @@ function add_player_click_listener(event){
         },
 
         close: function() {
-            form.dialog('close');
+            form.dialog('destroy');
+//            $(this).dialog('destroy').dialog('widget').remove();
+            $('#match_player_picker .highlightEntry').removeClass('highlightEntry');
+            $('#match_player_picker_body').empty();
 //            $('#match_player_picker').remove();
 //          ('form').remove();
 //            $('.create_btn').show();
@@ -293,23 +258,56 @@ function add_player_click_listener(event){
 function player_picker_entry_click_listener(event){
     event.preventDefault();
     event.stopPropagation();
+    var el = $(event.currentTarget);
+    var table_rows = $('#match_player_picker tr');
+    var hasClass = $(this).hasClass('highlightEntry');
 
-    console.log('hi');
+    $('#match_player_picker .highlightEntry').removeClass('highlightEntry');
+
+    if(!hasClass)
+        $(this).addClass('highlightEntry');
+
+//    console.log('hi');
+
 }
 
-function update_match_start_page(event){
+function send_match_player_picker_form(event){
     event.preventDefault();
-//    event.stopPropagation();
-    var el = $(event.currentTarget);
+    event.stopPropagation();
+
+    var el = $('#match_player_picker .highlightEntry');
+    var match_id = el.data('match-id');
+    var player_id = el.data('player-id');
 
     $.ajax({
-        type: 'POST',
-        data: { },
-        url: 'winner',
+        type: "POST",
+        data: {
+            match_id: match_id,
+            player_id: player_id
+        },
+        url: '/matches/' + el.data('match-id') + '/add_player_from_player_picker',
         dataType: "JSON",
-        success: function(data) {
+        success: function(data){
+            console.log(data);
+            if(data.row == 1){
+                $('table:first tbody tr:first').html("<td><a href='/matches/" + match_id +
+                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
+                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
+                    "<td>" + "<button class='btn remove_match_player' data-player-number='1' data-match-id='" + match_id + "' " +
+                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
+            }
+            else{
+                $('table:first tbody tr:last').html("<td><a href='/matches/" + match_id +
+                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
+                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
+                    "<td>" + "<button class='btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
+                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
+            }
 
+            if(data.player_count == 2)
+                $('#add_new_player_button').hide();
         }
-    })
+    });
 
 }
+

@@ -182,12 +182,38 @@ class MatchesController < ApplicationController
     #@count = @count + 1 if @match.player1
     #@count = @count + 1 if @match.player2
 
-    @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+    @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).order('created_at DESC')
 
     respond_to do |format|
       format.json{
         render json: {
             players: @non_match_players
+        }
+      }
+    end
+  end
+
+  def add_player_from_player_picker
+    @match = Match.find(params['match_id'])
+    @player = Player.find(params['player_id'])
+    row = 0
+
+    if @match.player1_id == 0
+      @match.player1_id = params['player_id']
+      row = 1
+    elsif @match.player2_id == 0
+      @match.player2_id = params['player_id']
+      row = 2
+    end
+    @match.save
+
+    respond_to do |format|
+      format.json {
+        render json: {
+            match: @match,
+            player: @player,
+            row: row,
+            player_count: @match.players.count
         }
       }
     end

@@ -16,7 +16,7 @@
         <% temp_id = @tournament.winner_id %>
         <% if temp_id != 0 %>
             <% p = @tournament.winner %>
-            Winner: <%= p.first_name %> <%= p.last_name %>
+            Winner: <a href="/players/<%= p.id %>"><%= p.full_name %></a>
         <% else %>
             There is no winner yet.
         <% end %>

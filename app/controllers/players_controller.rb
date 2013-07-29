@@ -105,6 +105,11 @@ end
       tournament = Tournament.find(tournament_id)
     end
 
+    if params[:player][:match_id].present?
+      match_id = params[:player].delete :match_id
+      match = Match.find(match_id)
+    end
+
     @player = Player.new(params[:player])
 
     if @player.save
@@ -113,6 +118,14 @@ end
         tournament.save
         flash[:success] = "Player created"
         redirect_to tournament_path(tournament)
+      elsif match
+        if match.player1_id == 0
+          match.player1_id = @player.id
+        elsif match.player2_id == 0
+          match.player2_id = @player.id
+        end
+        match.save
+        redirect_to match_path(match)
       else
         flash[:success] = "Player created"
         redirect_to player_path(@player)
@@ -122,8 +135,12 @@ end
         flash[:error] = "That didn't work :("
         session[:player_errors] = @player.errors
         redirect_to new_tournament_player_path(tournament)
+      elsif match
+        flash[:error] = "That didn't work :("
+        session[:player_errors] = @player.errors
+        redirect_to new_match_player_path(match)
       else
-        # render 'new'
+        render 'new'
       end
     end
   end

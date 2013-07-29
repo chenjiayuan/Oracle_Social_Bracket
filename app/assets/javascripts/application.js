@@ -21,9 +21,18 @@
 $(document).ready(function() {
 
     $(this).pjax('a:not(.nopjax)', '#container');
-
+    $(this).on('pjax:timeout', function(event) {
+        event.preventDefault();
+    });
+    var img = $("<img />").attr('src', 'assets/images/ajax-loader.gif')
+        .load(function() {
+            if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+                alert('broken image!');
+            } else {
+                $("#container").prepend(img);
+            }
+    });
     $('#ajax_spinner').hide();
-
 });
 
 

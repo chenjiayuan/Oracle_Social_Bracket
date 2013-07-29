@@ -21,8 +21,8 @@
 <div class="divider"></div>
 
 <h3 class="subtitle">Players</h3>
+<div class="btn" id="add_new_player_button" style="<%= 'display: none;' if @count == 2 %>"> <%= link_to "Add New Player", new_match_player_path(@match) %></div>
 <% if @count < 2 %>
-    <div class="btn"> <%= link_to "Add New Player", new_match_player_path(@match) %></div>
 <% end %>
 
 <table>

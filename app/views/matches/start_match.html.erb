@@ -7,7 +7,7 @@
     <li id="match-winner">
         <% winner = @match.winner %>
         <% if winner %>
-            Winner: <%= winner.first_name %> <%= winner.last_name %>
+            Winner: <a href="/players/<%= winner.id %>"><%= winner.full_name %></a>
         <% else %>
             There is no winner yet.
         <% end %>

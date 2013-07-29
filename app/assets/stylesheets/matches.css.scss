@@ -55,29 +55,14 @@
 
 }
 
-#match_player_picker {
-  //display: none;
-  //
-  //border-collapse: separate;
-  //td {
-  //  font-weight: normal !important;
-  //  padding: .4em; border-top-width:
-  //  0px !important;
-  //}
-  //th {
-  //  text-align: center;
-  //  padding: .8em .4em;
-  //}
-  //td.first, th.first {
-  //  border-left-width: 0px !important;
-  //}
-
-}
-
 #match_player_picker_wrapper {
   display: none;
   height: 250px;
   width: 250px;
   overflow: auto;
 
+}
+
+.highlightEntry{
+  background-color: green !important;
 }
