@@ -1,22 +1,28 @@
-<h2 class="title">New Player</h2>
+<% provide(:title, "New Player") %>
+
+<%= render 'layouts/breadcrumbs' %>
+
+<div><h2 class="title">New Player</h2></div>
 <div class="detail">Please enter details for the new player.</div>
 <div class="divider"></div>
-<div class="create_form">	
-	<%= form_for @player do |f| %>
+<div class="create_form_tournament show_form">
+	<%= form_for @player, html: { id: 'player-dialog-form' } do |f| %>
 	    <%= render 'shared/error_messages', object: f.object %>
-	    <ul>
+
+        <ul>
 		    <li><span>First Name</span></li>
-		    <li><%= f.text_field :first_name, :autofocus => true %></li>
+		    <li><%= f.text_field :first_name, autofocus: true %></li>
 		    <li><span>Last Name</span></li>
 		    <li><%= f.text_field :last_name %></li>
 		    <li><span>Email Address</span></li>
 		    <li><%= f.email_field :email %></li>
 		    <li><span>Skill Level</span></li>
 		    <li><%= f.select :skill, 1..10 %></li>
+
+            <li><%= f.submit "Create Player" %></li>
             <% if @tournament %>
                 <%= f.hidden_field :tournament_id, value: @tournament.id %>
             <% end %>
-		    <li><%= f.submit "Create Player" %></li>
 
 		</ul>
 	<% end %>

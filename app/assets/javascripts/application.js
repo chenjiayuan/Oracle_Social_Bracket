@@ -10,8 +10,45 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
+//= require jquery.pjax
 //= require_tree .
 
+
+$(document).ready(function() {
+
+    $(this).pjax('a:not(.nopjax)', '#container');
+
+    $('#ajax_spinner').hide();
+
+});
+
+
+//    $.on('pjax:timeout', function(event) {
+//        // Prevent default timeout redirection behavior
+//        event.preventDefault()
+//    })
+
+//    $.xhrPool = [];
+//    $.xhrPool.abortAll = function() {
+//        $(this).each(function(idx, jqXHR) {
+//            jqXHR.abort();
+//        });
+//        $.xhrPool = [];
+//    };
+//
+//    $.ajaxSetup({
+//        beforeSend: function(jqXHR) {
+//            $.xhrPool.push(jqXHR);
+//        },
+//        complete: function(jqXHR) {
+//            var index = $.xhrPool.indexOf(jqXHR);
+//            if (index > -1) {
+//                $.xhrPool.splice(index, 1);
+//            }
+//
+//        }
+//    });

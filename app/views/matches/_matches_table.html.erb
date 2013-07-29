@@ -1,0 +1,26 @@
+<div id="matches_pagination">
+    <%= will_paginate @matches %>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Match</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+        <th>Winner</th>
+    </tr>
+    </thead>
+        <tbody id="matches_table">
+        <% if @matches.any? %>
+            <% @matches.each do |m| %>
+                    <tr data-match-id="<%= m.id %>">
+                        <td><%= link_to m.name, match_path(m) %></td>
+                        <td><%= link_to m.player1.full_name, match_player_path(m, m.player1) if m.player1 %></td>
+                        <td><%= link_to m.player2.full_name, match_player_path(m, m.player2) if m.player2 %></td>
+                        <td><%= link_to m.winner.full_name, match_player_path(m, m.winner) if m.winner %></td>
+                    </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+</table>

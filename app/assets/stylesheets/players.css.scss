@@ -1,4 +1,116 @@
 // Place all the styles related to the Players controller here.
-// They will automatically be included in application.css.
+// They will automatically be included in application.css.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.create_form_player {
+  display: none;
+  &.edit_player {
+    display: block;
+  }
+}
+
+.player-info {
+  margin: 0 0 1em 0;
+  display: block;
+  float: left;
+  .gravatar {
+    float: left;
+    margin: 0 1em 0 0;
+  }
+  .detail {
+    clear: none;
+    float: left;
+  }
+}
+
+.edit_player {
+  input {
+    margin: 0 0 0.8em 0;
+  }
+  a {
+    display: inline-block;
+    margin: 0 0 0.8em 0;
+  }
+}
+
+.ui-widget {
+  background: #4169e1;
+  padding: 1em 0 0 0;
+  z-index: 1002;
+  .ui-dialog-title {
+    padding: 0 0 0 1em;
+    color: #fff;
+    font-weight: 700;
+  }
+  .ui-button {
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    margin: 0 1em;
+    padding: 0.8em;
+    background: #70ae21;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8em;
+    border: 1px solid rgba(0,0,0,.1);
+    &:hover {
+      opacity: 0.70;
+    }
+    &:nth-child(2) {
+      background: #aaa;
+    }
+  }
+  .ui-button-text {
+    color: #fff;
+  }
+  .ui-dialog-buttonpane {
+    background: #fff;
+    padding: 1em 0;
+    border-top: 1px solid #4169e1;
+  }
+  #player-dialog-form {
+    background: #fff;
+    padding: 1em;
+    margin: 1em 0 0 0;
+    input {
+      margin: 0 0 0.8em 0;
+    }
+  }
+}
+
+.ui-widget-overlay {
+  background: black repeat-x;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.6;
+  z-index: 1001;
+  position: fixed;
+  width: 100%; 
+  height: 100%;
+}
+
+#error_explanation {
+  display: block;
+  float: right;
+  width: 100%;
+  background-color: rgba(0,0,0,.1);
+  margin-bottom: 1em;
+  > .alert-error {
+    border-radius: 0;
+    font-size: 0.8em;
+    border-bottom: 1px solid #b94a48;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  ul {
+    margin: 1em;
+    font-weight: 700;
+    font-size: 0.8em;
+    li {
+      color: #333;
+      margin-bottom: 0.4em;
+    }
+  }
+}

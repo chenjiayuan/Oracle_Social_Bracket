@@ -1,0 +1,83 @@
+// Place all the styles related to the matches controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.create_form_match {
+  display: none;
+}
+
+.ui-widget {
+  background: #4169e1;
+  padding: 1em 0 0 0;
+  z-index: 1002;
+  .ui-dialog-title {
+    padding: 0 0 1em 1em;
+    color: #fff;
+    font-weight: 700;
+  }
+  .ui-button {
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    margin: 0 1em;
+    padding: 0.8em;
+    background: #70ae21;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8em;
+    border: 1px solid rgba(0,0,0,.1);
+    &:hover {
+      opacity: 0.70;
+    }
+    &:nth-child(2) {
+      background: #aaa;
+    }
+  }
+  .ui-button-text {
+    color: #fff;
+  }
+  .ui-dialog-buttonpane {
+    background: #fff;
+    padding: 1em 0;
+    border-top: 1px solid #4169e1;
+  }
+  .ui-dialog-content{
+    background: #f3f3f3;
+  }
+  #match-dialog-form {
+    background: #fff;
+    padding: 1em;
+    margin: 1em 0 0 0;
+    input {
+      margin: 0 0 0.8em 0;
+    }
+  }
+
+}
+
+#match_player_picker {
+  //display: none;
+  //
+  //border-collapse: separate;
+  //td {
+  //  font-weight: normal !important;
+  //  padding: .4em; border-top-width:
+  //  0px !important;
+  //}
+  //th {
+  //  text-align: center;
+  //  padding: .8em .4em;
+  //}
+  //td.first, th.first {
+  //  border-left-width: 0px !important;
+  //}
+
+}
+
+#match_player_picker_wrapper {
+  display: none;
+  height: 250px;
+  width: 250px;
+  overflow: auto;
+
+}

@@ -1,11 +1,33 @@
-<%= form_for(@player) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-    <ul>
-        <li>First name: <%= f.text_field :first_name %></li>
-        <li>Second name: <%= f.text_field :last_name %></li>
-        <li>Email: <%= f.email_field :email %></li>
-        <li>Skill: <%= f.select :skill, 1..10 %></li>
-        <br />
-        <li><%= f.submit "Save" %></li>
-    </ul>
-<% end %>
+<% provide(:title, "Edit #{@player.full_name}") %>
+
+<%= render 'layouts/breadcrumbs' %>
+
+<div>
+    <h2 class="title">Edit <%= @player.full_name %></h2>
+</div>
+<div class="divider"></div>
+
+<div class="create_form_player edit_player">
+    <%= form_for @player do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <ul>
+            <li><%= gravatar_for @player, size: 93 %></li>
+            <li><a href="http://gravatar.com/emails">Change Gravatar</a></li>
+            <li><span>First Name</span></li>
+            <li><%= f.text_field :first_name, autofocus: true %></li>
+            <li><span>Last Name</span></li>
+            <li><%= f.text_field :last_name %></li>
+            <li><span>Email Address</span></li>
+            <li><%= f.email_field :email %></li>
+            <li><span>Skill Level</span></li>
+            <li><%= f.select :skill, 1..10 %></li>
+            <% if @tournament %>
+                <%= f.hidden_field :tournament_id, value: @tournament.id %>
+            <% end %>
+            <% if @match %>
+                <%= f.hidden_field :match_id, value: @match.id %>
+            <% end %>
+            <li><%= f.submit "Save Changes" %></li>
+        </ul>
+    <% end %>
+</div>

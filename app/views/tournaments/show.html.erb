@@ -1,6 +1,23 @@
-<h2 class="title"><%= @tournament.name %></h2>
-<div class="start_btn"><%= link_to "Start Tournament" %></div>
-<div class="delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
+<% provide(:title, "#{@tournament.name}") %>
+<%= flash[:notice] %>
+
+<%= render 'layouts/breadcrumbs' %>
+
+<div><h2 class="title"><%= @tournament.name %></h2></div>
+
+<% if @tournament.winner_id == 0 %>
+    <div class="btn start_btn">
+        <% if !@tournament.active %>
+            <%= link_to "Start Tournament", start_tournament_path(@tournament), class: 'nopjax', confirm: "Once the tournament is started, you cannot add any more players" %>
+        <% else %>
+            <%= link_to "Resume Tournament",  start_tournament_path(@tournament), class: 'nopjax' %>
+        <% end %>
+    </div>
+
+<% else %>
+    <div class="btn completed_btn"><%= link_to "Tournament Completed" %></div>
+<% end %>
+<div class="btn delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
 <ul class="detail">
     <li><%= @tournament.active ? "Active" : "Inactive"  %></li>
     <li><%= pluralize(@tournament.players.count, "player") %></li>
@@ -17,11 +34,19 @@
 
 
     <h3 class="subtitle">Players</h3>
-    <div class="create_btn"> <%= link_to "Add Players", new_tournament_player_path(@tournament) %></div>
+    <div class="btn"> <%= link_to "Add New Player", new_tournament_player_path(@tournament) %></div>
+    <div class="btn"> <%= link_to "Add Existing Players", add_index_path(@tournament), class: "nopjax" %></div>
+
+    <%= form_tag multiremove_tournament_players_path(@tournament) do %>
+
+    <% if @tournament.players.any? %>
+        <%= submit_tag "Remove Checked", class: "submit_btn remove" %>
+    <% end %>
 
     <table>
         <thead>
             <tr>
+                <th><input type="checkbox" id="checkall" /></th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Skill Level</th>
@@ -33,7 +58,8 @@
                 <% @tournament.players.order("created_at DESC").each do |p| %>
                 <tr>
                     <% temp = "#{p.first_name} #{p.last_name}" %>
-                    <td><%= link_to "#{temp}", player_path(p) %></td>
+                    <td><%= check_box_tag "player_ids[]", p.id %></td>
+                    <td><%= link_to "#{temp}", tournament_player_path(@tournament, p) %></td>
                     <td><%= p.email %></td>
                     <td><%= p.skill %></td>
                     <td><%= p.matches_won %></td>
@@ -42,3 +68,6 @@
             <% end %>
         </tbody>
     </table>
+
+    <%= hidden_field_tag "tournament_id", @tournament.id %>
+    <% end %>

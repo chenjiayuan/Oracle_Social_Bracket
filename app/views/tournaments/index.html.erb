@@ -1,51 +1,21 @@
-<body>
-	<h2 class="title">Tournaments</h2>
-	<div class='create_btn'><%= link_to "New Tournament", new_tournament_url %></div>
+<% provide(:title, "Tournaments") %>
 
-	<div class="detail">
-		<%= pluralize(Tournament.count, 'tournament') %> have been created so far.
-	</div>
-	<div class="divider"></div>
+<h2 class="title">Tournaments</h2>
+<div class='btn create_btn' id='new_tournament_btn'><%= link_to "New Tournament", new_tournament_url, class: 'nopjax' %></div>
 
-    <%= will_paginate %>
+<%= render 'new_tournament' %>
 
-    <table>
-        <thead>
-        	<tr>
-        		<th>Tournament Name</th>
-        		<th># of Players</th>
-        		<th>Status</th>
-        		<th>Winner</th>
-        	</tr>
-        </thead>
-        <% if Tournament.any? %>
-        <tbody>
-        	<% Tournament.order("created_at DESC").each do |t| %>
-            <tr>
-                <td><%= link_to t.name, tournament_path(t) %></td>
-                <td><%= t.players.count %></td>
-                <% temp_id = t.winner_id %>
-                <td>
-                    <% if temp_id != 0 %>
-                        Completed
-                    <% else %>
-                        <%= t.active ? "Active" : "Inactive"  %>
-                    <% end %>
-                </td>
-                <td>
-                    <% if temp_id != 0 %>
-                        <% p = Player.find(temp_id) %>
-                        <% temp = "#{p.first_name} #{p.last_name}" %>
-                        <%= link_to "#{temp}", player_path(p) %>
-                    <% end %>
-            	</td>
-            </tr>
-    	    <% end %>
-        </tbody>
-        <% end %>
-    </table>
+<div class="detail">
+    <%= pluralize(Tournament.count, 'tournament has', 'tournaments have') %> been created so far.
+</div>
+<div class="divider"></div>
 
-    <%= will_paginate %>
+<div class="search_box">
+	<input type="text" id="tournament_search" placeholder="Search for tournament..." class="search">
+</div>
 
-</body>
+
+
+<%= render 'tournaments_table' %>
+
 

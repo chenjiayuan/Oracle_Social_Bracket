@@ -5,9 +5,25 @@
         </div>
         <ul>
             <% object.errors.full_messages.each do |msg| %>
-                <li>* <%= msg %></li>
+                <li>• <%= msg %></li>
             <% end %>
         </ul>
     </div>
     <br />
 <% end %>
+
+<% if session[:player_errors] %>
+    <div id="error_explanation">
+        <div class="alert alert-error">
+            The form contains <%= pluralize(session[:player_errors].count, "error") %>.
+        </div>
+        <ul>
+            <% session[:player_errors].full_messages.each do |msg| %>
+                <li>• <%= msg %></li>
+            <% end %>
+        </ul>
+    </div>
+    <br />
+    <% session.delete :player_errors %>
+<% end %>
+

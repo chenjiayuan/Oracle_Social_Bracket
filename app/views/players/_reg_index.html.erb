@@ -1,0 +1,27 @@
+<div id="players_pagination">
+    <%= will_paginate @players %>
+</div>
+
+<table>
+    <thead>
+    	<tr>
+    		<th>Name</th>
+    		<th>Email</th>
+    		<th>Skill</th>
+    		<th>Matches Won</th>
+    	</tr>
+    </thead>
+    <% if @players.any? %>
+    <tbody id="players_table">
+    	<% @players.each do |p| %>
+        <tr>
+        	<% temp = "#{p.first_name} #{p.last_name}" %>
+            <td><%= link_to "#{temp}", player_path(p) %></td>
+            <td><%= p.email %></td>
+            <td><%= p.skill %></td>
+            <td><%= p.matches_won %></td>
+        </tr>
+	    <% end %>
+    </tbody>
+    <% end %>
+</table>

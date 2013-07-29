@@ -1,37 +1,45 @@
-<h2 class="title"><%= "#{@player.first_name} #{@player.last_name}" %></h2>
-<div class="delete_btn"><%= link_to "Delete Player", @player, confirm: "Did you really mean to delete this player?", method: :delete %></div>
-<ul class="detail">
-	<li><%= @player.email %></li>
-	<li>Skill: <%= @player.skill %></li>
-	<li>Matches Won: <%= @player.matches_won %></li>
-</ul>
+<% provide(:title, @player.full_name) %>
+
+<%= render 'layouts/breadcrumbs' %>
+
+<div class="player-info">
+    <%= gravatar_for @player, size: 93 %>
+    <div class="detail">
+        <h2 class="title">
+            <%= "#{@player.first_name} #{@player.last_name}" %>
+        </h2>
+        <ul>
+            <li><%= @player.email %></li>
+            <li>Skill: <%= @player.skill %></li>
+            <li>Matches Won: <%= @player.matches_won %></li>
+        </ul>
+    </div>
+</div>
+<% if @tournament %>
+    <div class="btn remove_btn"><%= link_to "Remove Player from #{@tournament.name}", tournament_player_path(@tournament, @player), method: :delete %></div>
+<% end %>
+
+<div class="btn edit_btn"><%= link_to "Edit Player", if @tournament
+                                                       edit_tournament_player_path(@tournament, @player )
+                                                     elsif @match
+                                                       edit_match_player_path(@match, @player)
+                                                     else
+                                                       edit_player_path(@player)
+                                                     end %></div>
+<div class="btn delete_btn"><%= link_to "Delete Player", if @tournament
+                                                           tournament_player_path(@tournament, @player)
+                                                         elsif @match
+                                                           match_player_path(@match, @player)
+                                                         else
+                                                           player_path(@player)
+                                                         end, confirm: "Did you really mean to delete this player?", method: :delete %></div>
 <div class="divider"></div>
 
-<aside>A table will go here for tournaments that the player is attached to later.</aside>
-
-
-<!--
-<header>
-    Player info
-</header>
+<%= render 'player_tournaments' %>
 
 <br />
 
-<article>
-    <ul>
-        <li>Name: <%= "#{@player.first_name} #{@player.last_name}" %></li>
-        <li>Email: <%= @player.email %></li>
-        <li>Skill: <%= @player.skill %></li>
-        <li>Matches Won: <%= @player.matches_won %></li>
-        <% if @player.tournaments.any? %>
-            <li><%= button_to "Tournaments" %><li>
+<div class="divider"></div>
 
-        <% end %>
+<%= render 'player_matches' %>
 
-        <li><%= button_to "Edit Player", edit_player_path(@player) %></li>
-
-
-        <li><%= button_to "Delete player", @player, method: :delete %></li>
-    </ul>
-</article>
--->
