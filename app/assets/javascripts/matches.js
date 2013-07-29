@@ -330,6 +330,7 @@ function match_player_form_show(event){
     var form = $("#player-dialog-form").dialog({
         autoOpen: false,
         modal: true,
+        width: 400,
         height: 400,
         width: 350,
         buttons: {
