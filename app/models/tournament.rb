@@ -135,6 +135,7 @@ class Tournament < ActiveRecord::Base
       round = 1
       rounds = Math.log2(players_length)
       match_count = 0
+      match_array = []
 
       i = 0
       j = players_length - 1
@@ -144,15 +145,32 @@ class Tournament < ActiveRecord::Base
       temp = players_length / 2
 
       while temp > 0
-        first_player = players[i]
-        second_player = players[j]
+        first_player = players[j]
+        second_player = players[i]
 
         m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id})
-        self.matches << m
+        match_array << m
         match_count = match_count + 1
         temp = temp - 1
         i = i + 1
         j = j - 1
+      end
+
+      head = 0
+      tail = match_array.length - 1
+      counter = 1
+
+      while counter <= (match_array.length / 2)
+        self.matches << match_array[head]
+        self.matches << match_array[tail]
+        if counter == 1
+          head = tail / 2
+          tail = head + 1
+        else
+          head = head - 1
+          tail = tail + 1
+        end
+        counter = counter + 1
       end
 
       round = round + 1
