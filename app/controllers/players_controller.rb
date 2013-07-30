@@ -343,7 +343,7 @@ end
     search = params['search_term']
 
     if !search.empty?
-      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%").uniq
+      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%").uniq.reverse
     else
       search_result = Player.order("created_at DESC").paginate(page: params[:page], per_page: 16)
     end

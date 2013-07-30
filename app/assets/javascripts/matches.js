@@ -3,8 +3,8 @@ $(document).ready(function() {
     $('#container').on("click", "#new_match_btn", match_form_show)
         .on('keyup', 'input#match_search', search_match)
         .on('click', '.remove_match_player', remove_match_player)
-        .on('click', '.add_match_player', add_player_click_listener)
-        .on('click', '.player_picker_entry', player_picker_entry_click_listener);
+        .on('click', '.add_match_player', add_player_click_listener);
+    $('body').on('click', '.player_picker_entry', player_picker_entry_click_listener);
 });
 
 function update_match(event) {
@@ -210,7 +210,8 @@ function add_player_click_listener(event){
 }
 
 function player_picker_entry_click_listener(event){
-    event.preventDefault().stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
     var hasClass = $(this).hasClass('highlightEntry');
     $('#match_player_picker .highlightEntry').removeClass('highlightEntry');
     if(!hasClass)

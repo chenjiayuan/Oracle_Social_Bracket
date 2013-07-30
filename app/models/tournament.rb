@@ -96,7 +96,7 @@ class Tournament < ActiveRecord::Base
       while round <= rounds
         temp = match_count
         while temp > 0
-          if p_head == p_tail || spare_players > 0 
+          if p_head == p_tail || spare_players > 0
             first_player = p[p_tail]
             m = Match.create({player1_id: first_player.id, round: round, tournament_id: self.id, name: ""})
             self.matches << m
@@ -107,7 +107,7 @@ class Tournament < ActiveRecord::Base
             m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
             self.matches << m
             p_tail = p_tail - 1
-            p_head = p_head + 1              
+            p_head = p_head + 1
           else
             m = Match.create({round: round, tournament_id: self.id, name: ""})
             self.matches << m
@@ -122,7 +122,7 @@ class Tournament < ActiveRecord::Base
       self.save
 
     end
-    
+
   end
 
   def setup_normal
