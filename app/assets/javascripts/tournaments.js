@@ -62,7 +62,8 @@ function update_tournament_start_page(event) {
 
 function tour_form_show(event) {
     console.log('show');
-    event.preventDefault().stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
     $('#new_tournament_btn').fadeToggle("fast", function() {
         console.log('show_inner');
         $('.create_form_tournament').fadeToggle("fast");
@@ -71,7 +72,8 @@ function tour_form_show(event) {
 }
 
 function tour_form_hide(event) {
-    event.preventDefault().stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
     $('.create_form_tournament').fadeToggle("fast", function() {
         console.log('hide_inner');
         $("input[type=text]").val("");
@@ -111,7 +113,6 @@ function send_tournament_form(event) {
 function search_tournament(event){
     event.preventDefault();
     event.stopPropagation();
-
     $.ajax({
         type: "POST",
         url: 'tournaments/search_tournaments',

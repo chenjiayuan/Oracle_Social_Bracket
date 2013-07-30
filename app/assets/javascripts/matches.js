@@ -96,6 +96,9 @@ function search_match(event) {
         url: 'matches/search_matches',
         dataType: "JSON",
         data: { search_term: $('input#match_search').val() },
+        beforeSend: function() {
+            $('#ajax_spinner').show();
+        },
         success: function(data) {
             var el= $('#matches_table');
             el.html("");
@@ -112,6 +115,9 @@ function search_match(event) {
                     "'>" + temp.winner_name + "</a>") + "</td>" +
                     "</tr>");
             }
+        },
+        complete: function(){
+            $('#ajax_spinner').hide();
         }
     })
 }
@@ -204,8 +210,7 @@ function add_player_click_listener(event){
 }
 
 function player_picker_entry_click_listener(event){
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault().stopPropagation();
     var hasClass = $(this).hasClass('highlightEntry');
     $('#match_player_picker .highlightEntry').removeClass('highlightEntry');
     if(!hasClass)

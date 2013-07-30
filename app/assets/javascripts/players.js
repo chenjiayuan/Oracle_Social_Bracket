@@ -67,6 +67,9 @@ function search_player(event){
         url: 'players/search_players',
         dataType: "JSON",
         data: { search_term: $('input#player_search').val() },
+        beforeSend: function() {
+            $('#ajax_spinner').show();
+        },
         success: function(data) {
             console.log(data.search_result);
             var el = $('#players_table');
@@ -82,6 +85,9 @@ function search_player(event){
                     "<td>" + temp.matches_won + "</td>" +
                     "</tr>");
             }
+        },
+        complete: function(){
+            $('#ajax_spinner').hide();
         }
     });
 }
