@@ -10,6 +10,8 @@
 </head>
 <body>
 <%= render "layouts/header" %>
+<div id="ajax_spinner"><%= image_tag('ajax-loader.gif') %></div>
+
 <div id="container" class="wrapper">
     <% flash.each do |key, value| %>
 	        <div class="alert alert-<%= key %>"><%= value %></div>

@@ -1,12 +1,9 @@
 $(document).ready(function (){
-    $('#container').on("click", "#new_player_btn", player_form_show);
-
+    $('#container').on("click", "#new_player_btn", player_form_show)
+        .on("keyup", "input#player_search", search_player);
     $('#checkall').on("click", function(){
         $('td input[type="checkbox"]').click();
     });
-
-    $('#container').on("keyup", "input#player_search", search_player);
-
 });
 
 function player_form_show(event){
@@ -17,7 +14,6 @@ function player_form_show(event){
         modal: true,
         height: 400,
         width: 350,
-
         buttons: {
             "Create Player": function() {
                 send_player_form(event);
@@ -26,34 +22,16 @@ function player_form_show(event){
                 $(this).dialog('close');
             }
         },
-
         close: function() {
             $('#player-dialog-form').find('input[type=text], input[type=email]').val("");
             form.dialog('close');
-//            $('.create_btn').show();
         }
     });
-
-    form.dialog('open');
-
-    form.dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
-
-
-
-}
-
-function player_form_hide(event){
-    event.stopPropagation();
-    event.preventDefault();
-    $("#player-dialog-form").hide();
-    console.log('hi');
-    alert('hi');
-
+    form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();
 }
 
 function send_player_form(event){
     event.preventDefault();
-
     $.ajax({
         type: "POST",
         url: 'players/add_new_player',
@@ -69,44 +47,31 @@ function send_player_form(event){
             $("#player-dialog-form").dialog('close');
             $('form').remove();
             $('table tbody tr').first().hide().effect('highlight', {color: 'green'}).show();
-            $('form').remove();
-            console.log(data);
         },
         error: function(xhr, textStatus, errorThrown){
-            console.log(xhr);
-            console.log(textStatus);
-            console.log(errorThrown);
-
             var errors = "ERRORS -> \n";
-
             $.each(xhr.responseJSON, function(key, value) {
                 errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
             });
-
             alert(errors);
             $('#new_player_btn').click();
         }
-
     });
-
 }
 
 function search_player(event){
     event.preventDefault();
     event.stopPropagation();
-
     $.ajax({
         type: "POST",
         url: 'players/search_players',
         dataType: "JSON",
         data: { search_term: $('input#player_search').val() },
-
         success: function(data) {
             console.log(data.search_result);
             var el = $('#players_table');
             el.html("");
             var temp;
-
             for(var i = 0; i < data.search_result.length; i++){
                 temp = data.search_result[i];
                 el.append("<tr>" +
@@ -117,8 +82,6 @@ function search_player(event){
                     "<td>" + temp.matches_won + "</td>" +
                     "</tr>");
             }
-
         }
-
     });
 }
