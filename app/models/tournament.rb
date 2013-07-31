@@ -35,8 +35,7 @@ class Tournament < ActiveRecord::Base
         playoff_matches = playoff_matches + 1
       end
 
-      # Set the tail to the end of the array
-      # Set the head to just enough players to fill out the playoff matches
+      # Initialize the head and tail to first two players
       # Give a temp variable so we can use playoff_matches later
 
       leftover = p.length - (playoff_matches * 2)
@@ -45,37 +44,81 @@ class Tournament < ActiveRecord::Base
       p_tail = 1
       p_head = 0
       temp = playoff_matches
+      pma = [] # Playoff matches array
+      pma_index = 1
+      counter = 1
 
       # Set up the playoff round
-      # Need to fix logic for this though. Right now, it just puts in players according to skill top to bottom.
-
+      
       while temp > 0
         first_player = p[p_tail]
         second_player = p[p_head]
 
-        if filler_matches > 0
-          m = Match.create({round: round, tournament_id: self.id, name: ""})
-          self.matches << m
+        if counter == 1
+          m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+          pma[pma_index] = m
+          pma_index = true_length - 1
+        elsif counter <= (true_length / 2)
+          m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+          pma[pma_index] = m
+          if counter == (true_length / 2)
+            pma_index = pma_index - 1
+          else
+            pma_index = pma_index - (true_length/4)
+          end
+        elsif counter > (true_length / 2)
+          m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""}) 
+          pma[pma_index] = m
+          pma_index = pma_index + 2
         end
 
-        m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-        self.matches << m
+        if p_head == 0
+          p_tail = (playoff_matches * 2) - 1
+          p_head = p_head + 2
+        else
+          p_tail = p_tail - 1
+          p_head = p_head + 1
+        end
 
-        p_tail = p_tail + 2
-        p_head = p_head + 2
         temp = temp - 1
-        filler_matches = filler_matches - 1
+        counter = counter + 1
 
       end
 
-      # Keep putting in the filler matches
+      # If only one playoff match, create space for the filler matches to be placed later
 
-      if temp == 0 && filler_matches != 0
-        while filler_matches > 0
-          m = Match.create({round: round, tournament_id: self.id, name: ""})
-          self.matches << m
-          filler_matches = filler_matches - 1
+      if playoff_matches == 1
+        pma[filler_matches] = nil
+      end
+
+      # Reverse the order of the weaker playoff matches past the first if more than 2
+      # This way, the seeding for playoff matches is lined up correctly with non-playoff matches
+
+      if playoff_matches > 2
+        check_front = 3
+        check_end = true_length - 1
+        while check_front < check_end
+          if pma[check_front] != nil
+            temp = pma[check_front]
+            pma[check_front] = pma[check_end]
+            pma[check_end] = temp
+            check_front = check_front + 2
+            check_end = check_end - 2
+          else
+            check_front = check_front + 2
+          end
         end
+      end
+
+      # Replace all nils in the array with blank matches
+
+      m = Match.create({round: round, tournament_id: self.id, name: ""})
+      pma.map! { |x| x == nil ? m : x }
+
+      # Assign the playoff matches array's content to our tournament
+
+      while pma.length > 0
+        self.matches << pma.shift
       end
 
       # Set up the other rounds
@@ -90,6 +133,7 @@ class Tournament < ActiveRecord::Base
       match_count = (true_length) / 2
       p_tail = p.length - 1
       p_head = p.length - leftover
+      match_array = []
 
       # Iterate through the rest of the players left in the players array and add them according to skill
 
@@ -99,22 +143,52 @@ class Tournament < ActiveRecord::Base
           if p_head == p_tail || spare_players > 0 
             first_player = p[p_tail]
             m = Match.create({player1_id: first_player.id, round: round, tournament_id: self.id, name: ""})
-            self.matches << m
+            match_array << m
             p_tail = p_tail - 1
           elsif p_head < p_tail
             first_player = p[p_tail]
             second_player = p[p_head]
             m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-            self.matches << m
+            match_array << m
             p_tail = p_tail - 1
             p_head = p_head + 1              
           else
             m = Match.create({round: round, tournament_id: self.id, name: ""})
-            self.matches << m
+            if round > 2
+              self.matches << m
+            else
+              match_array << m
+            end
           end
           temp = temp - 1
           spare_players = spare_players - 1
         end
+
+        # Logic for seeding the non-playoff players
+
+        if round == 2
+          head = 0
+          tail = match_array.length - 1
+          counter = 1
+
+          if head == tail
+            self.matches << match_array[head]
+          else
+            while counter <= (match_array.length / 2)
+              self.matches << match_array[head]
+              self.matches << match_array[tail]
+              if counter == 1
+                head = (tail / 2) + 1
+                tail = head - 1
+              else
+                head = head + 1
+                tail = tail - 1
+              end
+              counter = counter + 1
+            end
+          end
+        end
+
         round = round + 1
         match_count = match_count / 2
       end
@@ -135,6 +209,7 @@ class Tournament < ActiveRecord::Base
       round = 1
       rounds = Math.log2(players_length)
       match_count = 0
+      match_array = []
 
       i = 0
       j = players_length - 1
@@ -144,15 +219,36 @@ class Tournament < ActiveRecord::Base
       temp = players_length / 2
 
       while temp > 0
-        first_player = players[i]
-        second_player = players[j]
+        first_player = players[j]
+        second_player = players[i]
 
         m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id})
-        self.matches << m
+        match_array << m
         match_count = match_count + 1
         temp = temp - 1
         i = i + 1
         j = j - 1
+      end
+
+      head = 0
+      tail = match_array.length - 1
+      counter = 1
+
+      if head == tail
+        self.matches << match_array[head]
+      else
+        while counter <= (match_array.length / 2)
+          self.matches << match_array[head]
+          self.matches << match_array[tail]
+          if counter == 1
+            head = (tail / 2) + 1
+            tail = head - 1
+          else
+            head = head + 1
+            tail = tail - 1
+          end
+          counter = counter + 1
+        end
       end
 
       round = round + 1
