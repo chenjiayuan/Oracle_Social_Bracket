@@ -1,6 +1,5 @@
 Brakkit::Application.routes.draw do
 
-
   resources :tournaments do
     member do
       post 'winner'
@@ -16,7 +15,6 @@ Brakkit::Application.routes.draw do
         post 'add_new_player'
       end
     end
-
   end
 
   resources :players do
@@ -31,7 +29,6 @@ Brakkit::Application.routes.draw do
     collection do
       post 'add_new_match'
       post 'search_matches'
-
     end
     member do
       post 'verdict'
@@ -39,6 +36,8 @@ Brakkit::Application.routes.draw do
       post 'remove_match_player'
       get 'non_match_players'
       post 'add_player_from_player_picker'
+      post 'player_picker_search'
+      post 'add_new_player_from_match'
     end
 
     resources :players do

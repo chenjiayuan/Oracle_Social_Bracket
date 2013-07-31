@@ -22,7 +22,6 @@ function update_tournament_start_page(event) {
         url: 'winner',
         dataType: "JSON",
         success: (function(data) {
-            console.log(data);
             var li = this_button.closest('li');
             li.append('<img alt="' + data.winner_name + '" class="gravatar" src="' + li.find('button').find('img').attr('src') + 
             '">' + data.winner_name);
@@ -61,11 +60,9 @@ function update_tournament_start_page(event) {
 
 
 function tour_form_show(event) {
-    console.log('show');
     event.preventDefault();
     event.stopPropagation();
     $('#new_tournament_btn').fadeToggle("fast", function() {
-        console.log('show_inner');
         $('.create_form_tournament').fadeToggle("fast");
         $("input#tournament_name").focus();
     });
@@ -75,7 +72,6 @@ function tour_form_hide(event) {
     event.preventDefault();
     event.stopPropagation();
     $('.create_form_tournament').fadeToggle("fast", function() {
-        console.log('hide_inner');
         $("input[type=text]").val("");
         $('#new_tournament_btn').fadeToggle("fast");
     });
@@ -122,7 +118,6 @@ function search_tournament(event){
             $('#ajax_spinner').show();
         },
         success: function(data) {
-            console.log(data.search_result);
             var el = $('#tournaments_table');
             el.html("");
             var temp;

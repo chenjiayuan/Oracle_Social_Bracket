@@ -3,8 +3,10 @@ $(document).ready(function() {
     $('#container').on("click", "#new_match_btn", match_form_show)
         .on('keyup', 'input#match_search', search_match)
         .on('click', '.remove_match_player', remove_match_player)
-        .on('click', '.add_match_player', add_player_click_listener);
-    $('body').on('click', '.player_picker_entry', player_picker_entry_click_listener);
+        .on('click', '.add_match_player', add_player_click_listener)
+        .on('click', '#add_new_player_button', match_player_form_show);
+    $('body').on('click', '.player_picker_entry', player_picker_entry_click_listener)
+        .on('keyup', '#match_player_picker_search', player_picker_search);
 });
 
 function update_match(event) {
@@ -17,7 +19,6 @@ function update_match(event) {
         url: '/matches/' + el.data('match-id') + '/verdict',
         dataType: "JSON",
         success: (function(data) {
-            console.log(data);
             var li = this_button.closest('li');
             li.append(data.winner_name);
             li.addClass('match-winner');
@@ -73,12 +74,8 @@ function send_match_form(event){
             $.pjax({url: '/matches?page=1', container: '#container'});
             $("#match-dialog-form").dialog('close');
             $('table tbody tr').first().effect('highlight', {color: 'green', duration: 6000});
-            console.log(data);
         },
         error: function(xhr, textStatus, errorThrown){
-            console.log(xhr);
-            console.log(textStatus);
-            console.log(errorThrown);
             var errors = "ERRORS -> \n";
             $.each(xhr.responseJSON, function(key, value) {
                 errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
@@ -168,7 +165,6 @@ function add_player_click_listener(event){
         },
         success:function(data){
             var players_div = $('#match_player_picker_body');
-            console.log(data);
             for(var i = 0; i < data.players.length; i++){
                 var temp = data.players[i];
                 players_div.append('<tr class="player_picker_entry" data-player-id="' + temp.id + '" data-match-id="' + match_id + '"><td>' + temp.full_name + '</td><td>' + temp.skill + '</td></tr>');
@@ -204,9 +200,11 @@ function add_player_click_listener(event){
             form.dialog('destroy');
             $('#match_player_picker .highlightEntry').removeClass('highlightEntry');
             $('#match_player_picker_body').empty();
+            $('#match_player_picker_search').val("");
         }
     });
     form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();
+    $('.ui-dialog-buttonset').append('<input type="text" id="match_player_picker_search" data-match-id="' + el.data('match-id')  + '" placeholder="Search for player..." class="search" autofocus="true">')
 }
 
 function player_picker_entry_click_listener(event){
@@ -233,7 +231,6 @@ function send_match_player_picker_form(event){
         url: '/matches/' + el.data('match-id') + '/add_player_from_player_picker',
         dataType: "JSON",
         success: function(data){
-            console.log(data);
             if(data.row == 1){
                 $('table:first tbody tr:first').html("<td><a href='/matches/" + match_id +
                     "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
@@ -253,4 +250,98 @@ function send_match_player_picker_form(event){
         }
     });
 }
+
+function player_picker_search(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var match_id = $(this).data('match-id');
+    var search = $('#match_player_picker_search').val();
+
+    $.ajax({
+        type: "POST",
+        data: {
+            match_id: match_id,
+            search: search
+        },
+        url: '/matches/' + match_id + '/player_picker_search',
+        dataType: "JSON",
+        beforeSend: function(){
+            $('#ajax_spinner').show();
+        },
+        success: function(data){
+            $('#match_player_picker_body').html("");
+            for(var i = 0; i < data.search_result.length; i++){
+                temp = data.search_result[i];
+                $('#match_player_picker_body').append('<tr class="player_picker_entry" ' +
+                    'data-player-id="' + temp.id + '" data-match-id="' + match_id + '">' +
+                    '<td>' + temp.full_name + '</td><td>' + temp.skill + '</td>' +
+                    '</tr>');
+            }
+        },
+        complete: function(){
+            $('#ajax_spinner').hide();
+        }
+    });
+}
+
+function send_match_player_form(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    $.ajax({
+        type: "POST",
+        url: '/players/add_new_player',
+        data: {
+            first_name: $('input#player_first_name').val(),
+            last_name: $('input#player_last_name').val(),
+            email: $('input#player_email').val(),
+            skill: $('select#player_skill').val(),
+            match_id: $('#add_new_player_button').data('match-id')
+        },
+        dataType: "JSON",
+        success: function(data){
+            $("#player-dialog-form").dialog('close');
+            var new_html = '<td><a href="/matches/' + data.match.id + '/players/' + data.player.id  + '">' + data.player.full_name + '</a></td>' +
+                '<td>' + data.player.email  + '</td><td>' + data.player.skill + '</td>' +
+                '<td>'+ data.player.matches_won + '</td><td>' + '<button class="btn remove_match_player" data-player-number="' + data.row +
+                '" data-match-id="' + data.match.id + '" data-player-id="' + data.player.id + '">Remove Player</button>' + '</td>';
+
+
+            if(data.row == 1){
+                $('table:first tbody tr:first').html(new_html);
+            }
+            else{
+                $('table:first tbody tr:last').html(new_html);
+            }
+            if(data.player_count == 2)
+                $("#add_new_player_button").hide();
+
+        }
+    });
+}
+
+function match_player_form_show(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var form = $("#player-dialog-form").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 400,
+        width: 350,
+        buttons: {
+            "Create Player": function() {
+                send_match_player_form(event);
+            },
+            Cancel: function() {
+                $(this).dialog('close');
+            }
+        },
+        close: function() {
+            $('#player-dialog-form').find('input[type=text], input[type=email]').val("");
+            form.dialog('destroy');
+        }
+    });
+    form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();
+}
+
 

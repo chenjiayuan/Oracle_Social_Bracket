@@ -195,14 +195,10 @@ class TournamentsController < ApplicationController
     if !search.empty?
       search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%").uniq.reverse
       search = search.to_i
-
-        search_result = search_result + Tournament.includes(:players).group('tournaments.id').having('count(players.id)=(?)', search)
-        if search != 0
-          search_result.reverse!
-        end
-
-      #end
-
+      search_result = search_result + Tournament.includes(:players).group('tournaments.id').having('count(players.id)=(?)', search).paginate(page: params[:page], per_page: 10)
+      if search != 0
+        search_result.reverse!
+      end
     else
       search_result = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 10)
     end
@@ -228,7 +224,6 @@ class TournamentsController < ApplicationController
           winner_id: s.winner_id
       }
     end
-
 
     respond_to do |format|
       format.json {

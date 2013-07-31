@@ -21,7 +21,7 @@
 <div class="divider"></div>
 
 <h3 class="subtitle">Players</h3>
-<div class="btn" id="add_new_player_button" style="<%= 'display: none;' if @count == 2 %>"> <%= link_to "Add New Player", new_match_player_path(@match) %></div>
+<div class="btn" id="add_new_player_button" style="<%= 'display: none;' if @count == 2 %>" data-match-id="<%= @match.id %>"> <%= link_to "Add New Player", new_match_player_path(@match) %></div>
 
 <table>
     <thead>
@@ -97,8 +97,11 @@
         <tbody id="match_player_picker_body">
 
         </tbody>
+
     </table>
 </div>
+
+<%= render "layouts/new_player" %>
 
 
 

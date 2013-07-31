@@ -326,15 +326,44 @@ end
                           last_name: params['last_name'],
                          email: params['email'],
                          skill: params['skill']})
-    respond_to do |format|
-      format.json {
-        if @player.save
-          render json: @player
-        else
-          render json: @player.errors, status: :forbidden
-        end
-      }
+    row = 0
+
+    if params['match_id']
+      @match = Match.find(params['match_id'])
+      @player.save
+      if @match.player1_id == 0
+        @match.player1_id = @player.id
+        row = 1
+      elsif @match.player2_id == 0
+        @match.player2_id = @player.id
+        row = 2
+      end
+      respond_to do |format|
+        format.json {
+          if @match.save
+            render json: {
+              match: @match,
+              player: @player,
+              row: row,
+              player_count: @match.players.count
+            }
+          else
+            render json: @match.errors, status: :forbidden
+          end
+        }
+      end
+    else
+      respond_to do |format|
+        format.json {
+          if @player.save
+            render json: @player
+          else
+            render json: @player.errors, status: :forbidden
+          end
+        }
+      end
     end
+
 
   end
 
