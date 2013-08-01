@@ -53,13 +53,13 @@ class Tournament < ActiveRecord::Base
         second_player = p[p_head]
 
         if temp == playoff_matches
-          m = Match.create({round: round, tournament_id: self.id, name: ""})
+          m = Match.new({round: round, tournament_id: self.id, name: ""})
           pma << m
-          m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+          m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
           pma << m
           pma_index = true_length - 1
         elsif temp <= (playoff_matches / 2)
-          m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+          m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
           pma[pma_index] = m
           if temp == (playoff_matches / 2) && playoff_matches > (true_length / 2)
             pma_index = pma_index + 1
@@ -67,7 +67,7 @@ class Tournament < ActiveRecord::Base
             pma_index = pma_index + (true_length / 4)
           end
         elsif temp > (playoff_matches / 2)
-          m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""}) 
+          m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
           pma[pma_index] = m
           if (temp - 1) == (playoff_matches / 2) && playoff_matches <= (true_length / 2)
             pma_index = pma_index - (true_length / 8)
@@ -122,12 +122,11 @@ class Tournament < ActiveRecord::Base
 
       while pma.length > 0
         if pma[0] == nil
-          self.matches << Match.create({round: round, tournament_id: self.id, name: ""})
+          self.matches << Match.new({round: round, tournament_id: self.id, name: ""})
           pma.delete_at(0)
         else
           self.matches << pma.shift
         end
-        self.save
       end
 
       # Set up the other rounds
@@ -151,18 +150,18 @@ class Tournament < ActiveRecord::Base
         while temp > 0
           if p_head == p_tail || spare_players > 0 
             first_player = p[p_tail]
-            m = Match.create({player1_id: first_player.id, round: round, tournament_id: self.id, name: ""})
+            m = Match.new({player1_id: first_player.id, round: round, tournament_id: self.id, name: ""})
             match_array << m
             p_tail = p_tail - 1
           elsif p_head < p_tail
             first_player = p[p_tail]
             second_player = p[p_head]
-            m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+            m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
             match_array << m
             p_tail = p_tail - 1
             p_head = p_head + 1              
           else
-            m = Match.create({round: round, tournament_id: self.id, name: ""})
+            m = Match.new({round: round, tournament_id: self.id, name: ""})
             if round > 2
               self.matches << m
             else
@@ -202,6 +201,10 @@ class Tournament < ActiveRecord::Base
         match_count = match_count / 2
       end
 
+      self.matches.each { |m|
+        m.save
+      }
+
       self.save
 
     end
@@ -231,7 +234,7 @@ class Tournament < ActiveRecord::Base
         first_player = players[j]
         second_player = players[i]
 
-        m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id})
+        m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id})
         match_array << m
         match_count = match_count + 1
         temp = temp - 1
@@ -266,7 +269,7 @@ class Tournament < ActiveRecord::Base
       while round <= rounds
         temp = bro
         while temp > 0
-          m = Match.create({round: round, tournament_id: self.id})
+          m = Match.new({round: round, tournament_id: self.id})
           self.matches << m
           match_count = match_count + 1
           temp = temp - 1
@@ -274,6 +277,10 @@ class Tournament < ActiveRecord::Base
         round = round + 1
         bro = bro / 2
       end
+
+      self.matches.each { |m|
+        m.save
+      }
 
       self.save
 
