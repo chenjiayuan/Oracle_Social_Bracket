@@ -181,7 +181,7 @@ end
     @player = Player.find(params[:id])
 
     @player_tournaments = @player.tournaments.order("created_at DESC").paginate(page: params[:tournaments_page], per_page: 1)
-    @matches = Match.where("(player1_id = :p1id or player2_id = :p1id) and tournament_id = :tid", {p1id: 124, tid: 0}).order("created_at DESC").paginate(page: params[:matches_page], per_page: 1)
+    @matches = Match.where("(player1_id = :p1id or player2_id = :p1id) and tournament_id = :tid", {p1id: @player.id, tid: 0}).order("created_at DESC").paginate(page: params[:matches_page], per_page: 1)
 
     if @tournament
       add_breadcrumb @tournament.name, tournament_path(@tournament)
@@ -330,27 +330,65 @@ end
 
     if params['match_id']
       @match = Match.find(params['match_id'])
-      @player.save
-      if @match.player1_id == 0
-        @match.player1_id = @player.id
-        row = 1
-      elsif @match.player2_id == 0
-        @match.player2_id = @player.id
-        row = 2
+      if @player.save
+        if @match.player1_id == 0
+          @match.player1_id = @player.id
+          row = 1
+        elsif @match.player2_id == 0
+          @match.player2_id = @player.id
+          row = 2
+        end
+        respond_to do |format|
+          format.json {
+            if @match.save
+              render json: {
+                match: @match,
+                player: @player,
+                row: row,
+                player_count: @match.players.count
+              }
+            else
+              render json: @match.errors, status: :forbidden
+            end
+          }
+        end
+      else
+        respond_to do |format|
+          format.json {
+            if @player.save
+              render json: @player
+            else
+              render json: @player.errors, status: :forbidden
+            end
+          }
+        end
       end
-      respond_to do |format|
-        format.json {
-          if @match.save
-            render json: {
-              match: @match,
-              player: @player,
-              row: row,
-              player_count: @match.players.count
-            }
-          else
-            render json: @match.errors, status: :forbidden
-          end
-        }
+    elsif params['tournament_id']
+      @tournament = Tournament.find(params['tournament_id'])
+      if @player.save
+        @tournament.players << @player
+        respond_to do |format|
+          format.json {
+            if @tournament.save
+              render json: {
+                  tournament: @tournament,
+                  player: @player,
+              }
+            else
+              render json: @tournament.errors, status: :forbidden
+            end
+          }
+        end
+      else
+        respond_to do |format|
+          format.json {
+            if @player.save
+              render json: @player
+            else
+              render json: @player.errors, status: :forbidden
+            end
+          }
+        end
       end
     else
       respond_to do |format|
@@ -384,6 +422,14 @@ end
         }
       }
     end
+  end
+
+  def delete_player_from_tournament_show
+    t = Tournament.find(params[:tournament_id])
+    t.tournament_players.where(player_id: params[:id]).destroy_all
+    Player.find(params[:id]).destroy
+    flash[:success] = "Player deleted and removed from tournament!"
+    redirect_to tournament_path(t)
   end
 
   private

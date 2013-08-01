@@ -12,12 +12,10 @@ class MatchesController < ApplicationController
   def show
     @match = Match.find(params[:id])
     @player = Player.new
-    #@non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).paginate(page: params[:page], per_page: 10)
     @count = 0
     @count = @count + 1 if @match.player1
     @count = @count + 1 if @match.player2
 
-    #@non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
 
     add_breadcrumb "Matches", matches_path
     add_breadcrumb "<span>#{@match.name}</span>", match_path(@match)

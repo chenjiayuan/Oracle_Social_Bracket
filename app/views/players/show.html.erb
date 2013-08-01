@@ -27,7 +27,7 @@
                                                        edit_player_path(@player)
                                                      end %></div>
 <div class="btn delete_btn"><%= link_to "Delete Player", if @tournament
-                                                           tournament_player_path(@tournament, @player)
+                                                           delete_player_from_tournament_show_tournament_player_path(@tournament, @player)
                                                          elsif @match
                                                            match_player_path(@match, @player)
                                                          else

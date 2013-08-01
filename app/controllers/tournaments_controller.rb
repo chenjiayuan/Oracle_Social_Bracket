@@ -14,6 +14,7 @@ class TournamentsController < ApplicationController
 
   def show
     @tournament = Tournament.find(params[:id])
+    @player = Player.new
 
     add_breadcrumb "Tournaments", :tournaments_path
     add_breadcrumb "<span>#{@tournament.name}</span>", tournament_path(@tournament)

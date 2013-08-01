@@ -316,6 +316,14 @@ function send_match_player_form(event){
             if(data.player_count == 2)
                 $("#add_new_player_button").hide();
 
+        },
+        error: function(xhr, textStatus, errorThrown){
+            var errors = "ERRORS -> \n";
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+            alert(errors);
+            $('#add_new_player_button').click();
         }
     });
 }

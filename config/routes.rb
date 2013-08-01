@@ -14,6 +14,9 @@ Brakkit::Application.routes.draw do
         post 'multiremove'
         post 'add_new_player'
       end
+      member do
+        delete 'delete_player_from_tournament_show'
+      end
     end
   end
 
