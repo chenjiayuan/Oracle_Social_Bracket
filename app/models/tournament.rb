@@ -46,7 +46,6 @@ class Tournament < ActiveRecord::Base
       temp = playoff_matches
       pma = [] # Playoff matches array
       pma_index = 1
-      counter = 1
 
       # Set up the playoff round
       
@@ -54,22 +53,28 @@ class Tournament < ActiveRecord::Base
         first_player = p[p_tail]
         second_player = p[p_head]
 
-        if counter == 1
+        if temp == playoff_matches
+          m = Match.create({round: round, tournament_id: self.id, name: ""})
+          self.matches << m
           m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-          pma[pma_index] = m
+          self.matches << m
           pma_index = true_length - 1
-        elsif counter <= (true_length / 2)
+        elsif temp <= (playoff_matches / 2)
           m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
           pma[pma_index] = m
-          if counter == (true_length / 2)
-            pma_index = pma_index - 1
+          if temp == (playoff_matches / 2) && playoff_matches > (true_length / 2)
+            pma_index = pma_index + 1
           else
-            pma_index = pma_index - (true_length/4)
+            pma_index = pma_index + (true_length / 4)
           end
-        elsif counter > (true_length / 2)
+        elsif temp > (playoff_matches / 2)
           m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""}) 
           pma[pma_index] = m
-          pma_index = pma_index + 2
+          if (temp - 1) == (playoff_matches / 2) && playoff_matches <= (true_length / 2)
+            pma_index = pma_index - (true_length / 8)
+          else
+            pma_index = pma_index - (true_length / 4)
+          end
         end
 
         if p_head == 0
@@ -81,7 +86,6 @@ class Tournament < ActiveRecord::Base
         end
 
         temp = temp - 1
-        counter = counter + 1
 
       end
 
