@@ -55,9 +55,9 @@ class Tournament < ActiveRecord::Base
 
         if temp == playoff_matches
           m = Match.create({round: round, tournament_id: self.id, name: ""})
-          self.matches << m
+          pma << m
           m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-          self.matches << m
+          pma << m
           pma_index = true_length - 1
         elsif temp <= (playoff_matches / 2)
           m = Match.create({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
@@ -116,13 +116,19 @@ class Tournament < ActiveRecord::Base
 
       # Replace all nils in the array with blank matches
 
-      m = Match.create({round: round, tournament_id: self.id, name: ""})
-      pma.map! { |x| x == nil ? m : x }
+      # m = Match.create({round: round, tournament_id: self.id, name: ""})
+      # pma.map! { |x| x == nil ? m : x }
 
       # Assign the playoff matches array's content to our tournament
 
       while pma.length > 0
-        self.matches << pma.shift
+        if pma[0] == nil
+          self.matches << Match.create({round: round, tournament_id: self.id, name: ""})
+          pma.delete_at(0)
+        else
+          self.matches << pma.shift
+        end
+        self.save
       end
 
       # Set up the other rounds
