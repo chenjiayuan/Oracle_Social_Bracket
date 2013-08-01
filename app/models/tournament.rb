@@ -18,7 +18,6 @@ class Tournament < ActiveRecord::Base
   def setup_playoff
 
     if !self.matches.any? && self.players.any?
-
       self.active = true
       p = self.players
       p_length = p.length
@@ -287,6 +286,7 @@ class Tournament < ActiveRecord::Base
     else
       setup_playoff
     end
+
   end
 
   def power_of_2?(number)

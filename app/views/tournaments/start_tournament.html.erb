@@ -2,6 +2,8 @@
 
 <!-- <% @tournament.start_tournament %> -->
 
+<% non_match = false %>
+
 <div class="round_container">
 
 <%= render 'layouts/breadcrumbs' %>
@@ -41,9 +43,10 @@
     <% end %>
     
     <% if cur_round == 1 && m.player1_id == 0 && m.player2_id == 0 %>
-    <div class="matches-row non-match-row">
+        <div class="matches-row non-match-row">
+            <% non_match = true %>
     <% else %>
-    <div class="matches-row">
+        <div class="matches-row">
     <% end %>
 
         <ul class="matches-list">
@@ -67,6 +70,7 @@
                 <% end %>
 
 
+                <% if !non_match %>
                 <li class="<% if winner_id != 0 %>
                                     <%= p1_is_winner ? "match-winner" : "match-loser" %>
                                <% end %>">
@@ -77,7 +81,7 @@
                     <% if winner_id == 0 && p1 %>
                         <button class="winner_btn tournament_match_winner_btn" data-match-id="<%= m.id %>" data-player-id="<%= p1.id if p1%>" data-round-id="<%= m.round %>"
                                 data-match-number="<%= match_number %>" data-player-number="1"><%= gravatar_for p1, size: 30 %><%= p1 ? "#{p1.first_name} #{p1.last_name}" : "" %>
-                            </button></li>
+                        </button></li>
                     <% end %>
                     <li class="<% if winner_id != 0 %>
                                     <%= p2_is_winner ? "match-winner" : "match-loser" %>
@@ -94,6 +98,12 @@
                         <% match_number = match_number + 1 %>
 
                         </div>
+                <% else %>
+                    <li></li>
+                    <li></li>
+                    <% non_match = false %>
+                <% end %>
+
         </ul>
         <div class="match-border-filler"></div>
         <div class="match-border"></div>
@@ -107,3 +117,4 @@
 
 </div>
 <div id="filler"></div>
+</div>
