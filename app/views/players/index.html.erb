@@ -1,9 +1,7 @@
-<% provide(:title, "Players") %>
+<h2 class="title">Players</h2>
+<div class='btn create_btn nopjax' id='new_player_btn'><%= link_to "New Player", new_match_path %></div>
 
-	<h2 class="title">Players</h2>
-	<div class='btn create_btn nopjax' id='new_player_btn'><%= link_to "New Player", new_match_path %></div>
-
-    <%= render 'layouts/new_player' %>
+<%= render 'layouts/new_player' %>
 
 <div class="detail">
 	<%= pluralize(Player.count, 'player has', 'players have') %> been created so far.

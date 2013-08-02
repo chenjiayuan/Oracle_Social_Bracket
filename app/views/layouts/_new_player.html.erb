@@ -1,5 +1,3 @@
-<% provide(:title, "New Player") %>
-
 <div class="create_form_player">
     <%= form_for @player, html: { id: 'edit_match_name_form', class: 'nopjax', title: 'New ' } do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
