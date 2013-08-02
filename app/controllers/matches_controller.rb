@@ -15,8 +15,6 @@ class MatchesController < ApplicationController
     @count = 0
     @count = @count + 1 if @match.player1
     @count = @count + 1 if @match.player2
-    @temp_match = Match.new
-
 
     add_breadcrumb "Matches", matches_path
     add_breadcrumb "<span>#{@match.name}</span>", match_path(@match)

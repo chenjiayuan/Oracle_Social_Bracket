@@ -235,4 +235,21 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def update
+    t = Tournament.find(params['tournament_id'])
+    t.name = params['name']
+
+    respond_to do |format|
+      format.json {
+        if t.save
+          render json: {
+              new_name: t.name
+          }
+        else
+          render json: t.errors, status: :forbidden
+        end
+      }
+    end
+  end
+
 end

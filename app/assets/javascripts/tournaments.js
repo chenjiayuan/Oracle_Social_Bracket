@@ -10,7 +10,10 @@ $(document).ready(function() {
         .on("click", "#tournament_cancel_btn", tour_form_hide)
         .on("submit", "#tournament-dialog-form", send_tournament_form)
         .on("keyup", "input#tournament_search", search_tournament)
-        .on("click", "#add_tournament_player_button", add_tournament_player_form);
+        .on("click", "#add_tournament_player_button", add_tournament_player_form)
+        .on('click', '#edit_tournament_name_button', edit_tournament_name_popup_show)
+        .on('click', '#edit_tournament_name_cancel_button', edit_tournament_name_popup_hide)
+        .on('submit', '#edit_tournament_name_form', send_edit_tournament_name_form);
 });
 
 function update_tournament_start_page(event) {
@@ -197,4 +200,54 @@ function send_tournament_player_form(event){
             $('#add_tournament_player_button').click();
         }
     });
+}
+
+function edit_tournament_name_popup_show(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    $('#edit_tournament_name_button').fadeToggle("fast", function() {
+        $('.edit_tournament_name_class').fadeToggle("fast");
+        $('.edit_tournament_name_class input#tournament_name').focus();
+    })
+}
+
+function edit_tournament_name_popup_hide(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    $('.edit_tournament_name_class').fadeToggle("fast", function() {
+        $('.edit_tournament_name_class input#tournament_name').val("");
+        $('#edit_tournament_name_button').fadeToggle("fast");
+    })
+}
+
+function send_edit_tournament_name_form(event){
+    event.preventDefault();
+    var value = $('.edit_tournament_name_class input#tournament_name').val();
+    var tournament_id = $('input[name=commit]').closest('li').data('tournament-id');
+
+    $.ajax({
+        type: "PUT",
+        data: {
+            name: value,
+            tournament_id: tournament_id
+        },
+        url: '/tournaments/' + tournament_id,
+        dataType: "JSON",
+        success: function(data){
+            $('h2.title').html(data.new_name);
+            $('.breadcrumbs span').html(data.new_name);
+            edit_tournament_name_popup_hide(event);
+        },
+        error: function(xhr, textStatus, errorThrown){
+            var errors = "ERRORS -> \n";
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+            alert(errors);
+            $('.edit_tournament_name_class input#tournament_name').focus();
+//            $('#edit_tournament_name_button').click();
+        }
+    })
 }
