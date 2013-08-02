@@ -15,6 +15,7 @@ class MatchesController < ApplicationController
     @count = 0
     @count = @count + 1 if @match.player1
     @count = @count + 1 if @match.player2
+    @temp_match = Match.new
 
 
     add_breadcrumb "Matches", matches_path
@@ -233,6 +234,23 @@ class MatchesController < ApplicationController
         render json: {
           search_result: search_result
         }
+      }
+    end
+  end
+
+  def update
+    m = Match.find(params['match_id'])
+    m.name = params['name']
+
+    respond_to do |format|
+      format.json {
+        if m.save
+          render json: {
+              new_name: m.name
+          }
+        else
+          render json: m.errors, status: :forbidden
+        end
       }
     end
   end

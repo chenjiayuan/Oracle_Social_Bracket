@@ -67,6 +67,16 @@
   background-color: green !important;
 }
 
-table#match_player_picker thead th{
+.edit_match_name_class{
+  display: none;
+  clear: right;
+  float: right;
+  input[type="text"] {
+    margin: 0.5em 0 0.7em 0;
+    clear: left;
+  }
+  li {
+    float: left;
+  }
 
 }

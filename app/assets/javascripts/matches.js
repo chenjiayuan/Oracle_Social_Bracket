@@ -4,7 +4,10 @@ $(document).ready(function() {
         .on('keyup', 'input#match_search', search_match)
         .on('click', '.remove_match_player', remove_match_player)
         .on('click', '.add_match_player', add_player_click_listener)
-        .on('click', '#add_new_player_button', match_player_form_show);
+        .on('click', '#add_new_player_button', match_player_form_show)
+        .on('click', '#edit_match_name_button', edit_match_name_popup_show)
+        .on('click', '#edit_match_name_cancel_button', edit_match_name_popup_hide)
+        .on('submit', '#edit_match_name_form', send_edit_match_name_form);
     $('body').on('click', '.player_picker_entry', player_picker_entry_click_listener)
         .on('keyup', '#match_player_picker_search', player_picker_search);
 });
@@ -352,4 +355,43 @@ function match_player_form_show(event){
     form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();
 }
 
+function edit_match_name_popup_show(event){
+    event.preventDefault();
+    event.stopPropagation();
 
+    $('#edit_match_name_button').fadeToggle("fast", function() {
+        $('.edit_match_name_class').fadeToggle("fast");
+        $('.edit_match_name_class input#match_name').focus();
+    })
+}
+
+function edit_match_name_popup_hide(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    $('.edit_match_name_class').fadeToggle("fast", function() {
+        $('.edit_match_name_class input#match_name').val("");
+        $('#edit_match_name_button').fadeToggle("fast");
+    })
+}
+
+function send_edit_match_name_form(event){
+    event.preventDefault();
+    var value = $('.edit_match_name_class input#match_name').val();
+    var match_id = $('input[name=commit]').closest('li').data('match-id');
+
+    $.ajax({
+        type: "PUT",
+        data: {
+            name: value,
+            match_id: match_id
+        },
+        url: '/matches/' + match_id,
+        dataType: "JSON",
+        success: function(data){
+            $('h2.title').html(data.new_name);
+            $('.breadcrumbs span').html(data.new_name);
+            edit_match_name_popup_hide(event);
+        }
+    })
+}
