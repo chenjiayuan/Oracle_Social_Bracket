@@ -39,40 +39,62 @@ class Tournament < ActiveRecord::Base
 
       leftover = p.length - (playoff_matches * 2)
       true_length = p.length - playoff_matches
+      iterations = Math.log2(true_length) - 2
       filler_matches = true_length - playoff_matches
       p_tail = 1
       p_head = 0
-      temp = playoff_matches
+      counter = playoff_matches
+      move_length = true_length/4
       pma = [] # Playoff matches array
-      pma_index = 1
+      pma_index = true_length - 1
+      switch = false
 
       # Set up the playoff round
       
-      while temp > 0
+      while counter > 0
         first_player = p[p_tail]
         second_player = p[p_head]
 
-        if temp == playoff_matches
-          m = Match.new({round: round, tournament_id: self.id, name: ""})
-          pma << m
-          m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-          pma << m
-          pma_index = true_length - 1
-        elsif temp <= (playoff_matches / 2)
-          m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-          pma[pma_index] = m
-          if temp == (playoff_matches / 2) && playoff_matches > (true_length / 2)
-            pma_index = pma_index + 1
+        if counter == playoff_matches
+          pma << Match.new({round: round, tournament_id: self.id, name: ""})
+          pma << Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+        elsif switch == true
+          pma[pma_index] = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+          if pma_index == 3
+            pma_index = 2
+          elsif pma_index == 2
+            pma_index = true_length - 4
+            switch = false
+          elsif pma_index + move_length >= true_length
+            iterations = iterations - 1
+            if iterations == 0
+              pma_index = 3
+            else
+              pma_index = pma_index + 2
+              move_length = 4
+              switch = false
+            end
           else
-            pma_index = pma_index + (true_length / 4)
+            pma_index = pma_index + move_length
+            move_length = true_length/4
           end
-        elsif temp > (playoff_matches / 2)
-          m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-          pma[pma_index] = m
-          if (temp - 1) == (playoff_matches / 2) && playoff_matches <= (true_length / 2)
-            pma_index = pma_index - (true_length / 8)
+        else
+          pma[pma_index] = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
+          if pma_index - move_length <= 3 || pma[pma_index - move_length] != nil
+            switch = true
+            iterations = iterations - 1
+            if iterations == 0
+              pma_index = 3
+            elsif iterations < 0
+              move_length = move_length/2
+              pma_index = pma_index + move_length
+              move_length = true_length/4
+            else
+              pma_index = pma_index - 2
+              move_length = 2 * (Math.log2(true_length) - 2)
+            end
           else
-            pma_index = pma_index - (true_length / 4)
+            pma_index = pma_index - move_length
           end
         end
 
@@ -84,13 +106,13 @@ class Tournament < ActiveRecord::Base
           p_head = p_head + 1
         end
 
-        temp = temp - 1
+        counter = counter - 1
 
       end
 
       # If only one playoff match, create space for the filler matches to be placed later
 
-      if playoff_matches == 1
+      if playoff_matches == 1 && p.length > 3
         pma[filler_matches] = nil
       end
 
@@ -101,7 +123,7 @@ class Tournament < ActiveRecord::Base
         check_front = 3
         check_end = true_length - 1
         while check_front < check_end
-          if pma[check_front] != nil
+          if pma[check_front] != nil && pma[check_end] != nil
             temp = pma[check_front]
             pma[check_front] = pma[check_end]
             pma[check_end] = temp
@@ -150,14 +172,12 @@ class Tournament < ActiveRecord::Base
         while temp > 0
           if p_head == p_tail || spare_players > 0 
             first_player = p[p_tail]
-            m = Match.new({player1_id: first_player.id, round: round, tournament_id: self.id, name: ""})
-            match_array << m
+            match_array << Match.new({player1_id: first_player.id, round: round, tournament_id: self.id, name: ""})
             p_tail = p_tail - 1
           elsif p_head < p_tail
             first_player = p[p_tail]
             second_player = p[p_head]
-            m = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
-            match_array << m
+            match_array << Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
             p_tail = p_tail - 1
             p_head = p_head + 1              
           else
