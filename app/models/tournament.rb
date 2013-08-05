@@ -64,6 +64,7 @@ class Tournament < ActiveRecord::Base
             pma_index = 2
           elsif pma_index == 2
             pma_index = true_length - 4
+            move_length = 4
             switch = false
           elsif pma_index + move_length >= true_length
             iterations = iterations - 1
@@ -76,7 +77,11 @@ class Tournament < ActiveRecord::Base
             end
           else
             pma_index = pma_index + move_length
-            move_length = true_length/4
+            if iterations > 0
+              move_length = true_length/4
+            elsif iterations < 0
+              move_length = 4
+            end
           end
         else
           pma[pma_index] = Match.new({player1_id: first_player.id, player2_id: second_player.id, round: round, tournament_id: self.id, name: ""})
@@ -88,7 +93,7 @@ class Tournament < ActiveRecord::Base
             elsif iterations < 0
               move_length = move_length/2
               pma_index = pma_index + move_length
-              move_length = true_length/4
+              move_length = 4
             else
               pma_index = pma_index - 2
               move_length = 2 * (Math.log2(true_length) - 2)

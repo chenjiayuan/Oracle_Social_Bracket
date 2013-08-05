@@ -51,7 +51,6 @@
                         <% winner_id == p1.id ? p1_is_winner = true : p2_is_winner = true %>
                     <% end %>
 
-                    <% if !non_match %>
                         <li class="<%= winner_id != 0 && p1_is_winner ? "match-winner" : "match-loser" %>">
 
                             <% if winner_id != 0 %>
@@ -75,10 +74,6 @@
                             <% end %>
                             <% match_number = match_number + 1 %>
                         </li>
-                    <% else %>
-                        <li></li>
-                        <li></li>
-                    <% end %>
                 </div>
             </ul>
 
