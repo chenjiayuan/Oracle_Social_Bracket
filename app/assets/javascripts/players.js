@@ -1,8 +1,16 @@
 $(document).ready(function (){
     $('#container').on("click", "#new_player_btn", player_form_show)
-        .on("keyup", "input#player_search", search_player);
-    $('#checkall').on("click", function(){
-        $('td input[type="checkbox"]').click();
+        .on("keyup", "input#player_search", search_player)
+        .on("click", "#edit_player_btn", player_edit_form_show)
+        .on("click", '#checkall', function(){
+
+        var checkall = $('#checkall').prop('checked');
+        if (checkall) {
+            //check all unchecked
+            $('td input[type="checkbox"]:not(:checked)').prop('checked', true);
+        } else {
+            $('td input[type="checkbox"]').prop('checked', false);
+        }
     });
 });
 
@@ -89,4 +97,60 @@ function player_form_show(event){
         }
     });
     form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();
+}
+
+function player_edit_form_show(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    var form = $("#player-dialog-form").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 400,
+        width: 350,
+        buttons: {
+            "Update Player": function() {
+                send_player_edit_form(event);
+            },
+            Cancel: function() {
+                $(this).dialog('close');
+            }
+        },
+        close: function() {
+            form.dialog('destroy');
+        }
+    });
+    form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();
+}
+
+function send_player_edit_form(event){
+    event.preventDefault();
+    var player_id = $('#edit_player_btn').data('player-id');
+
+    $.ajax({
+        type: "POST",
+        url: '/players/' + player_id + '/update_player_ajax',
+        data: {
+            first_name: $('#player_first_name').val(),
+            last_name: $('#player_last_name').val(),
+            email: $('#player_email').val(),
+            skill: $('#player_skill').val(),
+            player_id: player_id
+        },
+        dataType: "JSON",
+        success: function(data){
+            $("#player-dialog-form").dialog('close');
+            $('form').remove();
+            $.pjax({url: '/players/' + player_id, container: '#container'});
+
+        },
+        error: function(xhr, textStatus, errorThrown){
+            var errors = "ERRORS -> \n";
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+            alert(errors);
+            $('#edit_player_btn').click();
+        }
+    });
 }

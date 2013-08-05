@@ -255,6 +255,27 @@ end
     end
   end
 
+  def update_player_ajax
+    @player = Player.find(params['player_id'])
+    @player.first_name = params['first_name']
+    @player.last_name = params['last_name']
+    @player.email = params['email']
+    @player.skill = params['skill']
+
+
+
+    respond_to do |format|
+      format.json {
+        if @player.save
+          render json: @player
+        else
+          render json: @player.errors, status: :forbidden
+        end
+
+      }
+    end
+  end
+
   def multiadd
 
     if params[:tournament_id]

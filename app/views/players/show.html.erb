@@ -17,7 +17,7 @@
     <div class="btn remove_btn"><%= link_to "Remove Player from #{@tournament.name}", tournament_player_path(@tournament, @player), method: :delete %></div>
 <% end %>
 
-<div class="btn edit_btn"><%= link_to "Edit Player", if @tournament
+<div class="btn edit_btn" id="edit_player_btn" data-player-id="<%= @player.id %>"><%= link_to "Edit Player", if @tournament
                                                        edit_tournament_player_path(@tournament, @player )
                                                      elsif @match
                                                        edit_match_player_path(@match, @player)
@@ -40,4 +40,6 @@
 <div class="divider"></div>
 
 <%= render 'player_matches' %>
+
+<%= render 'layouts/new_player' %>
 

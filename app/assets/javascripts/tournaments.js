@@ -106,7 +106,8 @@ function send_tournament_form(event) {
                 errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
             });
             alert(errors);
-            tour_form_show(event);
+            $('input#tournament_name').focus();
+//            tour_form_show(event);
         })
     });
 }

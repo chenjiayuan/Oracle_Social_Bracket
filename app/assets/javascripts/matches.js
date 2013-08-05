@@ -92,7 +92,7 @@ function search_match(event) {
     event.preventDefault();
     event.stopPropagation();
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: 'matches/search_matches',
         dataType: "JSON",
         data: { search_term: $('input#match_search').val() },
