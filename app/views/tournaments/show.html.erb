@@ -7,7 +7,7 @@
 <% if @tournament.winner_id == 0 %>
     <div class="btn start_btn">
         <% if !@tournament.active %>
-            <%= link_to "Start Tournament", start_tournament_path(@tournament), class: 'nopjax', confirm: "Once the tournament is started, you cannot add any more players" %>
+            <%= link_to "Start Tournament", start_tournament_path(@tournament), class: 'nopjax', confirm: "WARNING: Once the tournament is started, you cannot add or remove players." %>
         <% else %>
             <%= link_to "Resume Tournament",  start_tournament_path(@tournament), class: 'nopjax' %>
         <% end %>
@@ -36,19 +36,28 @@
 
 
     <h3 class="subtitle">Players</h3>
+
+    <% if !@tournament.active? %>
     <div class="btn" id="add_tournament_player_button" data-tournament-id="<%= params[:id] %>"> <%= link_to "Add New Player", new_tournament_player_path(@tournament) %></div>
     <div class="btn"> <%= link_to "Add Existing Players", add_index_path(@tournament), class: "nopjax" %></div>
+    <% end %>
 
     <%= form_tag multiremove_tournament_players_path(@tournament) do %>
 
+    <% if !@tournament.active? %>
     <% if @tournament.players.any? %>
         <%= submit_tag "Remove Checked", class: "submit_btn remove" %>
+    <% end %>
     <% end %>
 
     <table>
         <thead>
             <tr>
-                <th><input type="checkbox" id="checkall" /></th>
+                <th>
+                    <% if !@tournament.active? %>
+                    <input type="checkbox" id="checkall" />
+                    <% end %>
+                </th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Skill Level</th>
@@ -60,7 +69,11 @@
                 <% @tournament.players.order("created_at DESC").each do |p| %>
                 <tr>
                     <% temp = "#{p.first_name} #{p.last_name}" %>
-                    <td><%= check_box_tag "player_ids[]", p.id %></td>
+                    <td>
+                        <% if !@tournament.active? %>
+                        <%= check_box_tag "player_ids[]", p.id %>
+                        <% end %>
+                    </td>
                     <td><%= link_to "#{temp}", tournament_player_path(@tournament, p) %></td>
                     <td><%= p.email %></td>
                     <td><%= p.skill %></td>

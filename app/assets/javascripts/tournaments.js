@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $('img').load(function() {
         $('.round').css({'height':($('.round-1').height()+'px')});
+
         $('#filler').height($('.round_container').height());
     });
     $('#filler').height($('.round_container').height());

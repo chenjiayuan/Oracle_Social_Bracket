@@ -47,6 +47,7 @@ class TournamentsController < ApplicationController
   def start_tournament
 
     @tournament = Tournament.find(params[:id])
+    @tournament.start_tournament
     @matches = @tournament.matches
 
     add_breadcrumb "Tournaments", :tournaments_path
