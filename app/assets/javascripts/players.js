@@ -125,7 +125,15 @@ function player_edit_form_show(event){
 
 function send_player_edit_form(event){
     event.preventDefault();
-    var player_id = $('#edit_player_btn').data('player-id');
+    var el = $('#edit_player_btn');
+    var player_id = el.data('player-id');
+    var match_id = 0;
+    var tournament_id = 0;
+
+    if (typeof el.data('tournament-id') != 'undefined')
+        tournament_id = el.data('tournament-id');
+    else if (typeof el.data('match-id') != 'undefined')
+        match_id = el.data('match-id');
 
     $.ajax({
         type: "POST",
@@ -141,8 +149,13 @@ function send_player_edit_form(event){
         success: function(data){
             $("#player-dialog-form").dialog('close');
             $('form').remove();
-            $.pjax({url: '/players/' + player_id, container: '#container'});
-
+            if (tournament_id != 0)
+                $.pjax({url: '/tournaments/' + tournament_id + '/players/' + player_id, container: '#container'});
+            else if(match_id != 0)
+                $.pjax({url: '/matches/' + match_id + '/players/' + player_id, container: '#container'});
+            else{
+                $.pjax({url: '/players/' + player_id, container: '#container'});
+            }
         },
         error: function(xhr, textStatus, errorThrown){
             var errors = "ERRORS -> \n";

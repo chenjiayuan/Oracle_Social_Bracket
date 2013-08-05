@@ -29,28 +29,7 @@ class PlayersController < ApplicationController
       @tournament = Tournament.find(params[:tournament_id])
     end
 
-    # add_breadcrumb "Players Index", players_path
-
   end
-
-=begin
-  def index
-    if Tournament.all.any?
-      @tournament = Tournament.all
-
-      @tournament.each do |t|
-        @player = t.pl
-      end
-
-
-    else
-      redirect_to tournaments_path
-    end
-
-end
-
-  end
-=end
 
   def new
 
@@ -75,28 +54,6 @@ end
     end
 
   end
-
-=begin
-  def create
-
-    @player = Player.new(params[:player])
-    if params[:tournament_id]
-      @tournament = Tournament.find(params[:tournament_id])
-      if @player.save
-        redirect_to tournament_player_path(@tournament, @player)
-      else
-        redirect_to new_tournament_player_path(@tournament)
-      end
-    else
-      if @player.save
-        redirect_to @player
-      else
-        render 'new'
-      end
-    end
-
-  end
-=end
 
   def create
 
@@ -262,12 +219,12 @@ end
     @player.email = params['email']
     @player.skill = params['skill']
 
-
-
     respond_to do |format|
       format.json {
         if @player.save
-          render json: @player
+          render json: {
+              player: @player
+          }
         else
           render json: @player.errors, status: :forbidden
         end
