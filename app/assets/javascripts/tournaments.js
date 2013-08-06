@@ -13,7 +13,6 @@ $(document).ready(function() {
         .on("keyup", "input#tournament_search", search_tournament)
         .on("click", "#add_tournament_player_button", add_tournament_player_form)
         .on('click', '#edit_tournament_name_button', edit_tournament_name_popup_show)
-        .on('click', '#edit_tournament_name_cancel_button', edit_tournament_name_popup_hide)
         .on('submit', '#edit_tournament_name_form', send_edit_tournament_name_form);
 });
 
@@ -107,7 +106,6 @@ function send_tournament_form(event) {
             });
             alert(errors);
             $('input#tournament_name').focus();
-//            tour_form_show(event);
         })
     });
 }
@@ -208,26 +206,33 @@ function edit_tournament_name_popup_show(event){
     event.preventDefault();
     event.stopPropagation();
 
-    $('#edit_tournament_name_button').fadeToggle("fast", function() {
-        $('.edit_tournament_name_class').fadeToggle("fast");
-        $('.edit_tournament_name_class input#tournament_name').focus();
-    })
-}
-
-function edit_tournament_name_popup_hide(event){
-    event.preventDefault();
-    event.stopPropagation();
-
-    $('.edit_tournament_name_class').fadeToggle("fast", function() {
-        $('.edit_tournament_name_class input#tournament_name').val("");
-        $('#edit_tournament_name_button').fadeToggle("fast");
-    })
+    var form = $("#edit_tournament_name_form").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 400,
+        width: 350,
+        title: "Edit Tournament Name",
+        buttons: {
+            "Update Tournament": function() {
+                send_edit_tournament_name_form(event);
+                $(this).remove();
+            },
+            Cancel: function() {
+                $(this).dialog('close');
+            }
+        },
+        close: function() {
+            $('.edit_tournament_name_class input#tournament_name').val("");
+            form.dialog('close');
+        }
+    });
+    form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
 }
 
 function send_edit_tournament_name_form(event){
     event.preventDefault();
-    var value = $('.edit_tournament_name_class input#tournament_name').val();
-    var tournament_id = $('input[name=commit]').closest('li').data('tournament-id');
+    var value = $('#tournament_name').val();
+    var tournament_id = $('#edit_tournament_name_button').data('tournament-id');
 
     $.ajax({
         type: "PUT",
@@ -238,9 +243,7 @@ function send_edit_tournament_name_form(event){
         url: '/tournaments/' + tournament_id,
         dataType: "JSON",
         success: function(data){
-            $('h2.title').html(data.new_name);
-            $('.breadcrumbs span').html(data.new_name);
-            edit_tournament_name_popup_hide(event);
+            $.pjax({url: '/tournaments/' + tournament_id, container: '#container'});
         },
         error: function(xhr, textStatus, errorThrown){
             var errors = "ERRORS -> \n";
@@ -248,8 +251,7 @@ function send_edit_tournament_name_form(event){
                 errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
             });
             alert(errors);
-            $('.edit_tournament_name_class input#tournament_name').focus();
-//            $('#edit_tournament_name_button').click();
+            $('#edit_tournament_name_button').click();
         }
     })
 }
