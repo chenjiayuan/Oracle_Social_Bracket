@@ -18,7 +18,7 @@
 
 <div class="btn delete_btn"><%= link_to "Delete Match", @match, confirm: "Did you really mean to delete this match?", method: :delete %></div>
 
-<div class="btn edit_btn" id="edit_match_name_button"><%= link_to "Edit Match Name" %></div>
+<div class="btn edit_btn" id="edit_match_name_button" data-match-id="<%= @match.id %>"><%= link_to "Edit Match Name" %></div>
 
 <ul class="detail">
     <li><%= pluralize(@count, "player") %></li>

@@ -222,7 +222,6 @@ function edit_tournament_name_popup_show(event){
             }
         },
         close: function() {
-            $('.edit_tournament_name_class input#tournament_name').val("");
             form.dialog('close');
         }
     });
@@ -242,7 +241,7 @@ function send_edit_tournament_name_form(event){
         },
         url: '/tournaments/' + tournament_id,
         dataType: "JSON",
-        success: function(data){
+        success: function(){
             $.pjax({url: '/tournaments/' + tournament_id, container: '#container'});
         },
         error: function(xhr, textStatus, errorThrown){
