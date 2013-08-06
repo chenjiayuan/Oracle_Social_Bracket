@@ -114,7 +114,7 @@ function search_tournament(event){
     event.preventDefault();
     event.stopPropagation();
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: 'tournaments/search_tournaments',
         dataType: "JSON",
         data: { search_term: $('input#tournament_search').val() },

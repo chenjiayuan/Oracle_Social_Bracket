@@ -260,7 +260,7 @@ function player_picker_search(event){
     var search = $('#match_player_picker_search').val();
 
     $.ajax({
-        type: "POST",
+        type: "GET",
         data: {
             match_id: match_id,
             search: search

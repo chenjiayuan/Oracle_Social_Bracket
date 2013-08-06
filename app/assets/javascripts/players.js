@@ -47,7 +47,7 @@ function search_player(event){
     event.preventDefault();
     event.stopPropagation();
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: 'players/search_players',
         dataType: "JSON",
         data: { search_term: $('input#player_search').val() },
@@ -136,7 +136,7 @@ function send_player_edit_form(event){
         match_id = el.data('match-id');
 
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: '/players/' + player_id + '/update_player_ajax',
         data: {
             first_name: $('#player_first_name').val(),

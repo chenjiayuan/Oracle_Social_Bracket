@@ -6,7 +6,7 @@ Brakkit::Application.routes.draw do
     end
     collection do
       post 'add_new_tournament'
-      post 'search_tournaments'
+      get 'search_tournaments'
     end
 
     resources :players do
@@ -24,10 +24,10 @@ Brakkit::Application.routes.draw do
     collection do
       post 'multiadd'
       post 'add_new_player'
-      post 'search_players'
+      get 'search_players'
     end
     member do
-      post 'update_player_ajax'
+      put 'update_player_ajax'
     end
   end
 
@@ -42,7 +42,7 @@ Brakkit::Application.routes.draw do
       post 'remove_match_player'
       get 'non_match_players'
       post 'add_player_from_player_picker'
-      post 'player_picker_search'
+      get 'player_picker_search'
       post 'add_new_player_from_match'
     end
 
