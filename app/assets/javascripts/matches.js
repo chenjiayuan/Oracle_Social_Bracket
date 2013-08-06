@@ -138,6 +138,8 @@ function remove_match_player(event) {
             }
             if(!$('#add_new_player_button').is(":visible"))
                 $('#add_new_player_button').show();
+
+            $('#start_match_button a').attr('href', '#');
         }
     });
 }
@@ -235,8 +237,10 @@ function send_match_player_picker_form(event){
                     "<td>" + "<button class='matches_btn matches_remove_btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
                     "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
             }
-            if(data.player_count == 2)
+            if(data.player_count == 2){
                 $('#add_new_player_button').hide();
+                $('#start_match_button a').attr('href', '/matches/' + data.match.id + '/start_match');
+            }
         }
     });
 }
@@ -303,8 +307,10 @@ function send_match_player_form(event){
             else{
                 $('table:first tbody tr:last').html(new_html);
             }
-            if(data.player_count == 2)
+            if(data.player_count == 2){
                 $("#add_new_player_button").hide();
+                $('#start_match_button a').attr('href', '/matches/' + data.match.id + '/start_match');
+            }
 
         },
         error: function(xhr, textStatus, errorThrown){
