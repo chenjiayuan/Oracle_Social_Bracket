@@ -293,7 +293,7 @@ function send_match_player_form(event){
             $("#player-dialog-form").dialog('close');
             var new_html = '<td><a href="/matches/' + data.match.id + '/players/' + data.player.id  + '">' + data.player.full_name + '</a></td>' +
                 '<td>' + data.player.email  + '</td><td>' + data.player.skill + '</td>' +
-                '<td>'+ data.player.matches_won + '</td><td>' + '<button class="btn remove_match_player" data-player-number="' + data.row +
+                '<td>'+ data.player.matches_won + '</td><td>' + '<button class="matches_btn matches_remove_btn remove_match_player" data-player-number="' + data.row +
                 '" data-match-id="' + data.match.id + '" data-player-id="' + data.player.id + '">Remove Player</button>' + '</td>';
 
 
