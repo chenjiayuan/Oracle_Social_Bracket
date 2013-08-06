@@ -7,10 +7,12 @@
 }
 
 .ui-dialog-content {
-    background: #f3f3f3;
-    margin: 1em 0 0 0;
+  background: #f3f3f3;
+  margin: 1em 0 0 0;
+  ul {
     padding: 1em;
   }
+}
 
 .matches_btn {
   margin: 0;
