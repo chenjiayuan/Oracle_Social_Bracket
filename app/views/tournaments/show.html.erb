@@ -18,7 +18,7 @@
 <% end %>
 <div class="btn delete_btn"><%= link_to "Delete Tournament", @tournament, confirm: "Did you really mean to delete this tournament?", method: :delete %></div>
 
-<div class="btn" id="edit_tournament_name_button"><%= link_to "Edit Tournament Name" %></div>
+<div class="btn edit_btn" id="edit_tournament_name_button"><%= link_to "Edit Tournament Name" %></div>
 
 <ul class="detail">
     <li><%= @tournament.active ? "Active" : "Inactive"  %></li>

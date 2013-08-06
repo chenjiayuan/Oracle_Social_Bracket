@@ -140,14 +140,14 @@ function remove_match_player(event) {
         },
         success: function(data) {
             if(player_row == 1){
-                $('table:first tbody').find(button).closest('tr').html("<td><button class='btn add_match_player' " +
-                    "data-player-number='1' data-match-id='" + match_id + "'>Add Player</button></td>" +
-                    "<td></td><td></td><td></td><td></td>");
+                $('table:first tbody').find(button).closest('tr').html("<td></td><td></td><td></td><td></td>" + 
+                    "<td><button class='matches_btn add_match_player' " +
+                    "data-player-number='1' data-match-id='" + match_id + "'>Add Existing Player</button></td>");
             }
             else {
-                $('table:first tbody').find(button).closest('tr').html("<td><button class='btn add_match_player' " +
-                    "data-player-number='2' data-match-id='" + match_id + "'>Add Player</button></td>" +
-                    "<td></td><td></td><td></td><td></td>");
+                $('table:first tbody').find(button).closest('tr').html("<td></td><td></td><td></td><td></td>" + 
+                    "<td><button class='matches_btn add_match_player' " +
+                    "data-player-number='2' data-match-id='" + match_id + "'>Add Existing Player</button></td>");
             }
             if(!$('#add_new_player_button').is(":visible"))
                 $('#add_new_player_button').show();
@@ -238,14 +238,14 @@ function send_match_player_picker_form(event){
                 $('table:first tbody tr:first').html("<td><a href='/matches/" + match_id +
                     "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
                     "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
-                    "<td>" + "<button class='btn remove_match_player' data-player-number='1' data-match-id='" + match_id + "' " +
+                    "<td>" + "<button class='matches_btn matches_remove_btn remove_match_player' data-player-number='1' data-match-id='" + match_id + "' " +
                     "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
             }
             else{
                 $('table:first tbody tr:last').html("<td><a href='/matches/" + match_id +
                     "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
                     "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
-                    "<td>" + "<button class='btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
+                    "<td>" + "<button class='matches_btn matches_remove_btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
                     "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
             }
             if(data.player_count == 2)
@@ -372,7 +372,7 @@ function edit_match_name_popup_hide(event){
     $('.edit_match_name_class').fadeToggle("fast", function() {
         $('.edit_match_name_class input#match_name').val("");
         $('#edit_match_name_button').fadeToggle("fast");
-    })
+    });
 }
 
 function send_edit_match_name_form(event){
@@ -393,5 +393,5 @@ function send_edit_match_name_form(event){
             $('.breadcrumbs span').html(data.new_name);
             edit_match_name_popup_hide(event);
         }
-    })
+    });
 }
