@@ -12,9 +12,7 @@ class MatchesController < ApplicationController
   def show
     @match = Match.find(params[:id])
     @player = Player.new
-    @count = 0
-    @count = @count + 1 if @match.player1
-    @count = @count + 1 if @match.player2
+    @count = @match.players.count
 
     add_breadcrumb "Matches", matches_path
     add_breadcrumb "<span>#{@match.name}</span>", match_path(@match)

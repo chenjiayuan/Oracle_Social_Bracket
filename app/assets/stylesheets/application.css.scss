@@ -190,7 +190,7 @@ div .title {
     color: #fff;
 }
 
-.btn a, .create_form_tournament button, .create_form_tournament input[type="submit"] {
+.btn a, .create_form_tournament button, .create_form_tournament input[type="submit"], .matches_btn {
     display: block;
     height: auto;
     width: auto;
@@ -218,7 +218,7 @@ div .title {
     background: #aaa;
 }
 
-.remove_btn a {
+.remove_btn a, .matches_remove_btn {
     background: #faa732;
 }
 

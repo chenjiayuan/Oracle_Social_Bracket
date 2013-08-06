@@ -9,12 +9,14 @@
 .ui-dialog-content {
     background: #f3f3f3;
     margin: 1em 0 0 0;
+    padding: 1em;
   }
 
-.add_match_player {
-  background: none;
-  border: none;
-  text-decoration: underline;
+.matches_btn {
+  margin: 0;
+  &:hover {
+    opacity: 0.70;
+  }
 }
 
 #match_player_picker_wrapper {
