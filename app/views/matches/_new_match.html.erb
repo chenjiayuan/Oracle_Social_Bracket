@@ -4,7 +4,9 @@
 
         <ul>
             <li><span>Match Name <small>(Optional)</small></span></li>
-            <li><%= f.text_field :name, autofocus: true %></li>
+            <li><%= f.text_field :name, autofocus: true, placeholder: "(Optional)" %></li>
+            <li><%= f.submit "Create Match" %></li>
+            <li class="cancel_btn" id="match_cancel_btn"><%= button_tag "Cancel", class: "edit_btn" %></li>
         </ul>
     <% end %>
 </div>
