@@ -370,30 +370,29 @@ function edit_match_name_popup_show(event){
 
 function send_edit_match_name_form(event){
     event.preventDefault();
-    console.log('hi');
-//    var value = $('#match_name').val();
-//    var match_id = $('#edit_match_name_button').data('match-id');
-//
-//    $.ajax({
-//        type: "PUT",
-//        data: {
-//            name: value,
-//            match_id: match_id
-//        },
-//        url: '/matches/' + match_id,
-//        dataType: "JSON",
-//        success: function(){
-//            $.pjax({url: '/matches/' + match_id, container: '#container'});
-//        },
-//        error: function(xhr, textStatus, errorThrown){
-//            var errors = "ERRORS -> \n";
-//            $.each(xhr.responseJSON, function(key, value) {
-//                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
-//            });
-//            alert(errors);
-//            $('#edit_match_name_button').click();
-//        }
-//    });
+    var value = $('#match_name').val();
+    var match_id = $('#edit_match_name_button').data('match-id');
+
+    $.ajax({
+        type: "PUT",
+        data: {
+            name: value,
+            match_id: match_id
+        },
+        url: '/matches/' + match_id,
+        dataType: "JSON",
+        success: function(){
+            $.pjax({url: '/matches/' + match_id, container: '#container'});
+        },
+        error: function(xhr, textStatus, errorThrown){
+            var errors = "ERRORS -> \n";
+            $.each(xhr.responseJSON, function(key, value) {
+                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+            });
+            alert(errors);
+            $('#edit_match_name_button').click();
+        }
+    });
 }
 
 function match_form_hide(event){
