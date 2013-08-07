@@ -1,8 +1,8 @@
-<div class="create_form_tournament">
+<div class="create_form">
     <%= form_for @tournament, html: { id: 'tournament-dialog-form', class: 'nopjax' } do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
         <ul>
-        	<li class="create_tournament_text_field"><%= f.text_field :name, autofocus: true, placeholder: "Tournament Name" %></li>
+        	<li><%= f.text_field :name, autofocus: true, placeholder: "Tournament Name" %></li>
             <li><%= f.submit "Create Tournament" %></li>
             <li class="cancel_btn" id="tournament_cancel_btn"><%= button_tag "Cancel", class: "edit_btn" %></li>
         </ul>
