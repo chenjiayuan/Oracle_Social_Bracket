@@ -190,7 +190,7 @@ div .title {
     color: #fff;
 }
 
-.btn a, .create_form_tournament button, .create_form_tournament input[type="submit"], .matches_btn {
+.btn a, .create_form button, .create_form input[type="submit"], .matches_btn {
     display: block;
     height: auto;
     width: auto;
@@ -206,7 +206,7 @@ div .title {
     color: #fff;
 }
 
-.btn a:hover, input[type="submit"]:hover, .submit_btn:hover, .create_form_tournament button:hover {
+.btn a:hover, input[type="submit"]:hover, .submit_btn:hover, .create_form button:hover {
     opacity: 0.70;
 }
 
@@ -214,7 +214,7 @@ div .title {
     clear: right;
 }
 
-.edit_btn a, .create_form_tournament .edit_btn {
+.edit_btn a, .create_form .edit_btn {
     background: #aaa;
 }
 

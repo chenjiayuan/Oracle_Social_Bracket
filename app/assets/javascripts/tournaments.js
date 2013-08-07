@@ -67,7 +67,7 @@ function tour_form_show(event) {
     event.preventDefault();
     event.stopPropagation();
     $('#new_tournament_btn').fadeToggle("fast", function() {
-        $('.create_form_tournament').fadeToggle("fast");
+        $('.create_form').fadeToggle("fast");
         $("input#tournament_name").focus();
     });
 }
@@ -75,7 +75,7 @@ function tour_form_show(event) {
 function tour_form_hide(event) {
     event.preventDefault();
     event.stopPropagation();
-    $('.create_form_tournament').fadeToggle("fast", function() {
+    $('.create_form').fadeToggle("fast", function() {
         $("input[type=text]").val("");
         $('#new_tournament_btn').fadeToggle("fast");
     });

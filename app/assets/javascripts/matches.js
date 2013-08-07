@@ -46,7 +46,7 @@ function match_form_show(event) {
     event.stopPropagation();
 
     $('#new_match_btn').fadeToggle("fast", function() {
-        $('.create_form_match').fadeToggle("fast");
+        $('.create_form').fadeToggle("fast");
         $('input#match_name').focus();
     })
 
@@ -399,7 +399,7 @@ function send_edit_match_name_form(event){
 function match_form_hide(event){
     event.preventDefault();
     event.stopPropagation();
-    $('.create_form_match').fadeToggle("fast", function() {
+    $('.create_form').fadeToggle("fast", function() {
         $("input[type=text]").val("");
         $('#new_match_btn').fadeToggle("fast");
     });
