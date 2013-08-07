@@ -4,74 +4,38 @@
 
 .create_form_match {
   display: none;
+  clear: right;
+  float: right;
+  input[type="text"] {
+    margin: 0.5em 0 0.7em 0;
+    clear: left;
+  }
+  li {
+    float: left;
+  }
+  &.show_form {
+    display: block;
+    float: left;
+    input, select {
+      margin: 0 0 0.7em 0;
+    }
+    li {
+      clear: left;
+    }
+  }
 }
 
-.ui-widget {
-  background: #4169e1;
-  padding: 1em 0 0 0;
-  z-index: 1002;
-  .ui-dialog-title {
-    padding: 0 0 1em 1em;
-    color: #fff;
-    font-weight: 700;
-  }
-  .ui-button {
-    border: none;
-    border-radius: 5px;
-    background: #fff;
-    margin: 0 1em;
-    padding: 0.8em;
-    background: #70ae21;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.8em;
-    border: 1px solid rgba(0,0,0,.1);
-    &:hover {
-      opacity: 0.70;
-    }
-    &:nth-child(2) {
-      background: #aaa;
-    }
-  }
-  .ui-button-text {
-    color: #fff;
-  }
-  .ui-dialog-buttonpane {
-    background: #fff;
-    padding: 1em 0;
-    border-top: 1px solid #4169e1;
-  }
-  .ui-dialog-content{
+.ui-dialog-content {
     background: #f3f3f3;
-  }
-  #match-dialog-form {
-    background: #fff;
-    padding: 1em;
     margin: 1em 0 0 0;
-    input {
-      margin: 0 0 0.8em 0;
-    }
+    padding: 1em;
   }
 
-}
-
-#match_player_picker {
-  //display: none;
-  //
-  //border-collapse: separate;
-  //td {
-  //  font-weight: normal !important;
-  //  padding: .4em; border-top-width:
-  //  0px !important;
-  //}
-  //th {
-  //  text-align: center;
-  //  padding: .8em .4em;
-  //}
-  //td.first, th.first {
-  //  border-left-width: 0px !important;
-  //}
-
+.matches_btn {
+  margin: 0;
+  &:hover {
+    opacity: 0.70;
+  }
 }
 
 #match_player_picker_wrapper {
@@ -79,5 +43,21 @@
   height: 250px;
   width: 250px;
   overflow: auto;
+}
 
+.highlightEntry{
+  background-color: green !important;
+}
+
+.edit_match_name_class{
+  display: none;
+  clear: right;
+  float: right;
+  input[type="text"] {
+    margin: 0.5em 0 0.7em 0;
+    clear: left;
+  }
+  li {
+    float: left;
+  }
 }

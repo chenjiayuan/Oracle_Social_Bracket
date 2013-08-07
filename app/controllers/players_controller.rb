@@ -29,28 +29,7 @@ class PlayersController < ApplicationController
       @tournament = Tournament.find(params[:tournament_id])
     end
 
-    # add_breadcrumb "Players Index", players_path
-
   end
-
-=begin
-  def index
-    if Tournament.all.any?
-      @tournament = Tournament.all
-
-      @tournament.each do |t|
-        @player = t.pl
-      end
-
-
-    else
-      redirect_to tournaments_path
-    end
-
-end
-
-  end
-=end
 
   def new
 
@@ -76,33 +55,16 @@ end
 
   end
 
-=begin
-  def create
-
-    @player = Player.new(params[:player])
-    if params[:tournament_id]
-      @tournament = Tournament.find(params[:tournament_id])
-      if @player.save
-        redirect_to tournament_player_path(@tournament, @player)
-      else
-        redirect_to new_tournament_player_path(@tournament)
-      end
-    else
-      if @player.save
-        redirect_to @player
-      else
-        render 'new'
-      end
-    end
-
-  end
-=end
-
   def create
 
     if params[:player][:tournament_id].present?
       tournament_id = params[:player].delete :tournament_id
       tournament = Tournament.find(tournament_id)
+    end
+
+    if params[:player][:match_id].present?
+      match_id = params[:player].delete :match_id
+      match = Match.find(match_id)
     end
 
     @player = Player.new(params[:player])
@@ -113,6 +75,14 @@ end
         tournament.save
         flash[:success] = "Player created"
         redirect_to tournament_path(tournament)
+      elsif match
+        if match.player1_id == 0
+          match.player1_id = @player.id
+        elsif match.player2_id == 0
+          match.player2_id = @player.id
+        end
+        match.save
+        redirect_to match_path(match)
       else
         flash[:success] = "Player created"
         redirect_to player_path(@player)
@@ -122,8 +92,12 @@ end
         flash[:error] = "That didn't work :("
         session[:player_errors] = @player.errors
         redirect_to new_tournament_player_path(tournament)
+      elsif match
+        flash[:error] = "That didn't work :("
+        session[:player_errors] = @player.errors
+        redirect_to new_match_player_path(match)
       else
-        # render 'new'
+        render 'new'
       end
     end
   end
@@ -164,11 +138,14 @@ end
     @player = Player.find(params[:id])
 
     @player_tournaments = @player.tournaments.order("created_at DESC").paginate(page: params[:tournaments_page], per_page: 1)
-    @matches = Match.where("(player1_id = :p1id or player2_id = :p1id) and tournament_id = :tid", {p1id: 124, tid: 0}).order("created_at DESC").paginate(page: params[:matches_page], per_page: 1)
+    @matches = Match.where("(player1_id = :p1id or player2_id = :p1id) and tournament_id = :tid", {p1id: @player.id, tid: 0}).order("created_at DESC").paginate(page: params[:matches_page], per_page: 1)
 
     if @tournament
       add_breadcrumb @tournament.name, tournament_path(@tournament)
-      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", tournament_player_path
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", tournament_player_path(@tournament, @player)
+    elsif @match
+      add_breadcrumb @match.name, match_path(@match)
+      add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", match_player_path(@match, @player)
     else
       add_breadcrumb "<span>#{@player.first_name} #{@player.last_name}</span>", player_path(@player)
     end
@@ -232,6 +209,27 @@ end
         flash[:error] = @player.errors.to_a.to_sentence
         redirect_to edit_player_path(@player)
       end
+    end
+  end
+
+  def update_player_ajax
+    @player = Player.find(params['player_id'])
+    @player.first_name = params['first_name']
+    @player.last_name = params['last_name']
+    @player.email = params['email']
+    @player.skill = params['skill']
+
+    respond_to do |format|
+      format.json {
+        if @player.save
+          render json: {
+              player: @player
+          }
+        else
+          render json: @player.errors, status: :forbidden
+        end
+
+      }
     end
   end
 
@@ -306,15 +304,82 @@ end
                           last_name: params['last_name'],
                          email: params['email'],
                          skill: params['skill']})
-    respond_to do |format|
-      format.json {
-        if @player.save
-          render json: @player
-        else
-          render json: @player.errors, status: :forbidden
+    row = 0
+
+    if params['match_id']
+      @match = Match.find(params['match_id'])
+      if @player.save
+        if @match.player1_id == 0
+          @match.player1_id = @player.id
+          row = 1
+        elsif @match.player2_id == 0
+          @match.player2_id = @player.id
+          row = 2
         end
-      }
+        respond_to do |format|
+          format.json {
+            if @match.save
+              render json: {
+                match: @match,
+                player: @player,
+                row: row,
+                player_count: @match.players.count
+              }
+            else
+              render json: @match.errors, status: :forbidden
+            end
+          }
+        end
+      else
+        respond_to do |format|
+          format.json {
+            if @player.save
+              render json: @player
+            else
+              render json: @player.errors, status: :forbidden
+            end
+          }
+        end
+      end
+    elsif params['tournament_id']
+      @tournament = Tournament.find(params['tournament_id'])
+      if @player.save
+        @tournament.players << @player
+        respond_to do |format|
+          format.json {
+            if @tournament.save
+              render json: {
+                  tournament: @tournament,
+                  player: @player,
+              }
+            else
+              render json: @tournament.errors, status: :forbidden
+            end
+          }
+        end
+      else
+        respond_to do |format|
+          format.json {
+            if @player.save
+              render json: @player
+            else
+              render json: @player.errors, status: :forbidden
+            end
+          }
+        end
+      end
+    else
+      respond_to do |format|
+        format.json {
+          if @player.save
+            render json: @player
+          else
+            render json: @player.errors, status: :forbidden
+          end
+        }
+      end
     end
+
 
   end
 
@@ -323,7 +388,7 @@ end
     search = params['search_term']
 
     if !search.empty?
-      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%").uniq
+      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%").uniq.reverse
     else
       search_result = Player.order("created_at DESC").paginate(page: params[:page], per_page: 16)
     end
@@ -335,6 +400,14 @@ end
         }
       }
     end
+  end
+
+  def delete_player_from_tournament_show
+    t = Tournament.find(params[:tournament_id])
+    t.tournament_players.where(player_id: params[:id]).destroy_all
+    Player.find(params[:id]).destroy
+    flash[:success] = "Player deleted and removed from tournament!"
+    redirect_to tournament_path(t)
   end
 
   private

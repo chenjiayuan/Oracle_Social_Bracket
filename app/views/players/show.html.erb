@@ -1,5 +1,3 @@
-<% provide(:title, @player.full_name) %>
-
 <%= render 'layouts/breadcrumbs' %>
 
 <div class="player-info">
@@ -19,7 +17,12 @@
     <div class="btn remove_btn"><%= link_to "Remove Player from #{@tournament.name}", tournament_player_path(@tournament, @player), method: :delete %></div>
 <% end %>
 
-<div class="btn edit_btn"><%= link_to "Edit Player", if @tournament
+<div class="btn edit_btn" id="edit_player_btn" data-player-id="<%= @player.id %>" <% if @tournament %>
+    data-tournament-id="<%= @tournament.id %>"
+    <% elsif @match %>
+            data-match-id="<%= @match.id %>"
+    <% end %>>
+    <%= link_to "Edit Player", if @tournament
                                                        edit_tournament_player_path(@tournament, @player )
                                                      elsif @match
                                                        edit_match_player_path(@match, @player)
@@ -27,7 +30,7 @@
                                                        edit_player_path(@player)
                                                      end %></div>
 <div class="btn delete_btn"><%= link_to "Delete Player", if @tournament
-                                                           tournament_player_path(@tournament, @player)
+                                                           delete_player_from_tournament_show_tournament_player_path(@tournament, @player)
                                                          elsif @match
                                                            match_player_path(@match, @player)
                                                          else
@@ -42,4 +45,6 @@
 <div class="divider"></div>
 
 <%= render 'player_matches' %>
+
+<%= render 'layouts/new_player' %>
 

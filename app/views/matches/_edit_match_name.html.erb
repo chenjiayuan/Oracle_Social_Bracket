@@ -1,0 +1,8 @@
+<div class="edit_match_name_class">
+    <%= form_for @match, html: { id: 'edit_match_name_form', class: 'nopjax' } do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <ul>
+            <li class="match_name_text_field"><%= f.text_field :name, autofocus: true, placeholder: "New Match Name" %></li>
+        </ul>
+    <% end %>
+</div>

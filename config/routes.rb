@@ -1,13 +1,12 @@
 Brakkit::Application.routes.draw do
 
-
   resources :tournaments do
     member do
       post 'winner'
     end
     collection do
       post 'add_new_tournament'
-      post 'search_tournaments'
+      get 'search_tournaments'
     end
 
     resources :players do
@@ -15,28 +14,36 @@ Brakkit::Application.routes.draw do
         post 'multiremove'
         post 'add_new_player'
       end
+      member do
+        delete 'delete_player_from_tournament_show'
+      end
     end
-
   end
 
   resources :players do
     collection do
       post 'multiadd'
       post 'add_new_player'
-      post 'search_players'
+      get 'search_players'
+    end
+    member do
+      put 'update_player_ajax'
     end
   end
 
   resources :matches do
     collection do
       post 'add_new_match'
-      post 'search_matches'
+      get 'search_matches'
     end
     member do
       post 'verdict'
       post 'add_match_player'
       post 'remove_match_player'
       get 'non_match_players'
+      post 'add_player_from_player_picker'
+      get 'player_picker_search'
+      post 'add_new_player_from_match'
     end
 
     resources :players do
@@ -59,62 +66,4 @@ Brakkit::Application.routes.draw do
   get '/tournaments/:id/add_index/', to: 'players#add_index', as: 'add_index'
   get '/matches/:id/start_match', to: 'matches#start_match', as: 'start_match'
 
-  #ajax routes
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
 end

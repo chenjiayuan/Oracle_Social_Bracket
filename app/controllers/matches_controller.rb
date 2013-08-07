@@ -11,12 +11,8 @@ class MatchesController < ApplicationController
 
   def show
     @match = Match.find(params[:id])
-    #@non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).paginate(page: params[:page], per_page: 10)
-    @count = 0
-    @count = @count + 1 if @match.player1
-    @count = @count + 1 if @match.player2
-
-    #@non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+    @player = Player.new
+    @count = @match.players.count
 
     add_breadcrumb "Matches", matches_path
     add_breadcrumb "<span>#{@match.name}</span>", match_path(@match)
@@ -182,7 +178,7 @@ class MatchesController < ApplicationController
     #@count = @count + 1 if @match.player1
     #@count = @count + 1 if @match.player2
 
-    @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+    @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).order('created_at DESC')
 
     respond_to do |format|
       format.json{
@@ -192,4 +188,67 @@ class MatchesController < ApplicationController
       }
     end
   end
+
+  def add_player_from_player_picker
+    @match = Match.find(params['match_id'])
+    @player = Player.find(params['player_id'])
+    row = 0
+
+    if @match.player1_id == 0
+      @match.player1_id = params['player_id']
+      row = 1
+    elsif @match.player2_id == 0
+      @match.player2_id = params['player_id']
+      row = 2
+    end
+    @match.save
+
+    respond_to do |format|
+      format.json {
+        render json: {
+            match: @match,
+            player: @player,
+            row: row,
+            player_count: @match.players.count
+        }
+      }
+    end
+  end
+
+  def player_picker_search
+    @match = Match.find(params['match_id'])
+    search = params['search']
+
+    if !search.empty?
+      search_result = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).where("first_name LIKE :search OR last_name LIKE :search OR full_name LIKE :search OR skill LIKE :search", search: "%#{search}%").uniq.reverse
+    else
+      search_result = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).order('created_at DESC')
+    end
+
+    respond_to do |format|
+      format.json {
+        render json: {
+          search_result: search_result
+        }
+      }
+    end
+  end
+
+  def update
+    m = Match.find(params['match_id'])
+    m.name = params['name']
+
+    respond_to do |format|
+      format.json {
+        if m.save
+          render json: {
+              new_name: m.name
+          }
+        else
+          render json: m.errors, status: :forbidden
+        end
+      }
+    end
+  end
+
 end

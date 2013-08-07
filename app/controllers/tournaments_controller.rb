@@ -14,6 +14,7 @@ class TournamentsController < ApplicationController
 
   def show
     @tournament = Tournament.find(params[:id])
+    @player = Player.new
 
     add_breadcrumb "Tournaments", :tournaments_path
     add_breadcrumb "<span>#{@tournament.name}</span>", tournament_path(@tournament)
@@ -46,6 +47,7 @@ class TournamentsController < ApplicationController
   def start_tournament
 
     @tournament = Tournament.find(params[:id])
+    @tournament.start_tournament
     @matches = @tournament.matches
 
     add_breadcrumb "Tournaments", :tournaments_path
@@ -193,16 +195,12 @@ class TournamentsController < ApplicationController
     search = params['search_term']
 
     if !search.empty?
-      search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%")
+      search_result = Tournament.where("name LIKE :test OR winner_name LIKE :test", test: "%#{search}%").uniq.reverse
       search = search.to_i
-
-        search_result = search_result + Tournament.includes(:players).group('tournaments.id').having('count(players.id)=(?)', search)
-        if search != 0
-          search_result.reverse!
-        end
-
-      #end
-
+      search_result = search_result + Tournament.includes(:players).group('tournaments.id').having('count(players.id)=(?)', search).paginate(page: params[:page], per_page: 10)
+      if search != 0
+        search_result.reverse!
+      end
     else
       search_result = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 10)
     end
@@ -229,12 +227,28 @@ class TournamentsController < ApplicationController
       }
     end
 
-
     respond_to do |format|
       format.json {
         render json: {
             search_result: search_result
         }
+      }
+    end
+  end
+
+  def update
+    t = Tournament.find(params['tournament_id'])
+    t.name = params['name']
+
+    respond_to do |format|
+      format.json {
+        if t.save
+          render json: {
+              new_name: t.name
+          }
+        else
+          render json: t.errors, status: :forbidden
+        end
       }
     end
   end

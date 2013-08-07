@@ -20,6 +20,6 @@ test:
 
 production:
   adapter: postgresql
-  database: db/oracle_prod_database
-  pool: 5
-  timeout: 5000
+  database: app-dev
+  username: user
+  host: localhost

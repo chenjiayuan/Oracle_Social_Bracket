@@ -1,0 +1,9 @@
+<div class="edit_tournament_name_class">
+    <%= form_for @tournament, html: { id: 'edit_tournament_name_form', class: 'nopjax' } do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        <ul>
+            <li class="tournament_name_text_field"><%= f.text_field :name, autofocus: true, placeholder: "New Tournament Name" %></li>
+
+        </ul>
+    <% end %>
+</div>
