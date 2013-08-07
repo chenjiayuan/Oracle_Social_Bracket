@@ -385,7 +385,7 @@ class PlayersController < ApplicationController
 
   def search_players
 
-    search = params['search_term']
+    search = params[:search_term]
 
     if !search.empty?
       search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%").uniq.reverse
