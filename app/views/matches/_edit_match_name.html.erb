@@ -3,8 +3,6 @@
         <%= render 'shared/error_messages', object: f.object %>
         <ul>
             <li class="match_name_text_field"><%= f.text_field :name, autofocus: true, placeholder: "New Match Name" %></li>
-            <li data-match-id="<%= @match.id %>"><%= f.submit "Update Match" %></li>
-            <li class="cancel_btn" id="edit_match_name_cancel_button"><%= button_tag "Cancel", class: "edit_btn" %></li>
         </ul>
     <% end %>
 </div>

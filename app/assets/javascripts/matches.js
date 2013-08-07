@@ -1,12 +1,13 @@
 $(document).ready(function() {
     $('.matches-list').on("click", ".match_winner_btn", update_match);
     $('#container').on("click", "#new_match_btn", match_form_show)
+        .on('click', '#match_cancel_btn', match_form_hide)
+        .on('submit', '#match-dialog-form', send_match_form)
         .on('keyup', 'input#match_search', search_match)
         .on('click', '.remove_match_player', remove_match_player)
         .on('click', '.add_match_player', add_player_click_listener)
         .on('click', '#add_new_player_button', match_player_form_show)
         .on('click', '#edit_match_name_button', edit_match_name_popup_show)
-        .on('click', '#edit_match_name_cancel_button', edit_match_name_popup_hide)
         .on('submit', '#edit_match_name_form', send_edit_match_name_form);
     $('body').on('click', '.player_picker_entry', player_picker_entry_click_listener)
         .on('keyup', '#match_player_picker_search', player_picker_search);
@@ -43,26 +44,12 @@ function update_match(event) {
 function match_form_show(event) {
     event.preventDefault();
     event.stopPropagation();
-    var form = $("#match-dialog-form").dialog({
-        autoOpen: false,
-        modal: true,
-        height: 400,
-        width: 350,
-        buttons: {
-            "Create Match": function() {
-                send_match_form(event);
-                $('form').remove();
-            },
-            Cancel: function() {
-                $(this).dialog('close');
-            }
-        },
-        close: function() {
-            $('#match-dialog-form').find('input[type=text]').val("");
-            form.dialog('close');
-        }
-    });
-    form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
+
+    $('#new_match_btn').fadeToggle("fast", function() {
+        $('.create_form').fadeToggle("fast");
+        $('input#match_name').focus();
+    })
+
 }
 
 function send_match_form(event){
@@ -75,7 +62,7 @@ function send_match_form(event){
         dataType: "JSON",
         success: function(data) {
             $.pjax({url: '/matches?page=1', container: '#container'});
-            $("#match-dialog-form").dialog('close');
+//            $("#match-dialog-form").dialog('close');
             $('table tbody tr').first().effect('highlight', {color: 'green', duration: 6000});
         },
         error: function(xhr, textStatus, errorThrown){
@@ -261,7 +248,7 @@ function player_picker_search(event){
     var search = $('#match_player_picker_search').val();
 
     $.ajax({
-        type: "POST",
+        type: "GET",
         data: {
             match_id: match_id,
             search: search
@@ -359,39 +346,61 @@ function edit_match_name_popup_show(event){
     event.preventDefault();
     event.stopPropagation();
 
-    $('#edit_match_name_button').fadeToggle("fast", function() {
-        $('.edit_match_name_class').fadeToggle("fast");
-        $('.edit_match_name_class input#match_name').focus();
-    })
-}
-
-function edit_match_name_popup_hide(event){
-    event.preventDefault();
-    event.stopPropagation();
-
-    $('.edit_match_name_class').fadeToggle("fast", function() {
-        $('.edit_match_name_class input#match_name').val("");
-        $('#edit_match_name_button').fadeToggle("fast");
+    var form = $("#edit_match_name_form").dialog({
+        autoOpen: false,
+        modal: true,
+        height: 400,
+        width: 350,
+        title: "Edit Match Name",
+        buttons: {
+            "Update Match Name": function() {
+                send_edit_match_name_form(event);
+                $(this).remove();
+            },
+            Cancel: function() {
+                $(this).dialog('close');
+            }
+        },
+        close: function() {
+            form.dialog('close');
+        }
     });
+    form.dialog('open').dialog("widget").find(".ui-dialog-titlebar-close").hide();   // hide the close button
 }
 
 function send_edit_match_name_form(event){
     event.preventDefault();
-    var value = $('.edit_match_name_class input#match_name').val();
-    var match_id = $('input[name=commit]').closest('li').data('match-id');
+    console.log('hi');
+//    var value = $('#match_name').val();
+//    var match_id = $('#edit_match_name_button').data('match-id');
+//
+//    $.ajax({
+//        type: "PUT",
+//        data: {
+//            name: value,
+//            match_id: match_id
+//        },
+//        url: '/matches/' + match_id,
+//        dataType: "JSON",
+//        success: function(){
+//            $.pjax({url: '/matches/' + match_id, container: '#container'});
+//        },
+//        error: function(xhr, textStatus, errorThrown){
+//            var errors = "ERRORS -> \n";
+//            $.each(xhr.responseJSON, function(key, value) {
+//                errors += key.toString().toLocaleUpperCase() + " " + value + "\n";
+//            });
+//            alert(errors);
+//            $('#edit_match_name_button').click();
+//        }
+//    });
+}
 
-    $.ajax({
-        type: "PUT",
-        data: {
-            name: value,
-            match_id: match_id
-        },
-        url: '/matches/' + match_id,
-        dataType: "JSON",
-        success: function(data){
-            $('h2.title').html(data.new_name);
-            $('.breadcrumbs span').html(data.new_name);
-            edit_match_name_popup_hide(event);
-        }
+function match_form_hide(event){
+    event.preventDefault();
+    event.stopPropagation();
+    $('.create_form').fadeToggle("fast", function() {
+        $("input[type=text]").val("");
+        $('#new_match_btn').fadeToggle("fast");
     });
 }
