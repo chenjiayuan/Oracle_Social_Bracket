@@ -23,12 +23,12 @@
             data-match-id="<%= @match.id %>"
     <% end %>>
     <%= link_to "Edit Player", if @tournament
-                                                       edit_tournament_player_path(@tournament, @player )
-                                                     elsif @match
-                                                       edit_match_player_path(@match, @player)
-                                                     else
-                                                       edit_player_path(@player)
-                                                     end %></div>
+                                 edit_tournament_player_path(@tournament, @player )
+                                elsif @match
+                                 edit_match_player_path(@match, @player)
+                                 else
+                                 edit_player_path(@player)
+                                 end %></div>
 <div class="btn delete_btn"><%= link_to "Delete Player", if @tournament
                                                            delete_player_from_tournament_show_tournament_player_path(@tournament, @player)
                                                          elsif @match

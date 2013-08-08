@@ -170,6 +170,7 @@ function add_tournament_player_form(event){
 function send_tournament_player_form(event){
     event.preventDefault();
     event.stopPropagation();
+    var tournament_id = $('#add_tournament_player_button').data('tournament-id');
 
     $.ajax({
         type: "POST",
@@ -179,17 +180,12 @@ function send_tournament_player_form(event){
             last_name: $('input#player_last_name').val(),
             email: $('input#player_email').val(),
             skill: $('select#player_skill').val(),
-            tournament_id: $('#add_tournament_player_button').data('tournament-id')
+            tournament_id: tournament_id
         },
         dataType: "JSON",
         success: function(data){
             $("#player-dialog-form").dialog('close');
-            var new_html = '<tr><td><input id="player_ids_" name="player_ids[]" type="checkbox" value="' + data.player.id + '"></td>' +
-                '<td><a href="/tournaments/' + data.tournament.id + '/players/' + data.player.id + '">' + data.player.full_name + '</a></td>' +
-                '<td>' + data.player.email + '</td><td>' + data.player.skill  + '</td>' +
-                '<td>' + data.player.matches_won + '</td>' +
-                '</tr>';
-            $('table tbody').append(new_html);
+            $.pjax({url: '/tournaments/' + tournament_id, container: '#container'});
         },
         error: function(xhr, textStatus, errorThrown){
             var errors = "ERRORS -> \n";

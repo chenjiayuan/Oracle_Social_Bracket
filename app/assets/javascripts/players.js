@@ -27,9 +27,9 @@ function send_player_form(event){
         },
         dataType: "JSON",
         success: function(data) {
-            $.pjax({url: '/players?page=1', container: '#container'});
             $("#player-dialog-form").dialog('close');
             $('form').remove();
+            $.pjax({url: '/players?page=1', container: '#container'});
             $('table tbody tr').first().hide().effect('highlight', {color: 'green'}).show();
         },
         error: function(xhr, textStatus, errorThrown){

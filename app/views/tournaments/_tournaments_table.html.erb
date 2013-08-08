@@ -15,19 +15,16 @@
                 <tr data-tournament-id="<%= t.id %>">
                     <td><%= link_to t.name, tournament_path(t) %></td>
                     <td><%= t.players.count %></td>
-                    <% temp_id = t.winner_id %>
                     <td>
-                        <% if temp_id != 0 %>
+                        <% if @winner %>
                             Completed
                         <% else %>
                             <%= t.active ? "Active" : "Inactive"  %>
                         <% end %>
                     </td>
                     <td>
-                        <% if temp_id != 0 %>
-                            <% p = Player.find(temp_id) %>
-                            <% temp = "#{p.first_name} #{p.last_name}" %>
-                            <%= link_to "#{temp}", player_path(p) %>
+                        <% if @winner %>
+                            <%= link_to "#{@winner.full_name}", player_path(@winner) %>
                         <% end %>
                     </td>
                 </tr>

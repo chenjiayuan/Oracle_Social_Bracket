@@ -10,6 +10,7 @@ class TournamentsController < ApplicationController
   def index
     @tournament = Tournament.new
     @tournaments = Tournament.order("created_at DESC").paginate(page: params[:page], per_page: 10)
+    @winner = @tournament.winner if @tournament.winner_id != 0
   end
 
   def show
@@ -56,29 +57,6 @@ class TournamentsController < ApplicationController
 
   end
 
-=begin
-  def create
-    @tournament = Tournament.new(params[:tournament])
-    if @tournament.save
-      if request.xhr?
-        render @tournament
-      else
-        flash[:notice] = "Tournament created!"
-        render 'index'
-      end
-
-    else
-      if request.xhr?
-        render status: 403
-      else
-        flash[:error] = "Tournament could not be created."
-        render 'index'
-      end
-    end
-  end
-
-=end
-
   def destroy
 
     Tournament.find(params[:id]).destroy
@@ -86,17 +64,6 @@ class TournamentsController < ApplicationController
     redirect_to tournaments_path
 
   end
-
-=begin
-  def remove_from_tournament
-    t = Tournament.find(params[:tournament_id])
-    p = Player.find(params[:id])
-
-    t.players.reject! { |player| player.id == p.id }
-    t.save
-    redirect_to tournament_players_path(t)
-  end
-=end
 
   def winner
     @tournament = Tournament.find(params[:id])

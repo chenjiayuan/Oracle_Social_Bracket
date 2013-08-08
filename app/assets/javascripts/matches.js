@@ -126,20 +126,7 @@ function remove_match_player(event) {
             player_id: player_id
         },
         success: function(data) {
-            if(player_row == 1){
-                $('table:first tbody').find(button).closest('tr').html("<td></td><td></td><td></td><td></td>" + 
-                    "<td><button class='matches_btn add_match_player' " +
-                    "data-player-number='1' data-match-id='" + match_id + "'>Add Existing Player</button></td>");
-            }
-            else {
-                $('table:first tbody').find(button).closest('tr').html("<td></td><td></td><td></td><td></td>" + 
-                    "<td><button class='matches_btn add_match_player' " +
-                    "data-player-number='2' data-match-id='" + match_id + "'>Add Existing Player</button></td>");
-            }
-            if(!$('#add_new_player_button').is(":visible"))
-                $('#add_new_player_button').show();
-
-            $('#start_match_button a').attr('href', '#');
+            $.pjax({url: '/matches/' + match_id, container: '#container'});
         }
     });
 }
@@ -202,9 +189,8 @@ function add_player_click_listener(event){
 function player_picker_entry_click_listener(event){
     event.preventDefault();
     event.stopPropagation();
-    var hasClass = $(this).hasClass('highlightEntry');
     $('#match_player_picker .highlightEntry').removeClass('highlightEntry');
-    if(!hasClass)
+    if(!$(this).hasClass('highlightEntry'))
         $(this).addClass('highlightEntry');
 }
 
@@ -223,24 +209,25 @@ function send_match_player_picker_form(event){
         url: '/matches/' + el.data('match-id') + '/add_player_from_player_picker',
         dataType: "JSON",
         success: function(data){
-            if(data.row == 1){
-                $('table:first tbody tr:first').html("<td><a href='/matches/" + match_id +
-                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
-                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
-                    "<td>" + "<button class='matches_btn matches_remove_btn remove_match_player' data-player-number='1' data-match-id='" + match_id + "' " +
-                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
-            }
-            else{
-                $('table:first tbody tr:last').html("<td><a href='/matches/" + match_id +
-                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
-                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
-                    "<td>" + "<button class='matches_btn matches_remove_btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
-                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
-            }
-            if(data.player_count == 2){
-                $('#add_new_player_button').hide();
-                $('#start_match_button a').attr('href', '/matches/' + data.match.id + '/start_match');
-            }
+            $.pjax({url: '/matches/' + match_id, container: '#container'});
+//            if(data.row == 1){
+//                $('table:first tbody tr:first').html("<td><a href='/matches/" + match_id +
+//                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
+//                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
+//                    "<td>" + "<button class='matches_btn matches_remove_btn remove_match_player' data-player-number='1' data-match-id='" + match_id + "' " +
+//                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
+//            }
+//            else{
+//                $('table:first tbody tr:last').html("<td><a href='/matches/" + match_id +
+//                    "/players/" + player_id + "'>" + data.player.full_name + "</a></td><td>" + data.player.email + "</td>" +
+//                    "<td>" + data.player.skill + "</td><td>" + data.player.matches_won + "</td>" +
+//                    "<td>" + "<button class='matches_btn matches_remove_btn remove_match_player' data-player-number='2' data-match-id='" + match_id + "' " +
+//                    "data-player-id='" + player_id + "'>Remove Player</button>" + "</td>");
+//            }
+//            if(data.player_count == 2){
+//                $('#add_new_player_button').hide();
+//                $('#start_match_button a').attr('href', '/matches/' + data.match.id + '/start_match');
+//            }
         }
     });
 }
@@ -295,22 +282,7 @@ function send_match_player_form(event){
         dataType: "JSON",
         success: function(data){
             $("#player-dialog-form").dialog('close');
-            var new_html = '<td><a href="/matches/' + data.match.id + '/players/' + data.player.id  + '">' + data.player.full_name + '</a></td>' +
-                '<td>' + data.player.email  + '</td><td>' + data.player.skill + '</td>' +
-                '<td>'+ data.player.matches_won + '</td><td>' + '<button class="matches_btn matches_remove_btn remove_match_player" data-player-number="' + data.row +
-                '" data-match-id="' + data.match.id + '" data-player-id="' + data.player.id + '">Remove Player</button>' + '</td>';
-
-
-            if(data.row == 1){
-                $('table:first tbody tr:first').html(new_html);
-            }
-            else{
-                $('table:first tbody tr:last').html(new_html);
-            }
-            if(data.player_count == 2){
-                $("#add_new_player_button").hide();
-                $('#start_match_button a').attr('href', '/matches/' + data.match.id + '/start_match');
-            }
+            $.pjax({url: '/matches/' + match_id, container: '#container'});
 
         },
         error: function(xhr, textStatus, errorThrown){

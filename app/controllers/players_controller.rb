@@ -7,8 +7,6 @@ class PlayersController < ApplicationController
   before_filter :follow_crumbs
   skip_before_filter :follow_crumbs, only: :add_index
 
-  # after_filter :render_pjax, :except => [:create, :destroy]
-
   def follow_crumbs
     if params[:tournament_id]
       add_breadcrumb "Tournaments", :tournaments_path
@@ -236,11 +234,8 @@ class PlayersController < ApplicationController
   def multiadd
 
     if params[:tournament_id]
-      # Rails.logger.debug "#{eval(params[:tournament_id]).class.inspect}"
       temp = eval(params[:tournament_id])
       tournament = Tournament.find(temp)
-      # Rails.logger.debug "#{params[:tournament_id].class.inspect}"
-
     end
 
     if tournament
@@ -265,10 +260,8 @@ class PlayersController < ApplicationController
   def multiremove
 
     if params[:tournament_id]
-      # Rails.logger.debug "#{eval(params[:tournament_id]).class.inspect}"
       temp = eval(params[:tournament_id])
       tournament = Tournament.find(temp)
-      # Rails.logger.debug "#{params[:tournament_id].class.inspect}"
     end
 
     if tournament && params[:player_ids]
@@ -281,7 +274,6 @@ class PlayersController < ApplicationController
       flash[:error] = "No player(s) selected to remove."
       redirect_to tournament
     end
-    
   end
 
   def add_index

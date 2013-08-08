@@ -51,10 +51,6 @@ class MatchesController < ApplicationController
     end
   end
 
-  #def create
-  #  @match = Match.create(params[:name])
-  #end
-
   def add_new_match
     @match = Match.new(name: params['name'])
 
@@ -174,10 +170,6 @@ class MatchesController < ApplicationController
   def non_match_players
 
     @match = Match.find(params[:id])
-    #@count = 0
-    #@count = @count + 1 if @match.player1
-    #@count = @count + 1 if @match.player2
-
     @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).order('created_at DESC')
 
     respond_to do |format|
