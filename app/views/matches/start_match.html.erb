@@ -1,5 +1,7 @@
 <%= flash[:notice] %>
 
+<%= render 'layouts/breadcrumbs' %>
+
 <h2 class="title"><%= @match.name %></h2><br />
 
 <ul class="detail">
@@ -38,6 +40,7 @@
                                     <%= p1_is_winner ? "match-winner" : "match-loser" %>
                                <% end %>">
                 <% if winner_id != 0 %>
+                    <%= gravatar_for p1, size: 30 %>
                     <%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %>
                 <% end %>
                 <% if winner_id == 0 && p1 %>

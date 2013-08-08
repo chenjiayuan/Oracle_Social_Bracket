@@ -24,15 +24,22 @@ function update_match(event) {
         dataType: "JSON",
         success: (function(data) {
             var li = this_button.closest('li');
-            li.append(data.winner_name);
+            li.append('<img alt="' + data.winner_name + '" class="gravatar" src="' + li.find('button').find('img').attr('src') +
+                '">' + data.winner_name);
             li.addClass('match-winner');
+            var temp;
+
             if(el.data('player-number') == 1) {
-                li.next().append(data.loser_name);
-                li.next().addClass('match-loser');
+                temp = li.next();
+                temp.append('<img alt="' + data.loser_name + '" class="gravatar" src="' + temp.find('button').find('img').attr('src') +
+                    '">' + data.loser_name);
+                temp.addClass('match-loser');
             }
             else {
-                li.prev().append(data.loser_name);
-                li.prev().addClass('match-loser');
+                temp = li.prev();
+                temp.append('<img alt="' + data.loser_name + '" class="gravatar" src="' + temp.find('button').find('img').attr('src') +
+                    '">' + data.loser_name);
+                temp.addClass('match-loser');
             }
             $('#match-' + el.data('match-id')).find('button').remove();
             $('#match-winner').html('Winner: <a href="/players/' + data.player.id + '">' + data.winner_name + '</a>');
