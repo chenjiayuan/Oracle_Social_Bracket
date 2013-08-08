@@ -139,7 +139,7 @@ function remove_match_player(event) {
             if(!$('#add_new_player_button').is(":visible"))
                 $('#add_new_player_button').show();
 
-            $('#start_match_button a').attr('href', '#');
+            $('#start_match_button a').attr('href', 'javascript:void(0);');
         }
     });
 }
@@ -202,9 +202,8 @@ function add_player_click_listener(event){
 function player_picker_entry_click_listener(event){
     event.preventDefault();
     event.stopPropagation();
-    var hasClass = $(this).hasClass('highlightEntry');
     $('#match_player_picker .highlightEntry').removeClass('highlightEntry');
-    if(!hasClass)
+    if(!$(this).hasClass('highlightEntry'))
         $(this).addClass('highlightEntry');
 }
 

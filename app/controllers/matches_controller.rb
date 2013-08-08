@@ -51,10 +51,6 @@ class MatchesController < ApplicationController
     end
   end
 
-  #def create
-  #  @match = Match.create(params[:name])
-  #end
-
   def add_new_match
     @match = Match.new(name: params['name'])
 
@@ -174,9 +170,6 @@ class MatchesController < ApplicationController
   def non_match_players
 
     @match = Match.find(params[:id])
-    #@count = 0
-    #@count = @count + 1 if @match.player1
-    #@count = @count + 1 if @match.player2
 
     @non_match_players = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).order('created_at DESC')
 
@@ -195,13 +188,12 @@ class MatchesController < ApplicationController
     row = 0
 
     if @match.player1_id == 0
-      @match.player1_id = params['player_id']
+      @match.update_attribute('player1_id', params['player_id'])
       row = 1
     elsif @match.player2_id == 0
-      @match.player2_id = params['player_id']
+      @match.update_attribute('player2_id', params['player_id'])
       row = 2
     end
-    @match.save
 
     respond_to do |format|
       format.json {
@@ -220,9 +212,13 @@ class MatchesController < ApplicationController
     search = params['search']
 
     if !search.empty?
-      search_result = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).where("first_name LIKE :search OR last_name LIKE :search OR full_name LIKE :search OR skill LIKE :search", search: "%#{search}%").uniq.reverse
+      search_result = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+                            .where("first_name LIKE :search OR last_name LIKE :search OR full_name LIKE :search OR skill LIKE :search", search: "%#{search}%")
+                            .uniq
+                            .reverse
     else
-      search_result = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id]).order('created_at DESC')
+      search_result = Player.where("id NOT IN (?)", [@match.player1_id, @match.player2_id])
+                            .order('created_at DESC')
     end
 
     respond_to do |format|

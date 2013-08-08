@@ -42,7 +42,8 @@
                 <% end %>
                 <% if winner_id == 0 && p1 %>
                     <button class="winner_btn match_winner_btn" data-match-id="<%= @match.id %>" data-player-id="<%= p1.id if p1%>" data-round-id="<%= @match.round %>"
-                            data-player-number="1"><%= gravatar_for p1, size: 30 %><%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %></button></li>
+                            data-player-number="1"><%= gravatar_for p1, size: 30 %><%= p1 ? "#{p1.first_name} #{p1.last_name}" : ""  %></button>
+            </li>
                 <% end %>
                 <li class="<% if winner_id != 0 %>
                                     <%= p2_is_winner ? "match-winner" : "match-loser" %>
@@ -55,15 +56,6 @@
                         <button class="winner_btn match_winner_btn" data-match-id="<%= @match.id %>" data-player-id="<%= p2.id if p2%>" data-round-id="<%= @match.round %>"
                                 data-player-number="2"><%= gravatar_for p2, size: 30 %><%= p2 ? "#{p2.first_name} #{p2.last_name}" : ""  %></button></li>
                     <% end %>
-                    <!--
-                    <li>Round <%= @match.round %></li>
-
-                    <% if winner_id != 0 %>
-                        <% winner = @match.winner %>
-                    <% end %>
-                    <li>Winner: <%= "#{winner.first_name} #{winner.last_name}" if winner %></li>
-                    <br />
-                    -->
 
                     </div>
     </ul>

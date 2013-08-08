@@ -44,13 +44,13 @@ class PlayersController < ApplicationController
     end
 
     if @tournament
-      add_breadcrumb @tournament.name, tournament_path(@tournament)
-      add_breadcrumb "<span>New Player</span>", new_tournament_player_path(@tournament), :title => "new!"
+      add_breadcrumb(@tournament.name, tournament_path(@tournament))
+      add_breadcrumb("<span>New Player</span>", new_tournament_player_path(@tournament), :title => "new!")
     elsif
-      add_breadcrumb @match.name, match_path(@match)
-      add_breadcrumb "<span>New Player</span>", new_match_player_path(@match), :title => "new!"
+      add_breadcrumb(@match.name, match_path(@match))
+      add_breadcrumb("<span>New Player</span>", new_match_player_path(@match), :title => "new!")
     else
-      add_breadcrumb "<span>New Player</span>", new_player_path
+      add_breadcrumb("<span>New Player</span>", new_player_path)
     end
 
   end
@@ -164,12 +164,12 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id])
 
     if @tournament
-      add_breadcrumb @tournament.name, tournament_path(@tournament)
-      add_breadcrumb "#{@player.first_name} #{@player.last_name}", tournament_player_path
-      add_breadcrumb "<span>Edit</span>", edit_tournament_player_path
+      add_breadcrumb(@tournament.name, tournament_path(@tournament))
+      add_breadcrumb("#{@player.first_name} #{@player.last_name}", tournament_player_path)
+      add_breadcrumb("<span>Edit</span>", edit_tournament_player_path)
     else
-      add_breadcrumb "#{@player.first_name} #{@player.last_name}", player_path(@player)
-      add_breadcrumb "<span>Edit</span>", edit_player_path(@player)
+      add_breadcrumb("#{@player.first_name} #{@player.last_name}", player_path(@player))
+      add_breadcrumb("<span>Edit</span>", edit_player_path(@player))
     end
 
   end
@@ -236,10 +236,8 @@ class PlayersController < ApplicationController
   def multiadd
 
     if params[:tournament_id]
-      # Rails.logger.debug "#{eval(params[:tournament_id]).class.inspect}"
       temp = eval(params[:tournament_id])
       tournament = Tournament.find(temp)
-      # Rails.logger.debug "#{params[:tournament_id].class.inspect}"
 
     end
 
@@ -265,10 +263,8 @@ class PlayersController < ApplicationController
   def multiremove
 
     if params[:tournament_id]
-      # Rails.logger.debug "#{eval(params[:tournament_id]).class.inspect}"
       temp = eval(params[:tournament_id])
       tournament = Tournament.find(temp)
-      # Rails.logger.debug "#{params[:tournament_id].class.inspect}"
     end
 
     if tournament && params[:player_ids]
@@ -388,7 +384,9 @@ class PlayersController < ApplicationController
     search = params[:search_term]
 
     if !search.empty?
-      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%").uniq.reverse
+      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%")
+                            .uniq
+                            .reverse
     else
       search_result = Player.order("created_at DESC").paginate(page: params[:page], per_page: 16)
     end
@@ -411,7 +409,6 @@ class PlayersController < ApplicationController
   end
 
   private
-
     def player_params
       params.require(:player).permit(:first_name, :last_name, :email, :skill)
     end

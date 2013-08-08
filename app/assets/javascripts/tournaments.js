@@ -7,6 +7,7 @@ $(document).ready(function() {
     $('#filler').height($('.round_container').height());
     $('.round:last .matches-row .match-border').css('border', 'none');
     $('.matches-list').on("click", ".tournament_match_winner_btn", update_tournament_start_page);
+    // discuss how you used delegated events
     $('#container').on("click", "#new_tournament_btn", tour_form_show)
         .on("click", "#tournament_cancel_btn", tour_form_hide)
         .on("submit", "#tournament-dialog-form", send_tournament_form)
