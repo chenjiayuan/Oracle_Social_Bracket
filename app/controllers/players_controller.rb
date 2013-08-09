@@ -388,7 +388,7 @@ class PlayersController < ApplicationController
     search = params[:search_term]
 
     if !search.empty?
-      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test", test: "%#{search}%").uniq.reverse
+      search_result = Player.where("first_name LIKE :test OR last_name LIKE :test OR full_name LIKE :test OR email LIKE :test OR skill = :test OR matches_won = :test OR skill=:test_int OR matches_won=:test_int", test: "%#{search}%", test_int: "#{search.to_i}").uniq.reverse
     else
       search_result = Player.order("created_at DESC").paginate(page: params[:page], per_page: 16)
     end
