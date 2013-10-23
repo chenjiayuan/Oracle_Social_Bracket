@@ -1,4 +1,4 @@
-Brakkit, or Oracle Social Bracket, is an application that allows for users to create players, tournaments, and one-off matches.
+Oracle Social Bracket is an application that allows for users to create players, tournaments, and one-off matches.
 
 Seeding of tournaments is based on player skill and the algorithm will support correctly seeded tournaments of up to at least 64 players.
 
